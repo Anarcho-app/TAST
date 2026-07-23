@@ -71,3 +71,27 @@ Still open:
 - Full verbatim primary-source tables
 - Continuous integration / external validation
 - Multi-axis adversarial sensitivity
+
+## v4.4 — 2026-07-23
+
+Identity and framing discipline (response to external review on proxying harm):
+
+- **Population descriptor** formalized: multi-generational American lineages of African and mixed ancestry (Freedmen’s Bureau-era and earlier U.S. lineages whose genealogical chains predominantly terminate in pre-1865 U.S. records). Continental-African framing is not the unmarked identity label.
+- **Hypothesis labels rewritten** so none treat “African origin” as the residual default for the long-rooted population:
+  - H1 → Documented transatlantic arrivals + exceptional natural increase under U.S. conditions
+  - H2 → Classification / absorption processes operating on American soil
+  - H3 → Hybrid mechanisms … on American soil
+  - H4 → U.S.-specific structural conditions
+  - H5 → Mixed / undocumented mechanisms (explicitly includes possibility that administrative categories obscure distinct American trajectories)
+- **Banned-phrase list extended** to reject collapsing identity language when used as unmarked label for the multi-generational group.
+- CONTRIBUTING.md updated with framing rules and rejection criteria for continental-proxy language.
+- Module docstring and CLI banner updated to v4.4.
+
+Still open (technical path to groundbreaking):
+- Hierarchical generative record-generation model (NumPyro/PyMC/Stan)
+- Correlation structure among streams
+- Data-level likelihoods instead of pre-digested point likelihoods
+- Multi-axis sensitivity surface
+- Monte-Carlo over bias magnitudes
+- Formal N = f(C_t, I, r) object
+- Continuous integration / external validation

@@ -6,6 +6,9 @@ They are supported by physical remains, structural features of the record itself
 
 **Strict filter applied (v4.2)**: Claims that depend on accepting the numerical U.S. vs. Caribbean/Brazilian growth differential have been removed or rephrased. Only claims that can stand without treating the administrative head-counts as accurate are retained.
 
+
+Framing note (v4.4): The focal population is multi-generational American lineages of African and mixed ancestry (Freedmen’s Bureau-era and earlier U.S. lineages). Continental-African identity is not the unmarked label for this group.
+
 ---
 
 1. People of African and mixed descent were present on the territory that became the United States for multiple generations prior to 1865.

@@ -2,7 +2,7 @@
 
 **All large-scale numerical estimates of the enslaved population in the territory that became the United States are reconstructions from records produced by the trading and slaveholding societies. Those records are biased sources (victors' paperwork). Estimates calculated from them are conditional estimates — never facts. No amount of correction, cross-checking, or “least-bad” framing changes this.**
 
-This repository does not claim to escape that constraint. It only shows what happens when those same records are re-weighted, and what remains when they are set aside.
+This repository does not claim to escape that constraint. The focal population is multi-generational American lineages of African and mixed ancestry (Freedmen’s Bureau-era and earlier U.S. lineages). Continental-African framing is not the unmarked identity label for this group. It only shows what happens when those same records are re-weighted, and what remains when they are set aside.
 
 This is a living, layered empirical engine for analyzing the demographic history of people of African and mixed descent in the United States, with explicit focus on Freedmen’s Bureau-era lineages (FBA) and multi-generational American rootedness.
 

@@ -1,18 +1,22 @@
 #!/usr/bin/env python3
 """
-TAST Bayesian Core — Skepticism-First Edition (v4.3)
+TAST Bayesian Core — Skepticism-First Edition (v4.4)
 
 Single parameter: victors_reliability ∈ [0.0, 1.0]
   1.0 = treat census / manifest / ledger counts as approximately accurate
   0.0 = maximal skepticism: all quantitative head-counts become UNDEFINED;
         only qualitative / physical / meta patterns survive.
 
-Core epistemic rule (v4.3):
-  Estimates calculated from the administrative records are CONDITIONAL
-  ESTIMATES derived from biased sources (victors' paperwork).
-  They are NEVER facts. Language that converts them into facts
-  ("least-bad", "best available", "robust after correction", etc.)
-  is forbidden under --strict (default on).
+Core epistemic rules (v4.4):
+  1. Estimates calculated from the administrative records are CONDITIONAL
+     ESTIMATES derived from biased sources (victors' paperwork).
+     They are NEVER facts. Language that converts them into facts
+     ("least-bad", "best available", "robust after correction", etc.)
+     is forbidden under --strict (default on).
+  2. The focal population is multi-generational American lineages of African
+     and mixed ancestry (Freedmen’s Bureau-era and earlier U.S. lineages)
+     whose genealogical chains predominantly terminate in pre-1865 U.S. records.
+     Continental-African framing is not the unmarked identity label for this group.
 
 Usage:
   python bayesian_core.py --reliability 0.0
@@ -39,11 +43,11 @@ SURVIVING_MD = ROOT / "surviving" / "qualitative_claims.md"
 
 HYPOTHESES = ["H1", "H2", "H3", "H4", "H5"]
 H_LABELS = {
-    "H1": "Pure Conventional (African origin + exceptional fertility)",
-    "H2": "Classification / Indigenous absorption dominant",
-    "H3": "Hybrid (partial absorption + moderate advantage)",
-    "H4": "U.S.-Specific Conditions (natural increase via structure)",
-    "H5": "Mixed / Undocumented Mechanisms (honest uncertainty)",
+    "H1": "Documented transatlantic arrivals + exceptional natural increase under U.S. conditions",
+    "H2": "Classification / absorption processes operating on American soil",
+    "H3": "Hybrid mechanisms (partial absorption + moderate structural advantage on American soil)",
+    "H4": "U.S.-specific structural conditions (natural increase via local regime features)",
+    "H5": "Mixed / undocumented mechanisms (honest uncertainty; residual includes possibility that administrative categories obscure distinct American trajectories)",
 }
 
 RAW_PRIORS = {
@@ -59,6 +63,7 @@ REQUIRED_COLUMNS = {"stream_id", "name", "H1", "H2", "H3", "H4", "H5", "group", 
 # Phrases that convert a biased-source estimate into a fact-like claim.
 # Banned under --strict (default).
 BANNED_PHRASES = [
+    # Fact-conversion language
     "least-bad",
     "least bad",
     "best available",
@@ -71,11 +76,27 @@ BANNED_PHRASES = [
     "known fact",
     "as a fact",
     "is a fact",
+    # Identity-proxy / continental collapse language (when used as unmarked label
+    # for multi-generational U.S. lineages)
+    "the african american population as africans",
+    "black americans as africans",
+    "african stock in america",
+    "african stock in the united states",
+    "perpetual african origin",
+    "continental african identity for fba",
 ]
 
 DISCLAIMER = (
     "CONDITIONAL ESTIMATE derived from biased administrative records "
     "(victors' paperwork). This is NOT A FACT."
+)
+
+# Preferred descriptors for the focal population (multi-generational U.S. lineages).
+# Continental-African framing is reserved for documented arrivals or genetic reference panels.
+POPULATION_DESCRIPTOR = (
+    "multi-generational American lineages of African and mixed ancestry "
+    "(Freedmen’s Bureau-era and earlier U.S. lineages whose genealogical chains "
+    "predominantly terminate in pre-1865 U.S. records)"
 )
 
 
@@ -194,7 +215,7 @@ def check_banned_language(text: str, strict: bool) -> None:
 
 
 def run_self_test() -> bool:
-    print("Running self-tests (v4.3)...")
+    print("Running self-tests (v4.4)...")
     ok = True
 
     try:
@@ -249,7 +270,7 @@ def run_self_test() -> bool:
     else:
         print("  [PASS] priors sum to 1.0")
 
-    # New v4.3 checks
+    # New v4.4 checks
     try:
         check_banned_language("This is the least-bad source we have.", strict=True)
         print("  [FAIL] banned-phrase detector did not raise")
@@ -277,7 +298,7 @@ def run_self_test() -> bool:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="TAST Bayesian Core v4.3 — reliability slider (0.0 = maximal skepticism)"
+        description="TAST Bayesian Core v4.4 — reliability slider (0.0 = maximal skepticism)"
     )
     parser.add_argument("--reliability", type=float, default=1.0,
                         help="victors_reliability ∈ [0.0, 1.0] (default 1.0)")
@@ -310,7 +331,7 @@ def main():
             print(f"{s['stream_id']:3d}  {q}  {s['group']:>5}  {s['name']}")
         return
 
-    print(f"TAST Bayesian Core v4.3  |  victors_reliability = {r:.2f}  |  strict={strict}")
+    print(f"TAST Bayesian Core v4.4  |  victors_reliability = {r:.2f}  |  strict={strict}")
     print("=" * 70)
 
     if r < 0.05:
