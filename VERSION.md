@@ -95,3 +95,36 @@ Still open (technical path to groundbreaking):
 - Monte-Carlo over bias magnitudes
 - Formal N = f(C_t, I, r) object
 - Continuous integration / external validation
+
+## v4.5 — 2026-07-23
+
+Physical & structural evidence as the new quantitative floor:
+
+- Added `surviving/quantitative_floor.md`: primary-linked lower bounds on presence (burial/aDNA), genealogical termination patterns, erasure index, and regime intensity that remain available at reliability ≈ 0.
+- These quantities do not depend on administrative head-counts, growth rates, or import totals.
+- Maximal-skepticism mode now explicitly points to the quantitative floor.
+- Funnel discipline restated: primaries first, peer-reviewed synthesis second.
+- Einstein constraint retained: the model stays lean; the floor is simple and grounded.
+
+Still open (path to groundbreaking):
+- Hierarchical generative record-generation model
+- Correlation structure / data-level likelihoods
+- Monte-Carlo over bias magnitudes
+- Formal N = f(C_t, I, r)
+- CI / external validation
+
+## v4.6 — 2026-07-23
+
+Monte Carlo + per-claim confidence (first inference-layer increment):
+
+- **Per-claim confidence \(c_i\)**: derived transparently from provenance + enslaved-voice fields for all 155 claims. Written to `data/sources_registry_with_ci.csv`. Filterable (`--show-claims`). Physical/aDNA/burial claims score high; pure enumerator/owner head-counts score low.
+- **Monte Carlo**: `--monte-carlo N` samples reliability noise + modest likelihood noise and reports posterior quantiles (5/50/95%) over the five hypotheses. Fully re-runnable with `--seed`. At low r the mass still collapses.
+- Self-test extended to cover both.
+- Design remains lean and tool-verifiable: any LLM or human can re-derive \(c_i\) rules or re-run the MC.
+
+Still open:
+- Hierarchical generative model / data-level likelihoods
+- Correlation structure
+- Multi-axis reliability vector
+- Formal absence-as-likelihood term
+- CI / external validation

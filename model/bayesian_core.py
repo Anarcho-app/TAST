@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-TAST Bayesian Core — Skepticism-First Edition (v4.4)
+TAST Bayesian Core — Skepticism-First Edition (v4.6)
 
 Single parameter: victors_reliability ∈ [0.0, 1.0]
   1.0 = treat census / manifest / ledger counts as approximately accurate
   0.0 = maximal skepticism: all quantitative head-counts become UNDEFINED;
         only qualitative / physical / meta patterns survive.
 
-Core epistemic rules (v4.4):
+Core epistemic rules (v4.6):
   1. Estimates calculated from the administrative records are CONDITIONAL
      ESTIMATES derived from biased sources (victors' paperwork).
      They are NEVER facts. Language that converts them into facts
@@ -31,8 +31,10 @@ from __future__ import annotations
 import argparse
 import csv
 import math
+import random
 import re
 import sys
+from collections import defaultdict
 from pathlib import Path
 from typing import Dict, List, Optional
 
@@ -40,6 +42,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 STREAMS_CSV = HERE / "evidence_streams.csv"
 SURVIVING_MD = ROOT / "surviving" / "qualitative_claims.md"
+CLAIMS_CI_CSV = ROOT / "data" / "sources_registry_with_ci.csv"
 
 HYPOTHESES = ["H1", "H2", "H3", "H4", "H5"]
 H_LABELS = {
@@ -214,8 +217,100 @@ def check_banned_language(text: str, strict: bool) -> None:
             )
 
 
+
+# ---------------------------------------------------------------------------
+# Per-claim confidence (simple, transparent, rule-derived)
+# ---------------------------------------------------------------------------
+def load_claim_confidences(path: Path = CLAIMS_CI_CSV) -> list:
+    """Return list of dicts with claim_id, claim, confidence_ci, provenance, enslaved_source."""
+    if not path.exists():
+        return []
+    rows = []
+    with open(path, newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            try:
+                row["confidence_ci"] = float(row["confidence_ci"])
+            except (KeyError, ValueError):
+                row["confidence_ci"] = 0.40
+            rows.append(row)
+    return rows
+
+
+def summarize_confidences(rows: list, threshold: float = 0.70) -> None:
+    if not rows:
+        print("  [no claim confidence file]")
+        return
+    cis = [r["confidence_ci"] for r in rows]
+    print(f"  Claims with c_i: {len(cis)}")
+    print(f"  min={min(cis):.2f}  median={sorted(cis)[len(cis)//2]:.2f}  max={max(cis):.2f}  mean={sum(cis)/len(cis):.2f}")
+    print(f"  c_i >= {threshold:.2f}: {sum(1 for c in cis if c >= threshold)}")
+
+
+# ---------------------------------------------------------------------------
+# Monte Carlo over reliability + modest likelihood noise
+# ---------------------------------------------------------------------------
+def monte_carlo_posteriors(
+    streams: list,
+    priors: dict,
+    r_center: float,
+    n_samples: int = 500,
+    r_noise: float = 0.05,
+    lik_noise: float = 0.03,
+    seed: int = 42,
+) -> dict:
+    """
+    Sample posteriors by:
+      - drawing r ~ clipped Normal(r_center, r_noise)
+      - adding small Gaussian noise to each likelihood (clipped to [0.01, 0.99])
+      - running the existing Bayes update
+    Returns dict of hypothesis -> list of posterior samples.
+    At low r the mass still collapses toward the qualitative floor.
+    Fully re-runnable by any agent with the same seed.
+    """
+    rng = random.Random(seed)
+    samples = {h: [] for h in HYPOTHESES}
+
+    for _ in range(n_samples):
+        r = r_center + rng.gauss(0, r_noise)
+        r = max(0.0, min(1.0, r))
+        # perturb streams
+        noisy = []
+        for s in streams:
+            news = dict(s)
+            if s["is_quantitative"] == 1:
+                for h in HYPOTHESES:
+                    L = s[h] + rng.gauss(0, lik_noise)
+                    L = max(0.01, min(0.99, L))
+                    # then apply reliability
+                    news[h] = r * L + (1.0 - r) * 0.5
+            else:
+                # non-quantitative: leave original (or tiny noise)
+                for h in HYPOTHESES:
+                    L = s[h] + rng.gauss(0, lik_noise * 0.3)
+                    news[h] = max(0.01, min(0.99, L))
+            noisy.append(news)
+        post = bayes_update(noisy, priors)
+        for h in HYPOTHESES:
+            samples[h].append(post[h])
+    return samples
+
+
+def summarize_mc(samples: dict, quantiles=(0.05, 0.50, 0.95)) -> None:
+    print("\nMonte Carlo posterior summary (quantiles):")
+    print(f"{'H':<4} {'5%':>8} {'50%':>8} {'95%':>8} {'mean':>8}")
+    for h in HYPOTHESES:
+        xs = sorted(samples[h])
+        n = len(xs)
+        qvals = [xs[int(q * (n - 1))] for q in quantiles]
+        mean = sum(xs) / n
+        print(f"{h:<4} {qvals[0]:8.1%} {qvals[1]:8.1%} {qvals[2]:8.1%} {mean:8.1%}")
+    print("(Independence of streams still assumed — known limitation.)")
+    print(DISCLAIMER)
+
+
+
 def run_self_test() -> bool:
-    print("Running self-tests (v4.4)...")
+    print("Running self-tests (v4.6)...")
     ok = True
 
     try:
@@ -270,7 +365,7 @@ def run_self_test() -> bool:
     else:
         print("  [PASS] priors sum to 1.0")
 
-    # New v4.4 checks
+    # New v4.6 checks
     try:
         check_banned_language("This is the least-bad source we have.", strict=True)
         print("  [FAIL] banned-phrase detector did not raise")
@@ -292,13 +387,35 @@ def run_self_test() -> bool:
     else:
         print("  [PASS] DISCLAIMER constant contains required 'NOT A FACT' language")
 
+    # Claim confidence file
+    claims = load_claim_confidences()
+    if len(claims) < 100:
+        print(f"  [FAIL] expected >=100 claims with c_i, got {len(claims)}")
+        ok = False
+    else:
+        print(f"  [PASS] load_claim_confidences: {len(claims)} claims")
+        summarize_confidences(claims)
+
+    # Monte Carlo smoke test
+    try:
+        streams = load_streams()
+        mc = monte_carlo_posteriors(streams, RAW_PRIORS, r_center=0.8, n_samples=50, seed=1)
+        if len(mc["H5"]) != 50:
+            print("  [FAIL] MC sample count mismatch")
+            ok = False
+        else:
+            print("  [PASS] monte_carlo_posteriors smoke (50 samples)")
+    except Exception as e:
+        print(f"  [FAIL] monte_carlo_posteriors: {e}")
+        ok = False
+
     print("Self-test", "PASSED" if ok else "FAILED")
     return ok
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="TAST Bayesian Core v4.4 — reliability slider (0.0 = maximal skepticism)"
+        description="TAST Bayesian Core v4.6 — reliability slider (0.0 = maximal skepticism)"
     )
     parser.add_argument("--reliability", type=float, default=1.0,
                         help="victors_reliability ∈ [0.0, 1.0] (default 1.0)")
@@ -309,6 +426,11 @@ def main():
                         help="Enforce language ban on fact-conversion phrases (default: on)")
     parser.add_argument("--no-strict", action="store_true",
                         help="Disable language ban (not recommended)")
+    parser.add_argument("--monte-carlo", type=int, default=0, metavar="N",
+                        help="Run N Monte Carlo samples over reliability + likelihood noise (0 = off)")
+    parser.add_argument("--seed", type=int, default=42, help="RNG seed for Monte Carlo")
+    parser.add_argument("--show-claims", action="store_true",
+                        help="Summarize per-claim confidence scores and exit")
     args = parser.parse_args()
 
     strict = not args.no_strict
@@ -324,6 +446,20 @@ def main():
 
     r = max(0.0, min(1.0, args.reliability))
 
+    if args.show_claims:
+        claims = load_claim_confidences()
+        summarize_confidences(claims)
+        # show a few high and low
+        if claims:
+            sorted_c = sorted(claims, key=lambda x: x["confidence_ci"], reverse=True)
+            print("\nTop 5 by c_i:")
+            for row in sorted_c[:5]:
+                print(f"  {row['confidence_ci']:.2f}  [{row['claim_id']}] {row['claim'][:70]}")
+            print("\nBottom 5 by c_i:")
+            for row in sorted_c[-5:]:
+                print(f"  {row['confidence_ci']:.2f}  [{row['claim_id']}] {row['claim'][:70]}")
+        return
+
     if args.list_streams:
         print(f"{'ID':>3}  {'Q':>1}  {'Group':>5}  Name")
         for s in streams:
@@ -331,17 +467,18 @@ def main():
             print(f"{s['stream_id']:3d}  {q}  {s['group']:>5}  {s['name']}")
         return
 
-    print(f"TAST Bayesian Core v4.4  |  victors_reliability = {r:.2f}  |  strict={strict}")
+    print(f"TAST Bayesian Core v4.6  |  victors_reliability = {r:.2f}  |  strict={strict}")
     print("=" * 70)
 
     if r < 0.05:
         print("\n*** MAXIMAL SKEPTICISM MODE ***")
         print("All quantitative head-counts, growth rates, and import totals")
-        print("are treated as UNDEFINED / UNKNOWABLE.")
-        print("Only qualitative / physical / meta patterns remain.")
+        print("derived from administrative records are treated as UNDEFINED / UNKNOWABLE.")
+        print("Physical and structural evidence becomes the quantitative floor.")
+        print("See surviving/quantitative_floor.md for primary-linked lower bounds.")
         print_surviving()
         print("Posterior over mechanisms: UNDEFINABLE (no reliable likelihoods).")
-        print("Deep American roots (qualitative): SUPPORTED by physical + genealogical patterns.")
+        print("Deep American roots (physical + genealogical): SUPPORTED.")
         print("\nMeta-claim: No national-scale population total derived from the")
         print("administrative records constitutes a fact.")
         return
@@ -365,6 +502,14 @@ def main():
     print(f'   (victors_reliability ≈ {r:.2f}), then the above posteriors obtain;')
     print(f'   if we do not, the quantitative claims are undefined."')
     print(f"\n  {DISCLAIMER}")
+
+    if args.monte_carlo and args.monte_carlo > 0:
+        print(f"\n--- Monte Carlo ({args.monte_carlo} samples, seed={args.seed}) ---")
+        samples = monte_carlo_posteriors(
+            streams, RAW_PRIORS, r_center=r,
+            n_samples=args.monte_carlo, seed=args.seed
+        )
+        summarize_mc(samples)
 
     # Language guard on any verbose labels
     if strict:

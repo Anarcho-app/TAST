@@ -50,6 +50,10 @@ Hypotheses are scoped to processes on American soil or to documented arrival coh
    ```
 5. Document the change in `VERSION.md`.
 
+## Quantitative floor (reliability ≈ 0)
+
+Primary-linked lower bounds and structural metrics live in `surviving/quantitative_floor.md`. Additions must rest on physical or structural primaries and must not re-introduce administrative head-counts as if they were facts.
+
 ## Changing surviving claims
 
 Edit `surviving/qualitative_claims.md`. Keep the numbered list format. Re-run `--self-test`.
