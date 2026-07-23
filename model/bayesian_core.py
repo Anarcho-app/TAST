@@ -1,16 +1,24 @@
 #!/usr/bin/env python3
 """
-TAST Bayesian Core — Skepticism-First Edition (v4.0)
+TAST Bayesian Core — Skepticism-First Edition (v4.2)
 
 Single parameter: victors_reliability ∈ [0.0, 1.0]
   1.0 = treat census / manifest / ledger counts as approximately accurate
   0.0 = maximal skepticism: all quantitative head-counts become undefined;
         only qualitative / physical / meta patterns survive.
 
+Improvements in v4.2:
+  - Robust CSV loading with column and range validation
+  - Surviving claims loaded from surviving/qualitative_claims.md (not hard-coded)
+  - Cleaned surviving list (no residual dependence on administrative growth differentials)
+  - Basic self-test mode (--self-test)
+  - Clearer conditioning language
+
 Usage:
-  python -m bayesian_core --reliability 0.0
-  python -m bayesian_core --reliability 1.0 --verbose
-  python -m bayesian_core --list-streams
+  python bayesian_core.py --reliability 0.0
+  python bayesian_core.py --reliability 1.0 --verbose
+  python bayesian_core.py --list-streams
+  python bayesian_core.py --self-test
 """
 
 from __future__ import annotations
@@ -18,18 +26,16 @@ from __future__ import annotations
 import argparse
 import csv
 import math
+import re
+import sys
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional
 
-# ---------------------------------------------------------------------------
-# Paths
-# ---------------------------------------------------------------------------
 HERE = Path(__file__).resolve().parent
+ROOT = HERE.parent
 STREAMS_CSV = HERE / "evidence_streams.csv"
+SURVIVING_MD = ROOT / "surviving" / "qualitative_claims.md"
 
-# ---------------------------------------------------------------------------
-# Hypotheses (fixed labels)
-# ---------------------------------------------------------------------------
 HYPOTHESES = ["H1", "H2", "H3", "H4", "H5"]
 H_LABELS = {
     "H1": "Pure Conventional (African origin + exceptional fertility)",
@@ -39,7 +45,6 @@ H_LABELS = {
     "H5": "Mixed / Undocumented Mechanisms (honest uncertainty)",
 }
 
-# Normalized priors (from v2.6.3 / v3.0)
 RAW_PRIORS = {
     "H1": 0.0727,
     "H2": 0.1364,
@@ -48,104 +53,187 @@ RAW_PRIORS = {
     "H5": 0.4273,
 }
 
-# ---------------------------------------------------------------------------
-# Load streams
-# ---------------------------------------------------------------------------
-def load_streams() -> List[Dict]:
+REQUIRED_COLUMNS = {"stream_id", "name", "H1", "H2", "H3", "H4", "H5", "group", "is_quantitative"}
+
+
+class StreamLoadError(Exception):
+    pass
+
+
+def load_streams(path: Path = STREAMS_CSV) -> List[Dict]:
+    if not path.exists():
+        raise StreamLoadError(f"Streams file not found: {path}")
+
     streams = []
-    with open(STREAMS_CSV, newline="", encoding="utf-8") as f:
+    with open(path, newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
-        for row in reader:
-            row["stream_id"] = int(row["stream_id"])
-            for h in HYPOTHESES:
-                row[h] = float(row[h])
-            row["is_quantitative"] = int(row.get("is_quantitative", 1))
-            streams.append(row)
+        if reader.fieldnames is None:
+            raise StreamLoadError("CSV has no header row")
+
+        missing = REQUIRED_COLUMNS - set(reader.fieldnames)
+        if missing:
+            raise StreamLoadError(f"Missing required columns: {sorted(missing)}")
+
+        for i, row in enumerate(reader, start=2):
+            try:
+                sid = int(row["stream_id"])
+                is_q = int(row.get("is_quantitative", 1))
+                if is_q not in (0, 1):
+                    raise ValueError("is_quantitative must be 0 or 1")
+
+                lik = {}
+                for h in HYPOTHESES:
+                    val = float(row[h])
+                    if not (0.0 <= val <= 1.0):
+                        raise ValueError(f"{h}={val} outside [0,1]")
+                    lik[h] = val
+
+                streams.append({
+                    "stream_id": sid,
+                    "name": row["name"].strip(),
+                    "group": row.get("group", "").strip(),
+                    "coverage": row.get("coverage", "").strip(),
+                    "provenance": row.get("provenance", "").strip(),
+                    "is_quantitative": is_q,
+                    **lik,
+                })
+            except (ValueError, KeyError) as e:
+                raise StreamLoadError(f"Row {i}: {e}") from e
+
+    if not streams:
+        raise StreamLoadError("No streams loaded")
     return streams
 
 
-# ---------------------------------------------------------------------------
-# Core update with reliability scaling
-# ---------------------------------------------------------------------------
-def apply_reliability(
-    streams: List[Dict],
-    reliability: float,
-) -> List[Dict]:
-    """
-    Scale likelihoods of quantitative streams toward 0.5 (non-informative)
-    as reliability → 0.0. Qualitative / physical / meta streams keep full weight.
-    """
+def apply_reliability(streams: List[Dict], reliability: float) -> List[Dict]:
+    r = max(0.0, min(1.0, reliability))
     scaled = []
     for s in streams:
-        news = s.copy()
+        news = dict(s)
         if s["is_quantitative"] == 1:
-            # Linear interpolation: at r=1 keep original L; at r=0 push to 0.5
             for h in HYPOTHESES:
                 L = s[h]
-                news[h] = reliability * L + (1.0 - reliability) * 0.5
-        # else: leave unchanged (physical, meta, genetic-method, etc.)
+                news[h] = r * L + (1.0 - r) * 0.5
         scaled.append(news)
     return scaled
 
 
-def bayes_update(
-    streams: List[Dict],
-    priors: Dict[str, float],
-) -> Dict[str, float]:
-    """Simple independent product of likelihoods (log-space for stability)."""
+def bayes_update(streams: List[Dict], priors: Dict[str, float]) -> Dict[str, float]:
+    """Independent product of likelihoods in log-space. Explicit independence assumption."""
     log_post = {h: math.log(priors[h] + 1e-30) for h in HYPOTHESES}
     for s in streams:
         for h in HYPOTHESES:
-            L = max(s[h], 1e-12)  # floor
+            L = max(s[h], 1e-12)
             log_post[h] += math.log(L)
-    # normalize
     max_log = max(log_post.values())
     unnorm = {h: math.exp(log_post[h] - max_log) for h in HYPOTHESES}
     total = sum(unnorm.values())
     return {h: unnorm[h] / total for h in HYPOTHESES}
 
 
-# ---------------------------------------------------------------------------
-# Qualitative survivors (hard-coded from surviving/ layer)
-# ---------------------------------------------------------------------------
-SURVIVING_CLAIMS = [
-    "People of African and mixed descent were present on the territory that became the United States for multiple generations prior to 1865.",
-    "Physical burial grounds and archaeological sites document multi-generational presence of these populations on American soil.",
-    "Genealogical chains for the large majority of documented Black American lineages terminate in U.S. records (church, county, plantation, Freedmen’s Bureau).",
-    "Forced labor regimes, family separation practices, and legal non-personhood existed and left documentary and physical traces.",
-    "Racial classification on U.S. censuses and vital records was enumerator-driven (“lookerism”) rather than self-reported for most of the period.",
-    "Comparable Caribbean and Brazilian slave societies showed net natural decrease and required continuous imports; the U.S. pattern (if the counts are taken at face value) is an outlier.",
-    "Ancient DNA sampling of historical populations remains <0.0001 % of humans who ever lived and cannot by itself ground origin narratives.",
-    "The majority of quantifiable demographic records were produced by owners, traders, or colonial administrators; systematic pre-1865 testimony from the enslaved population is essentially absent (~2,300 WPA interviews from ~0.02 % of the formerly enslaved).",
-]
+def load_surviving_claims(path: Path = SURVIVING_MD) -> List[str]:
+    if not path.exists():
+        return ["[surviving/qualitative_claims.md not found]"]
+    text = path.read_text(encoding="utf-8")
+    claims = []
+    for line in text.splitlines():
+        m = re.match(r"^\s*(\d+)\.\s+(.+)$", line)
+        if m:
+            claims.append(m.group(2).strip())
+    return claims
 
 
-def print_surviving():
+def print_surviving(claims: Optional[List[str]] = None):
+    if claims is None:
+        claims = load_surviving_claims()
     print("\n=== SURVIVING QUALITATIVE CLAIMS (reliability → 0) ===")
-    for i, c in enumerate(SURVIVING_CLAIMS, 1):
+    print("(Loaded from surviving/qualitative_claims.md — strict filter applied)")
+    for i, c in enumerate(claims, 1):
         print(f"  {i}. {c}")
     print()
 
 
-# ---------------------------------------------------------------------------
-# CLI
-# ---------------------------------------------------------------------------
+def run_self_test() -> bool:
+    print("Running self-tests...")
+    ok = True
+
+    try:
+        streams = load_streams()
+        print(f"  [PASS] load_streams: {len(streams)} streams")
+    except StreamLoadError as e:
+        print(f"  [FAIL] load_streams: {e}")
+        return False
+
+    q_count = sum(1 for s in streams if s["is_quantitative"] == 1)
+    nq_count = len(streams) - q_count
+    print(f"  [INFO] quantitative={q_count}, non-quantitative={nq_count}")
+
+    s0 = apply_reliability(streams, 0.0)
+    s1 = apply_reliability(streams, 1.0)
+    for orig, scaled0, scaled1 in zip(streams, s0, s1):
+        if orig["is_quantitative"] == 1:
+            for h in HYPOTHESES:
+                if abs(scaled0[h] - 0.5) > 1e-9:
+                    print(f"  [FAIL] reliability=0 should push quantitative to 0.5")
+                    ok = False
+                if abs(scaled1[h] - orig[h]) > 1e-9:
+                    print(f"  [FAIL] reliability=1 should preserve original likelihoods")
+                    ok = False
+        else:
+            for h in HYPOTHESES:
+                if abs(scaled0[h] - orig[h]) > 1e-9 or abs(scaled1[h] - orig[h]) > 1e-9:
+                    print(f"  [FAIL] non-quantitative streams must be unchanged by reliability")
+                    ok = False
+    if ok:
+        print("  [PASS] apply_reliability extremes")
+
+    post = bayes_update(streams, RAW_PRIORS)
+    s = sum(post.values())
+    if abs(s - 1.0) > 1e-6:
+        print(f"  [FAIL] posterior sum = {s}")
+        ok = False
+    else:
+        print(f"  [PASS] posterior sums to 1.0 (H5 ≈ {post['H5']:.1%})")
+
+    claims = load_surviving_claims()
+    if len(claims) < 5:
+        print(f"  [FAIL] expected >=5 surviving claims, got {len(claims)}")
+        ok = False
+    else:
+        print(f"  [PASS] load_surviving_claims: {len(claims)} claims")
+
+    psum = sum(RAW_PRIORS.values())
+    if abs(psum - 1.0) > 1e-4:
+        print(f"  [FAIL] priors sum to {psum}")
+        ok = False
+    else:
+        print("  [PASS] priors sum to 1.0")
+
+    print("Self-test", "PASSED" if ok else "FAILED")
+    return ok
+
+
 def main():
     parser = argparse.ArgumentParser(
-        description="TAST Bayesian Core — reliability slider (0.0 = maximal skepticism)"
+        description="TAST Bayesian Core v4.2 — reliability slider (0.0 = maximal skepticism)"
     )
-    parser.add_argument(
-        "--reliability",
-        type=float,
-        default=1.0,
-        help="victors_reliability ∈ [0.0, 1.0]  (default 1.0)",
-    )
+    parser.add_argument("--reliability", type=float, default=1.0,
+                        help="victors_reliability ∈ [0.0, 1.0] (default 1.0)")
     parser.add_argument("--verbose", action="store_true")
     parser.add_argument("--list-streams", action="store_true")
+    parser.add_argument("--self-test", action="store_true")
     args = parser.parse_args()
 
+    if args.self_test:
+        sys.exit(0 if run_self_test() else 1)
+
+    try:
+        streams = load_streams()
+    except StreamLoadError as e:
+        print(f"ERROR: {e}", file=sys.stderr)
+        sys.exit(1)
+
     r = max(0.0, min(1.0, args.reliability))
-    streams = load_streams()
 
     if args.list_streams:
         print(f"{'ID':>3}  {'Q':>1}  {'Group':>5}  Name")
@@ -154,7 +242,7 @@ def main():
             print(f"{s['stream_id']:3d}  {q}  {s['group']:>5}  {s['name']}")
         return
 
-    print(f"TAST Bayesian Core v4.0  |  victors_reliability = {r:.2f}")
+    print(f"TAST Bayesian Core v4.2  |  victors_reliability = {r:.2f}")
     print("=" * 60)
 
     if r < 0.05:
@@ -171,6 +259,7 @@ def main():
     post = bayes_update(scaled, RAW_PRIORS)
 
     print("\nHypothesis posteriors (conditioned on reliability):")
+    print("(Independence of streams is assumed — a known modeling limitation.)")
     for h in HYPOTHESES:
         bar = "█" * int(post[h] * 40)
         print(f"  {h}  {post[h]:6.1%}  {bar}")

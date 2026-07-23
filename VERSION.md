@@ -33,3 +33,21 @@
   - 08_classification_and_paper_ethnocide.md
 - Updated layer READMEs.
 - Original full document remains the authoritative backup under `reweighted/`.
+
+## v4.2 — 2026-07-23
+
+Addressed structural critiques:
+
+- Surviving claims are now **loaded from** `surviving/qualitative_claims.md` (no longer hard-coded).
+- Surviving list cleaned: removed residual dependence on the U.S.–Caribbean numerical growth differential.
+- `load_streams()` now validates required columns, types, and likelihood ranges [0,1]; raises `StreamLoadError` on malformed input.
+- Added `--self-test` mode covering load, reliability extremes, posterior normalization, surviving load, and prior sum.
+- Explicit note in output that stream independence is assumed (known limitation).
+- Added `CONTRIBUTING.md`.
+
+Still open (not yet addressed):
+- Stream independence / correlated likelihoods
+- Monte-Carlo or hierarchical uncertainty
+- Full verbatim primary-source tables in raw/
+- Continuous integration / external validation
+- Multi-axis adversarial sensitivity beyond the single reliability parameter
