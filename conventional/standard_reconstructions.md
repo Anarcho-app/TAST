@@ -35,3 +35,6 @@
 ---
 
 **Zero-weight treatment**: All of the above numerical totals and growth rates become undefined. The comparative *pattern* (U.S. recorded increase vs. Caribbean/Brazilian recorded decrease) survives only as a qualitative observation about the shape of the administrative record, not as a fact about biological demography.
+
+---
+**Every number above is a CONDITIONAL ESTIMATE derived from biased administrative records (victors' paperwork). This is NOT A FACT.**

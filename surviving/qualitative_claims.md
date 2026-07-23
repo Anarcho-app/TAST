@@ -30,4 +30,8 @@ They are supported by physical remains, structural features of the record itself
 
 ---
 
+11. No national-scale population total derived from the administrative records constitutes a fact. The designation of any set of records as "least-bad" does not convert estimates calculated from those records into facts. Bias remains structural; the absence of an independent quantitative check remains decisive.
+
+---
+
 **Epistemic status**: These claims are qualitative and structural. They survive the zero-weight mode because they do not require accepting any particular numerical total from the administrative record as accurate. They form the floor of what can be said with relatively high confidence once the quantitative reconstructions are set aside.

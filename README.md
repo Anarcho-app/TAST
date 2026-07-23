@@ -1,6 +1,8 @@
 # TAST Demographic Model — Skepticism-First Edition (v4.0)
 
-**All large-scale numerical estimates of the enslaved population in the territory that became the United States are reconstructions from records produced by the trading and slaveholding societies. This repository does not claim to escape that constraint. It only shows what happens when those same records are re-weighted, and what remains when they are set aside.**
+**All large-scale numerical estimates of the enslaved population in the territory that became the United States are reconstructions from records produced by the trading and slaveholding societies. Those records are biased sources (victors' paperwork). Estimates calculated from them are conditional estimates — never facts. No amount of correction, cross-checking, or “least-bad” framing changes this.**
+
+This repository does not claim to escape that constraint. It only shows what happens when those same records are re-weighted, and what remains when they are set aside.
 
 This is a living, layered empirical engine for analyzing the demographic history of people of African and mixed descent in the United States, with explicit focus on Freedmen’s Bureau-era lineages (FBA) and multi-generational American rootedness.
 

@@ -1,24 +1,25 @@
 #!/usr/bin/env python3
 """
-TAST Bayesian Core — Skepticism-First Edition (v4.2)
+TAST Bayesian Core — Skepticism-First Edition (v4.3)
 
 Single parameter: victors_reliability ∈ [0.0, 1.0]
   1.0 = treat census / manifest / ledger counts as approximately accurate
-  0.0 = maximal skepticism: all quantitative head-counts become undefined;
+  0.0 = maximal skepticism: all quantitative head-counts become UNDEFINED;
         only qualitative / physical / meta patterns survive.
 
-Improvements in v4.2:
-  - Robust CSV loading with column and range validation
-  - Surviving claims loaded from surviving/qualitative_claims.md (not hard-coded)
-  - Cleaned surviving list (no residual dependence on administrative growth differentials)
-  - Basic self-test mode (--self-test)
-  - Clearer conditioning language
+Core epistemic rule (v4.3):
+  Estimates calculated from the administrative records are CONDITIONAL
+  ESTIMATES derived from biased sources (victors' paperwork).
+  They are NEVER facts. Language that converts them into facts
+  ("least-bad", "best available", "robust after correction", etc.)
+  is forbidden under --strict (default on).
 
 Usage:
   python bayesian_core.py --reliability 0.0
   python bayesian_core.py --reliability 1.0 --verbose
   python bayesian_core.py --list-streams
   python bayesian_core.py --self-test
+  python bayesian_core.py --reliability 0.7 --no-strict   # disable language guard
 """
 
 from __future__ import annotations
@@ -55,8 +56,34 @@ RAW_PRIORS = {
 
 REQUIRED_COLUMNS = {"stream_id", "name", "H1", "H2", "H3", "H4", "H5", "group", "is_quantitative"}
 
+# Phrases that convert a biased-source estimate into a fact-like claim.
+# Banned under --strict (default).
+BANNED_PHRASES = [
+    "least-bad",
+    "least bad",
+    "best available",
+    "best-available",
+    "robust after correction",
+    "robust after adjustment",
+    "the historical consensus",
+    "accepted fact",
+    "established fact",
+    "known fact",
+    "as a fact",
+    "is a fact",
+]
+
+DISCLAIMER = (
+    "CONDITIONAL ESTIMATE derived from biased administrative records "
+    "(victors' paperwork). This is NOT A FACT."
+)
+
 
 class StreamLoadError(Exception):
+    pass
+
+
+class StrictLanguageError(Exception):
     pass
 
 
@@ -153,8 +180,21 @@ def print_surviving(claims: Optional[List[str]] = None):
     print()
 
 
+def check_banned_language(text: str, strict: bool) -> None:
+    """Raise if banned phrases appear under --strict."""
+    if not strict:
+        return
+    lower = text.lower()
+    for phrase in BANNED_PHRASES:
+        if phrase in lower:
+            raise StrictLanguageError(
+                f"Banned phrase detected under --strict: '{phrase}'. "
+                "Estimates from biased administrative records are never facts."
+            )
+
+
 def run_self_test() -> bool:
-    print("Running self-tests...")
+    print("Running self-tests (v4.3)...")
     ok = True
 
     try:
@@ -209,20 +249,48 @@ def run_self_test() -> bool:
     else:
         print("  [PASS] priors sum to 1.0")
 
+    # New v4.3 checks
+    try:
+        check_banned_language("This is the least-bad source we have.", strict=True)
+        print("  [FAIL] banned-phrase detector did not raise")
+        ok = False
+    except StrictLanguageError:
+        print("  [PASS] banned-phrase detector raises on 'least-bad'")
+
+    try:
+        check_banned_language(DISCLAIMER, strict=True)
+        print("  [PASS] disclaimer itself contains no banned phrases")
+    except StrictLanguageError as e:
+        print(f"  [FAIL] disclaimer triggered ban: {e}")
+        ok = False
+
+    # Ensure quantitative output path would include the disclaimer
+    if "NOT A FACT" not in DISCLAIMER or "biased" not in DISCLAIMER.lower():
+        print("  [FAIL] DISCLAIMER constant missing required language")
+        ok = False
+    else:
+        print("  [PASS] DISCLAIMER constant contains required 'NOT A FACT' language")
+
     print("Self-test", "PASSED" if ok else "FAILED")
     return ok
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="TAST Bayesian Core v4.2 — reliability slider (0.0 = maximal skepticism)"
+        description="TAST Bayesian Core v4.3 — reliability slider (0.0 = maximal skepticism)"
     )
     parser.add_argument("--reliability", type=float, default=1.0,
                         help="victors_reliability ∈ [0.0, 1.0] (default 1.0)")
     parser.add_argument("--verbose", action="store_true")
     parser.add_argument("--list-streams", action="store_true")
     parser.add_argument("--self-test", action="store_true")
+    parser.add_argument("--strict", action="store_true", default=True,
+                        help="Enforce language ban on fact-conversion phrases (default: on)")
+    parser.add_argument("--no-strict", action="store_true",
+                        help="Disable language ban (not recommended)")
     args = parser.parse_args()
+
+    strict = not args.no_strict
 
     if args.self_test:
         sys.exit(0 if run_self_test() else 1)
@@ -242,8 +310,8 @@ def main():
             print(f"{s['stream_id']:3d}  {q}  {s['group']:>5}  {s['name']}")
         return
 
-    print(f"TAST Bayesian Core v4.2  |  victors_reliability = {r:.2f}")
-    print("=" * 60)
+    print(f"TAST Bayesian Core v4.3  |  victors_reliability = {r:.2f}  |  strict={strict}")
+    print("=" * 70)
 
     if r < 0.05:
         print("\n*** MAXIMAL SKEPTICISM MODE ***")
@@ -253,12 +321,17 @@ def main():
         print_surviving()
         print("Posterior over mechanisms: UNDEFINABLE (no reliable likelihoods).")
         print("Deep American roots (qualitative): SUPPORTED by physical + genealogical patterns.")
+        print("\nMeta-claim: No national-scale population total derived from the")
+        print("administrative records constitutes a fact.")
         return
 
+    # Quantitative path — must carry the strong disclaimer
     scaled = apply_reliability(streams, r)
     post = bayes_update(scaled, RAW_PRIORS)
 
-    print("\nHypothesis posteriors (conditioned on reliability):")
+    print("\n" + DISCLAIMER)
+    print("-" * 70)
+    print("Hypothesis posteriors (conditioned on reliability):")
     print("(Independence of streams is assumed — a known modeling limitation.)")
     for h in HYPOTHESES:
         bar = "█" * int(post[h] * 40)
@@ -270,6 +343,15 @@ def main():
     print(f'  "If we treat the recorded population totals as approximately accurate')
     print(f'   (victors_reliability ≈ {r:.2f}), then the above posteriors obtain;')
     print(f'   if we do not, the quantitative claims are undefined."')
+    print(f"\n  {DISCLAIMER}")
+
+    # Language guard on any verbose labels
+    if strict:
+        for label in H_LABELS.values():
+            try:
+                check_banned_language(label, strict=True)
+            except StrictLanguageError as e:
+                print(f"WARNING: {e}", file=sys.stderr)
 
     if r < 0.5:
         print("\n(Note: reliability < 0.5 → quantitative streams heavily diluted;")

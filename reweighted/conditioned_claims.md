@@ -32,3 +32,6 @@
 ---
 
 **Usage note**: When reliability is dialed below ~0.3 the quantitative posteriors lose meaning and the engine switches to maximal-skepticism output (see `python -m bayesian_core --reliability 0.0`).
+
+---
+**Every number above is a CONDITIONAL ESTIMATE derived from biased administrative records (victors' paperwork). This is NOT A FACT.**

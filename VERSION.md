@@ -51,3 +51,23 @@ Still open (not yet addressed):
 - Full verbatim primary-source tables in raw/
 - Continuous integration / external validation
 - Multi-axis adversarial sensitivity beyond the single reliability parameter
+
+## v4.3 — 2026-07-23
+
+Language and epistemic hardening (response to external review):
+
+- **Ban on fact-conversion language**: “least-bad”, “best available”, “robust after correction”, “historical consensus”, and equivalents are forbidden under `--strict` (default on).
+- Every quantitative output path now prints the required disclaimer:
+  `CONDITIONAL ESTIMATE derived from biased administrative records (victors' paperwork). This is NOT A FACT.`
+- Surviving layer gains explicit meta-claim 11: no national-scale total derived from the administrative records constitutes a fact; “least-bad” designation does not convert estimates into facts.
+- `--self-test` extended to verify banned-phrase detection and presence of the disclaimer constant.
+- CONTRIBUTING.md updated with rejection criteria for any contribution that restores factual status to biased-source estimates.
+- Core rule stated in module docstring and CLI banner.
+
+Still open:
+- Stream independence / correlated likelihoods
+- Monte-Carlo sampling over bias magnitudes
+- Formal functional dependence N = f(C_t, I, r) published as a first-class object
+- Full verbatim primary-source tables
+- Continuous integration / external validation
+- Multi-axis adversarial sensitivity
