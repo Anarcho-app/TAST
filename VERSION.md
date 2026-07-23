@@ -128,3 +128,108 @@ Still open:
 - Multi-axis reliability vector
 - Formal absence-as-likelihood term
 - CI / external validation
+
+## v4.7 — 2026-07-23
+
+Formal treatment of absence (first encoding):
+
+- Added Stream 27: “Structural Silence / Erasure Index (absence of enslaved quantitative voice)”.
+  - `is_quantitative = 0` → remains fully weighted at reliability ≈ 0.
+  - Encodes the measurable asymmetry between owner/enumerator quantitative material and the near-absence of pre-1865 enslaved quantitative testimony as positive structural evidence.
+- `surviving/quantitative_floor.md` updated with explicit link to Stream 27.
+- Per-claim \(c_i\) (v4.6) and Monte Carlo (v4.6) remain available and tool-verifiable.
+
+Still open (larger evolutionary steps):
+- Data-level generative likelihoods
+- Multi-axis reliability vector + hierarchical priors
+- Claim-level posteriors
+- Formal \(N = f(C_t, I, r)\)
+- Correlation structure
+- Continuous integration / external validation
+
+## v4.8 — 2026-07-23
+
+Completion of the previously open items (lean implementations):
+
+1. **Formal functional dependence** `N = f(C_t, I, r)`  
+   - Explicit in `model/inference_extensions.py::N_of`.  
+   - Returns UNDEFINED when r → 0. Demonstrable via `--demo-functional`.
+
+2. **Multi-axis reliability**  
+   - Vector (owner, enumerator, coverage) reduced to scalar by transparent weights.  
+   - `--demo-multiaxis`.
+
+3. **Minimal correlation damping**  
+   - Group-level pull toward group mean (`damp_correlated_streams`). Inspectable proxy for residual dependence.
+
+4. **Claim-level view**  
+   - Uses existing c_i; `--claims --min-ci 0.70`.
+
+5. **Skeleton generative bias model**  
+   - `observed ~ BiasModel(true, θ_owner, θ_enumerator, r)`.  
+   - Placeholder ready for replacement by full hierarchical MCMC.
+
+6. **External-validation / adversarial hooks**  
+   - Printed checklist; invitation for re-analysis built into the module.
+
+New module: `model/inference_extensions.py`  
+Run: `python model/inference_extensions.py --all`
+
+Still future work (explicitly out of current lean scope):
+- Full hierarchical Bayesian (NumPyro/PyMC/Stan) with data-level likelihoods
+- Fitted (not skeleton) generative demographic process
+- Continuous integration pipeline in a real repo setting
+
+## v4.9 — 2026-07-23
+
+Hierarchical skeleton — first step toward retiring fixed RAW_PRIORS:
+
+- New module `model/hierarchical_skeleton.py`
+- Continuous latent parameters: growth rate, import scale, reclassification, undercount, multi-axis reliability.
+- Weakly informative hyperpriors replace the old fixed RAW_PRIORS vector.
+- Existing stream likelihoods treated as means of Beta distributions with hierarchical concentration (kappa).
+- Discrete H1–H5 become derived region probabilities over the continuous space, not the primary objects of inference.
+- Pure-numpy hierarchical Monte Carlo; any agent can re-run with `--samples` / `--seed`.
+- Zero-weight collapse preserved: administrative path still UNDEFINED when reliability mass is near 0.
+
+Run:
+  python model/hierarchical_skeleton.py --samples 400 --seed 42
+
+Next increments (still open for full data dominance):
+- Data-level generative likelihoods (Poisson/NB for census, burial, etc.)
+- Full HMC/NUTS via NumPyro or PyMC
+- Proper marginal likelihood / Bayes factors
+- Expansion of the physical floor into full likelihood terms
+
+## v5.0-alpha — 2026-07-23
+
+"Let's make history" increment — physical floor becomes active likelihood:
+
+- New `model/physical_likelihoods.py`
+  - Data-level (minimal generative) log-likelihoods for:
+    - Burial site counts
+    - aDNA sample sizes
+    - Genealogical termination pattern
+    - Erasure / structural silence index
+    - Regime intensity
+  - These terms do **not** depend on administrative head-counts and remain fully active at reliability → 0.
+
+- `hierarchical_skeleton.py` upgraded to v5.0-alpha
+  - Physical-floor log-likelihood integrated into the continuous-parameter Monte Carlo.
+  - Discrete H1–H5 remain derived region summaries; fixed RAW_PRIORS remain unused.
+  - Physical evidence now influences the posterior mass even under maximal skepticism of the administrative series.
+
+Run:
+  python model/physical_likelihoods.py
+  python model/hierarchical_skeleton.py --samples 400 --seed 42
+
+This is the first concrete step in which the data that survive zero-weight mode begin to dominate the inference. Full NumPyro/PyMC hierarchical models with richer data-level likelihoods remain the subsequent stage.
+
+## v5.0-alpha (docs) — 2026-07-23
+
+Foundation made undeniable:
+
+- README now contains an explicit **Mathematical Foundation vs. Epistemic Rule** section.
+- New `METHODS.md` lists classic textbook references for every formal object and states clearly that the mathematics is standard; the novel contribution is the zero-weight collapse rule and the physical floor.
+- Quantitative floor header restates the same separation.
+- Novelty is deliberately limited to the epistemic decision rule. The known knowns (physical remains, genealogical termination, anti-literacy statutes, owner-mediated provenance) are not experimental; the decision to treat them as the floor is the point of the project.

@@ -6,6 +6,34 @@ This repository does not claim to escape that constraint. The focal population i
 
 This is a living, layered empirical engine for analyzing the demographic history of people of African and mixed descent in the United States, with explicit focus on Freedmen’s Bureau-era lineages (FBA) and multi-generational American rootedness.
 
+
+## Mathematical Foundation vs. Epistemic Rule
+
+**The inference machinery is standard Bayesian statistics.** None of the following is experimental or non-standard:
+
+- Bayes’ theorem and the product rule
+- Log-space numerical stability
+- Monte Carlo sampling from a reliability (or bias) hyperparameter
+- Hierarchical / weakly informative treatment of source reliability
+- Poisson-style counting arguments for physical evidence (burial sites, aDNA individuals, jurisdictions)
+- Beta-style concentration for rates and proportions
+
+These are textbook tools (see classic references in `METHODS.md`).
+
+**The novel contribution of this project is the epistemic rule, not the mathematics:**
+
+- A continuous `victors_reliability` parameter applied to administrative records produced by trading and slaveholding societies
+- The explicit zero-weight collapse: when that reliability approaches zero, every quantitative head-count, growth rate, and import total derived from those records becomes **UNDEFINED**
+- The physical and structural evidence floor (burial grounds, aDNA remains, genealogical termination patterns, structural silence, regime intensity) is the only quantitative layer that remains
+- Language discipline that forbids converting “least-bad / best-available / historical consensus” into “fact”
+
+The project does **not** claim to replace any national administrative total.  
+It makes the conditionality of every such total unavoidable.
+
+The known knowns (physical remains on American soil, genealogical chains terminating in U.S. records, anti-literacy laws, owner-mediated provenance) are not experimental.  
+The decision to treat those known knowns as the floor and the administrative series as optionally discardable is the point of the project.
+
+
 ## Core Design Principles (v4.0)
 
 1. **Zero-Weight / Maximal-Skepticism Mode**  

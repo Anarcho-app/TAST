@@ -25,3 +25,4 @@ stream_id,name,H1,H2,H3,H4,H5,group,coverage,provenance,is_quantitative
 24,Modern Cohort Constraints (All of Us / gnomAD v4 LAI),0.10,0.55,0.70,0.35,0.75,O,<0.2% pop sampled,Lab-derived; ~1M+ diverse participants,0
 25,aDNA Burial Ground Studies (Catoctin/Anson/Chesapeake + expanded),0.30,0.80,0.80,0.70,0.85,P,0.000017% aDNA + physical,Lab-derived aDNA + physical remains; community-engaged,0
 26,Retracted/Critiqued Claims Meta (symmetric overreach filter),0.30,0.50,0.60,0.30,0.80,N,meta,Symmetric skepticism; flags overreach in ALL narratives,0
+27,Structural Silence / Erasure Index (absence of enslaved quantitative voice),0.25,0.55,0.60,0.30,0.85,N,meta-structural,Anti-literacy laws + legal non-personhood + near-zero pre-1865 enslaved quantitative testimony vs. volume of owner/enumerator records,0

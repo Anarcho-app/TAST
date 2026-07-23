@@ -1,5 +1,9 @@
 # Quantitative Floor (Reliability ≈ 0)
 
+> The mathematics used to score these quantities (Poisson counting, Beta rates, hierarchical hyperpriors) is standard.  
+> What is deliberate is the epistemic rule: these are the only quantitative statements retained when administrative reliability → 0.
+
+
 These quantities and lower bounds rest on primary physical and structural evidence.  
 They do **not** depend on accepting administrative head-counts, growth rates, or import totals as accurate.  
 They remain fully available when `victors_reliability → 0`.
@@ -55,3 +59,10 @@ The floor quantifies presence, continuity, erasure, and regime intensity on subs
 ---
 
 **Epistemic status**: These are the quantities that remain when the victor paperwork is set aside. They are the new quantitative starting point.
+
+## 6. Formal link to the model (v4.7)
+
+- Stream 27 (“Structural Silence / Erasure Index”) is coded `is_quantitative = 0`.
+- It therefore remains fully weighted when `victors_reliability → 0`.
+- The asymmetry (volume of owner/trader/enumerator quantitative material vs. near-absence of enslaved-authored quantitative material) is treated as positive structural evidence, not as a neutral gap.
+- This is the first explicit encoding of absence as an informative contribution inside the inference layer.

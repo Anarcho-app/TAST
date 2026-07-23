@@ -1,13 +1,15 @@
 #!/usr/bin/env python3
 """
-TAST Bayesian Core — Skepticism-First Edition (v4.6)
+TAST Bayesian Core — Skepticism-First Edition (v4.8)
 
 Single parameter: victors_reliability ∈ [0.0, 1.0]
   1.0 = treat census / manifest / ledger counts as approximately accurate
   0.0 = maximal skepticism: all quantitative head-counts become UNDEFINED;
         only qualitative / physical / meta patterns survive.
 
-Core epistemic rules (v4.6):
+Core epistemic rules (v4.8):
+  See also model/inference_extensions.py for functional dependence,
+  multi-axis reliability, correlation damping, and adversarial hooks.
   1. Estimates calculated from the administrative records are CONDITIONAL
      ESTIMATES derived from biased sources (victors' paperwork).
      They are NEVER facts. Language that converts them into facts
@@ -310,7 +312,7 @@ def summarize_mc(samples: dict, quantiles=(0.05, 0.50, 0.95)) -> None:
 
 
 def run_self_test() -> bool:
-    print("Running self-tests (v4.6)...")
+    print("Running self-tests (v4.8)...")
     ok = True
 
     try:
@@ -365,7 +367,7 @@ def run_self_test() -> bool:
     else:
         print("  [PASS] priors sum to 1.0")
 
-    # New v4.6 checks
+    # New v4.8 checks
     try:
         check_banned_language("This is the least-bad source we have.", strict=True)
         print("  [FAIL] banned-phrase detector did not raise")
@@ -415,7 +417,7 @@ def run_self_test() -> bool:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="TAST Bayesian Core v4.6 — reliability slider (0.0 = maximal skepticism)"
+        description="TAST Bayesian Core v4.8 — reliability slider (0.0 = maximal skepticism)"
     )
     parser.add_argument("--reliability", type=float, default=1.0,
                         help="victors_reliability ∈ [0.0, 1.0] (default 1.0)")
@@ -467,7 +469,7 @@ def main():
             print(f"{s['stream_id']:3d}  {q}  {s['group']:>5}  {s['name']}")
         return
 
-    print(f"TAST Bayesian Core v4.6  |  victors_reliability = {r:.2f}  |  strict={strict}")
+    print(f"TAST Bayesian Core v4.8  |  victors_reliability = {r:.2f}  |  strict={strict}")
     print("=" * 70)
 
     if r < 0.05:
