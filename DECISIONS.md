@@ -63,3 +63,47 @@ The κ=8 interval is now logged with exact parameters so the correction log itse
 
 - `python -m model.bayesian_core --reliability 1.0 --lik-uncertainty 2000 --kappa 8 --seed 42`
 - Observed: H5 5%=22.2%  50%=56.4%  95%=84.0%  (matches independent reproduction)
+
+## Adversarial H1 results (Opus 4.8, 2026-07-24)
+
+The adversarial exercise was run. Both conditional outcomes are now replaced by measured results.
+
+| Table                        | H1 posterior   | H5 posterior |
+|-----------------------------|----------------|--------------|
+| Current (analyst)           | 2.5 × 10⁻⁸     | 0.577        |
+| 5-cell adversarial          | 8.1 × 10⁻⁵     | 0.577        |
+| Full charitable (all 11)    | ≈ 1–3.5 %      | ≈ 0.56       |
+| Prior                       | 7.27 %         | 42.7 %       |
+
+Even under a maximally charitable mainstream reading of every quantitative cell, H1 lands **below its own prior**. The negative result is robust. That is the strong claim the adversarial design was built to produce, and it holds.
+
+(Exact full-charitable point estimate depends on the precise charitable values chosen; under several reasonable mainstream-friendly assignments H1 remains in the 0.5–3.5 % range, always < prior.)
+
+## H5 column audit (Opus 4.8)
+
+Mean likelihood across the 11 quantitative streams:
+
+```
+H1:  0.220    0/11 cells ≥ 0.75
+H2:  0.768    7/11
+H3:  0.750    7/11
+H4:  0.441    3/11
+H5:  0.764    8/11
+```
+
+H5 (“mixed / undocumented mechanisms / residual uncertainty”) is assigned ≥ 0.75 on eight of eleven streams. A hypothesis that is never surprised by any observation wins a likelihood product by construction. Discrete hypothesis products apply no Occam factor, so a catch-all with uniformly high likelihoods gains ground on every multiplication regardless of what the data say. H5 at 57.7 % is not evidence about mechanisms; it is what happens when you multiply eleven numbers near 0.8.
+
+This is the exact mirror of the H1-column inversion flagged earlier. Stream 26 (symmetric overreach filter) commits the project to catching it. The H5 column is now the thing to audit.
+
+**Test**: name an observation that would be surprising under H5. If every cell is ≥ 0.75, there is none.
+
+This is also what makes `model/h5_subclaims.md` operational rather than rhetorical. H5a–H5d already have rejection conditions; undecomposed H5 does not. Next structural step: replace the single H5 column in the stream table with the four sub-claims so each column must commit to predictions — at which point the residual can actually lose, and a 57 % result would mean something.
+
+## Operational items closed / remaining
+
+- [x] Report measured adversarial numbers (not only the conditional framing)
+- [x] `--streams PATH` flag added so comparisons are a single reproducible command
+- [x] Duplicate files resolved: `literature_engage.md` (root) and `data/stream_likelihood_meta.csv` are canonical
+- [ ] Decompose H5 column into H5a–H5d (or otherwise force the residual to make falsifiable predictions)
+
+Credit: Claude Opus 4.8 (fifth pass, 2026-07-24).

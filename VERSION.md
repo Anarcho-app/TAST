@@ -406,3 +406,12 @@ Example:
 - `DECISIONS.md` correction log; states we have lowered unearned H5 and not yet raised H1/H4 above residual H5 under the current quant table at r=1
 - `conventional/literature_engage.md` named converge/diverge vs Hacker, SlaveVoyages, Fogel/Engerman, Gutman, Steckel, Borucki & O’Malley
 - Uniform genetics evidentiary bar (same sample-size caution in every direction)
+
+## v5.7 — adversarial results + H5 audit (2026-07-24)
+
+- Adversarial H1 tables (5-cell and full-charitable) measured and published.
+- Even under maximally charitable mainstream reading of all 11 quantitative cells, H1 remains below its own prior.
+- H5 column audit: mean L(H5)=0.764 with 8/11 cells ≥0.75 — residual wins by never being surprised. Next step: decompose into H5a–H5d.
+- `--streams PATH` flag added for reproducible alternate-table runs.
+- Duplicate literature_engage and stream_likelihood_meta files resolved (root / data/ canonical).
+- Credit: Claude Opus 4.8 (fifth pass).
