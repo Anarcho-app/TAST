@@ -106,14 +106,55 @@ python -m model.inference_extensions --adversarial                  # hook list 
 
 Credit: Claude Opus 4.8 review (2026-07-24) for the runtime bug, the r=0-is-prior observation, the autosomal-ancestry falsification test, the hierarchical-reliability observation, and the H5 numerical-prediction requirement. Every valid observation landed inside the README's own valid-axes list; scoring the model on the invalid axes would have missed all seven fixes.
 
-## Stream 1 generative derivation (2026-07-24)
+## Prior-sensitivity + regroup (2026-07-24) — the over-engineering / table-as-verdict point
 
-**Before:** Stream 1 H1=0.07 (inverted: growth surprising under the growth hypothesis).
+**`--prior-sensitivity`** at r=1 (conservative Stream 31 table):
 
-**After:** `stream1_generative.py` — lognormal P(N_1860 | 1790 stock × e^{r t} + residual imports). With r≈2.5%/yr and σ_log=0.15: **L(H1)≈0.82**. Table cell set to H1=0.82, H4=0.78, H5=0.50.
+```
+prior H1 = 0.0727  → post H1 ≈ 0.000%
+prior H1 = 0.50    → post H1 ≈ 0.000%
+prior H1 = 0.90    → post H1 ≈ 0.000%
+prior H1 = 0.9999  → post H1 ≈ 0.44%
+prior H1 = 0.999999→ post H1 ≈ 30.5%
+```
 
-**Posterior at r=1:** H1 remains ≈0%. One earned cell does not overcome ten remaining anti-H1 admin-critique cells. Confirms magnitude diagnosis.
+No rational prior recovers H1. The likelihood table is the verdict. Further stream additions and prior tweaks are cosmetic until cells are rebuilt (especially Stream 1). This is the project's own "hidden conditioning" critique applied to itself.
 
-**Not done:** Full Hacker-style reconstruction; Caribbean/Brazilian generative contrast; calibration test on synthetic H1-true populations.
+**Group regroup:** US admin-linked quant streams (1,4,7,8,10,15,20,22) → group `U` so `--dampen` pools them. Floor (30,31) → `P`. SlaveVoyages → `V`. Dampen can now move cell values toward the group mean; H1 posterior remains ~0 because the *product* of still-anti-H1 means dominates — damping is not a substitute for generative cells.
 
-Credit: Opus 4.8 for isolating Stream 1 as the sole remaining high-value move.
+Credit: Claude Opus 4.8 (prior-sensitivity table, KL redundancy detector, regroup-by-source-system).
+
+## Effective-N damping + Stream 1 is the only remaining move (2026-07-24)
+
+**Bug:** `damp_correlated_streams` shrank L toward the group mean but still multiplied all k terms — the opposite of correlation control.
+
+**Fix:** `--dampen s` now uses group log-weights `w = k_eff/k` with `k_eff = 1+(k-1)(1-s)`. At s=1, group U (8 streams) contributes as **one** observation.
+
+Measured at r=1 (conservative Stream 31):
+
+```
+s=0.0  H1≈0.0%  H5≈61.1%
+s=0.5  H1≈0.0%  H5≈58.0%
+s=1.0  H1≈0.1%  H5≈54.1%
+```
+
+Collapsing the entire US-admin cluster to one observation moves H1 from 0.0% to **0.1%**. Multiplicity is not the mechanism; **magnitude** is — eleven streams each encode “H1 fits poorly.”
+
+**Streams 30 and 31** kept in separate groups (P vs R): different measurement systems / populations; must not share a damping factor.
+
+**Shortlist collapses to one item:** Derive Stream 1 generatively — P(observed 1790/1860 counts | documented arrivals + NI model with explicit error structure), calibrated against Caribbean/Brazilian contrast cases. If that yields 0.07, the cell is earned. If it yields ~0.5, the headline dissolves. No further stream additions; no prior tweaks; damping is done.
+
+Credit: Claude Opus 4.8 (effective-N formula, magnitude-not-multiplicity correction, Stream 1 sole priority).
+
+## Triage (2026-07-24)
+
+13 quant → **6 quant** in product.
+
+- Demoted measurement-error streams 4, 20, 21 to is_quantitative=0 (σ/reliability layer).
+- Demoted redundant 3, 7, 8, 10 (7≡8 duplicate vectors).
+- Kept 1 (derived), 2, 15, 22, 30, 31.
+- Stream 1 complete generative row restored in CSV.
+
+Next = priors stage for parameters (Steckel CBR/CDR, Caribbean series, sex ratio, Indigenous pool) — not new asserted cells.
+
+Credit: Opus 4.8 Max triage plan.

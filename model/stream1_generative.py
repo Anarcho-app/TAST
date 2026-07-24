@@ -1,130 +1,146 @@
 #!/usr/bin/env python3
 """
-Stream 1 generative likelihood — documented arrivals + natural increase.
+Stream 1 complete generative row — symmetric rigor (Opus 4.8 Max).
 
-Computes P(observed terminal counts | H1-style demographic path) with an
-explicit error model. Inputs are CONDITIONAL administrative quantities
-(census schedules, voyage estimates) — the same class Hacker/cliometric
-literature models. They are NOT facts under TAST's epistemic rule.
-
-At r=1 this is the mainstream computation made transparent.
-At r→0 this stream is diluted like other admin quant streams.
-
-Credit for prioritization: Claude Opus 4.8 (Stream 1 sole remaining move).
+- No MLE plug-in for H1.
+- No hand-picked r_af for H2; marginalize.
+- H2a = absorption *instead of* NI (low r_af prior).
+- H2b = absorption *in addition to* NI (same r prior as H1) + NA constraint.
+- Table cell H2 defaults to H2b (matches definition: classification on American soil
+  does not entail denying NI). H2a reported separately.
+- H5 Ockham: σ/√(σ²+τ²).
+- No silent clamp: raw values printed; table uses max(1e-6, L) only for log-stability.
 """
 from __future__ import annotations
 
 import math
 from dataclasses import dataclass
-from typing import Dict, Tuple
+from typing import Dict, List, Tuple
 
 
 @dataclass
 class AdminInputs:
-    """Conditional admin inputs — labeled, not asserted as facts."""
-    n_1790: float = 697_681.0          # U.S. Census 1790 enslaved (published schedule total)
-    n_1860: float = 3_953_760.0        # U.S. Census 1860 enslaved (published schedule total)
-    imports_pre_1790: float = 300_000.0  # order-of-magnitude mainland disembarkations to 1790 (SlaveVoyages-class totals; wide uncertainty)
-    imports_1790_1808: float = 90_000.0  # residual legal trade window (order-of-magnitude)
-    imports_post_1808: float = 50_000.0  # illegal/smuggling upper-ish order (highly uncertain; literature ranges widely)
-    note: str = (
-        "All count inputs are published administrative/voyage-estimate series. "
-        "TAST treats them as conditional under victors_reliability, not as facts."
-    )
+    n_1790: float = 697_681.0
+    n_1860: float = 3_953_760.0
+    imports: float = 140_000.0
 
 
-@dataclass
-class H1Params:
-    """Natural-increase path under documented arrivals + U.S. conditions."""
-    # Effective annual growth of the enslaved population 1790–1860 under NI-dominant account.
-    # Observed admin growth is roughly (3953760/697681)^(1/70) - 1 ≈ 2.5%/yr.
-    # H1 says this is achievable via NI + modest residual imports.
-    r_ni_annual: float = 0.025
-    # Observation error: lognormal σ on terminal count (multiplicative).
-    # σ=0.15 ≈ factor-of-1.16 uncertainty — wide enough to be non-dogmatic.
-    log_sigma: float = 0.15
+SIGMA = 0.15
+# Shared NI-rate prior (A) for H1 and H2b
+MU_R, SD_R = 0.022, 0.004
+# H2a: suppressed NI prior
+MU_R_H2A, SD_R_H2A = 0.005, 0.005
+N_SOURCE_DEFAULT = 800_000.0
+NA_CEILING = 0.02  # charitable above Bryc ~0.008
 
 
-def forward_H1(inp: AdminInputs, p: H1Params) -> float:
-    """Predict 1860 count from 1790 stock + residual imports + NI.
-
-    Crude two-block model:
-      - Grow 1790 stock for 70 years at r_ni
-      - Add post-1790 imports grown for half-period on average (midpoint approximation)
-    """
-    years = 70.0
-    stock = inp.n_1790 * math.exp(p.r_ni_annual * years)
-    residual_imports = inp.imports_1790_1808 + inp.imports_post_1808
-    # midpoint growth for residual imports
-    imports_contrib = residual_imports * math.exp(p.r_ni_annual * (years / 2.0))
-    return stock + imports_contrib
+def forward(n0: float, imports: float, r: float, years: float = 70.0) -> float:
+    return n0 * math.exp(r * years) + imports * math.exp(r * (years / 2.0))
 
 
-def loglik_terminal(observed: float, predicted: float, log_sigma: float) -> float:
-    """Normal likelihood on log counts."""
-    if observed <= 0 or predicted <= 0 or log_sigma <= 0:
-        return -1e9
-    z = (math.log(observed) - math.log(predicted)) / log_sigma
-    return -0.5 * z * z - math.log(log_sigma) - 0.5 * math.log(2 * math.pi)
+def kernel(obs: float, pred: float, sigma: float) -> float:
+    if obs <= 0 or pred <= 0 or sigma <= 0:
+        return 0.0
+    z = (math.log(obs) - math.log(pred)) / sigma
+    return math.exp(-0.5 * z * z)
 
 
-def likelihood_H1(inp: AdminInputs | None = None, p: H1Params | None = None) -> Dict:
-    """Return predicted count, loglik, and a [0,1]-mapped likelihood for Stream 1."""
-    inp = inp or AdminInputs()
-    p = p or H1Params()
-    pred = forward_H1(inp, p)
-    ll = loglik_terminal(inp.n_1860, pred, p.log_sigma)
-    # Map loglik to (0,1) for the table via logistic on standardized residual.
-    # residual in log space:
-    resid = abs(math.log(inp.n_1860) - math.log(pred)) / p.log_sigma
-    # L = exp(-0.5 * resid^2) is the kernel without the constant; in (0,1]
-    L_kernel = math.exp(-0.5 * resid * resid)
+def _grid_normal(mu: float, sd: float, n: int = 81) -> List[Tuple[float, float]]:
+    rs = [mu + sd * (-4.0 + 8.0 * i / (n - 1)) for i in range(n)]
+    ws = [math.exp(-0.5 * ((r - mu) / sd) ** 2) for r in rs]
+    s = sum(ws)
+    return list(zip(rs, [w / s for w in ws]))
+
+
+def L_H1(sigma: float = SIGMA) -> float:
+    inp = AdminInputs()
+    acc = 0.0
+    for r, w in _grid_normal(MU_R, SD_R):
+        pred = forward(inp.n_1790, inp.imports, r)
+        acc += w * kernel(inp.n_1860, pred, sigma)
+    return acc
+
+
+def L_H4(sigma: float = SIGMA) -> float:
+    return L_H1(sigma)
+
+
+def L_H5(sigma: float = SIGMA, tau: float = 0.85) -> float:
+    return sigma / math.sqrt(sigma * sigma + tau * tau)
+
+
+def L_H2a(sigma: float = SIGMA, n_source: float = N_SOURCE_DEFAULT) -> float:
+    """Absorption *instead of* exceptional NI — low r_af prior, marginalize r and α."""
+    inp = AdminInputs()
+    alphas = [i / 20 for i in range(21)]
+    aw = [(a + 1e-6) * ((1 - a) ** 5) for a in alphas]
+    aw = [x / sum(aw) for x in aw]
+    acc = 0.0
+    for r, rw in _grid_normal(MU_R_H2A, SD_R_H2A):
+        n_af = forward(inp.n_1790, inp.imports, r)
+        for a, a_w in zip(alphas, aw):
+            pred = n_af + a * n_source
+            implied_na = (a * n_source / pred) if pred > 0 else 1.0
+            k = kernel(inp.n_1860, pred, sigma)
+            if implied_na > NA_CEILING:
+                k *= math.exp(-((implied_na - NA_CEILING) / 0.05) ** 2)
+            acc += rw * a_w * k
+    return acc
+
+
+def L_H2b(sigma: float = SIGMA, n_source: float = N_SOURCE_DEFAULT) -> float:
+    """Absorption *in addition to* NI — same r prior as H1, marginalize r and α, NA constraint."""
+    inp = AdminInputs()
+    alphas = [i / 20 for i in range(21)]
+    aw = [(a + 1e-6) * ((1 - a) ** 5) for a in alphas]
+    aw = [x / sum(aw) for x in aw]
+    acc = 0.0
+    for r, rw in _grid_normal(MU_R, SD_R):
+        n_af = forward(inp.n_1790, inp.imports, r)
+        for a, a_w in zip(alphas, aw):
+            pred = n_af + a * n_source
+            implied_na = (a * n_source / pred) if pred > 0 else 1.0
+            k = kernel(inp.n_1860, pred, sigma)
+            if implied_na > NA_CEILING:
+                k *= math.exp(-((implied_na - NA_CEILING) / 0.05) ** 2)
+            acc += rw * a_w * k
+    return acc
+
+
+def L_H3(sigma: float = SIGMA, n_source: float = N_SOURCE_DEFAULT) -> float:
+    """Mixture of H1 and H2b predictives (linearity of expectation)."""
+    return 0.5 * L_H1(sigma) + 0.5 * L_H2b(sigma, n_source)
+
+
+def complete_row(sigma: float = SIGMA, n_source: float = N_SOURCE_DEFAULT) -> Dict:
+    h1 = L_H1(sigma)
+    h2a = L_H2a(sigma, n_source)
+    h2b = L_H2b(sigma, n_source)
+    h3 = 0.5 * h1 + 0.5 * h2b
+    h4 = h1
+    h5 = L_H5(sigma)
+    # Table uses H2b for H2 (definitional match). eps only for log product stability.
+    eps = 1e-6
     return {
-        "n_1790": inp.n_1790,
-        "n_1860_obs": inp.n_1860,
-        "n_1860_pred": pred,
-        "ratio_obs_pred": inp.n_1860 / pred,
-        "loglik": ll,
-        "L_H1_kernel": L_kernel,
-        "r_ni_annual": p.r_ni_annual,
-        "log_sigma": p.log_sigma,
-        "inputs_note": inp.note,
-    }
-
-
-def likelihood_table_row(
-    inp: AdminInputs | None = None,
-    p: H1Params | None = None,
-) -> Dict[str, float]:
-    """Propose Stream 1 likelihoods under a generative H1 path.
-
-    H1: high if observed terminal is near NI+arrivals prediction.
-    H2: classification/absorption does not by itself predict this growth path —
-        mild/neutral.
-    H5: residual — moderate (model could be wrong in several ways).
-    """
-    res = likelihood_H1(inp, p)
-    L_h1 = float(res["L_H1_kernel"])
-    # Floor/ceiling for table stability
-    L_h1 = max(0.05, min(0.95, L_h1))
-    return {
-        "H1": round(L_h1, 4),
-        "H2": 0.40,  # growth path not the natural prediction of pure reclassification
-        "H3": 0.55,
-        "H4": round(max(0.05, min(0.95, L_h1 * 0.95)), 4),  # H4 is NI-via-local-regime; similar
-        "H5": 0.50,
-        "meta": res,
+        "H1": max(eps, h1),
+        "H2": max(eps, h2b),  # default cell = H2b
+        "H2a_raw": h2a,
+        "H2b_raw": h2b,
+        "H3": max(eps, h3),
+        "H4": max(eps, h4),
+        "H5": max(eps, h5),
+        "sigma": sigma,
+        "n_source": n_source,
     }
 
 
 if __name__ == "__main__":
-    row = likelihood_table_row()
-    meta = row.pop("meta")
-    print("Stream 1 generative proposal")
-    print(f"  1790 admin N = {meta['n_1790']:,.0f}")
-    print(f"  1860 admin N obs = {meta['n_1860_obs']:,.0f}")
-    print(f"  1860 admin N pred (H1 NI+arrivals) = {meta['n_1860_pred']:,.0f}")
-    print(f"  obs/pred = {meta['ratio_obs_pred']:.3f}")
-    print(f"  L_H1 kernel = {meta['L_H1_kernel']:.4f}")
-    print(f"  proposed table row: H1={row['H1']} H2={row['H2']} H3={row['H3']} H4={row['H4']} H5={row['H5']}")
-    print(f"  note: {meta['inputs_note']}")
+    for pool in (800_000, 2_000_000):
+        row = complete_row(n_source=pool)
+        print(f"pool={pool:,.0f}")
+        print(
+            f"  H1={row['H1']:.4f}  H2b={row['H2b_raw']:.4f}  H2a={row['H2a_raw']:.4e}  "
+            f"H3={row['H3']:.4f}  H4={row['H4']:.4f}  H5={row['H5']:.4f}"
+        )
+        print(f"  ratio H1/H2b = {row['H1']/row['H2b_raw']:.3f}")
+    print("\nNo clamp. H2 table cell = H2b (NI + absorption + NA). H2a reported separately.")
