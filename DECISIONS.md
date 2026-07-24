@@ -106,10 +106,20 @@ python -m model.inference_extensions --adversarial                  # hook list 
 
 Credit: Claude Opus 4.8 review (2026-07-24) for the runtime bug, the r=0-is-prior observation, the autosomal-ancestry falsification test, the hierarchical-reliability observation, and the H5 numerical-prediction requirement. Every valid observation landed inside the README's own valid-axes list; scoring the model on the invalid axes would have missed all seven fixes.
 
-## Stream 31 conservative encoding + H5 status honesty (2026-07-24)
+## Prior-sensitivity + regroup (2026-07-24) — the over-engineering / table-as-verdict point
 
-1. **Stream 31 likelihoods dialed back to conservative** (H1=0.60, H2=0.35, H3=0.50, H4=0.55, H5=0.50). The aggressive H2=0.10 cell was a thirteenth hand-specified value load-bearing the floor layer; Bryc's ~0.8% NA ancestry is published, but the claim that H2 "would predict 10–30%" was not derived from an absorbed-fraction model. Dual docs disagreed; CSV had taken the aggressive version. Canonical doc is now `stream31_autosomal_ancestry.md`; aggressive encoding superseded.
-2. **Stream 31 constrains population-scale absorption; it does not falsify H2 at 10:1.** Cohort definition and regional confounds (Bryc Oklahoma) argue for the weaker cell.
-3. **H5 v6.0 is a specification, not a result.** Every sub-claim remains Status: Open — unmeasured, unwired. Residual still absorbs at r=1. Numerical thresholds (e.g. residual_variance_fraction ≥ 0.18) are **proposed rejection targets pending measurement**, not findings. Computing residual_variance_fraction requires region-level burial density with area denominators the repo does not yet hold; that computation is blocked on inputs, not on will. Do not treat the v6.0 text as having forced H5 to pay rent until a measured residual is logged here.
+**`--prior-sensitivity`** at r=1 (conservative Stream 31 table):
 
-Credit: Claude Opus 4.8 for the dual-doc catch, the overstated-cell diagnosis, and the "spec is not the result" framing on H5.
+```
+prior H1 = 0.0727  → post H1 ≈ 0.000%
+prior H1 = 0.50    → post H1 ≈ 0.000%
+prior H1 = 0.90    → post H1 ≈ 0.000%
+prior H1 = 0.9999  → post H1 ≈ 0.44%
+prior H1 = 0.999999→ post H1 ≈ 30.5%
+```
+
+No rational prior recovers H1. The likelihood table is the verdict. Further stream additions and prior tweaks are cosmetic until cells are rebuilt (especially Stream 1). This is the project's own "hidden conditioning" critique applied to itself.
+
+**Group regroup:** US admin-linked quant streams (1,4,7,8,10,15,20,22) → group `U` so `--dampen` pools them. Floor (30,31) → `P`. SlaveVoyages → `V`. Dampen can now move cell values toward the group mean; H1 posterior remains ~0 because the *product* of still-anti-H1 means dominates — damping is not a substitute for generative cells.
+
+Credit: Claude Opus 4.8 (prior-sensitivity table, KL redundancy detector, regroup-by-source-system).
