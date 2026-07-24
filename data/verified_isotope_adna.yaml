@@ -1,97 +1,156 @@
-# Verified isotope / aDNA anchors for floor likelihood encoding
-# Rule: only figures confirmed against primary papers in the multi-agent audit (2026-07-24).
-# Birthplace calls require isotopes, not ancestry proportions (American-born child of
-# unmixed African parents reads as West African on ancestry). Sampling context matters
-# (port burial grounds skew first-generation independent of mechanism).
-#
-# Status: skeleton for M1 / P1. No α/β or likelihood parameters invented here.
-# Next: pull Goodman et al. Sr/Pb tables and any additional published birthplace
-# calls before encoding Beta-Binomial terms.
-
 schema_version: 1
 discipline: verify-before-encode
-last_audit: 2026-07-24
-
+last_audit: '2026-07-24'
 verified_studies:
-  - id: harney_2023_catoctin
-    citation: "Harney et al. (2023), Science 381(6657):eade4995"
-    site: Catoctin Furnace, Maryland
-    n_individuals: 27
-    notes:
-      - "41,799 23andMe genetic relatives reported"
-      - "5 genetic families"
-      - "Wolof/Kongo sharing noted"
-      - "Skeletal analysis by Owsley preceded genetics"
-    birthplace_method: null  # ancestry ≠ birthplace; isotopes not primary in this paper
-    url_or_doi: "10.1126/science.ade4995"
-    usable_for: ["presence", "continuity", "genetic_family_structure"]
-    not_usable_for: ["african_born_proportion_without_isotopes"]
-
-  - id: schroeder_2015_saint_martin
-    citation: "Schroeder et al. (2015), PNAS 112(12):3669-3673"
-    site: Saint Martin
-    n_individuals: 3
-    notes:
-      - "Three 17th-century African-born individuals"
-      - "Proof of concept: African-born status recoverable from remains"
-      - "Exact H1-vs-H2 question on bodies"
-    birthplace_method: "genomic + contextual (African-born status asserted in paper)"
-    url_or_doi: "10.1073/pnas.1421784112"
-    usable_for: ["african_born_proof_of_concept", "method_demonstration"]
-    not_usable_for: ["national_proportion"]
-
-  - id: fleskes_2023_anson_street
-    citation: "Fleskes et al. (2023), PNAS 120(3):e2201620120"
-    site: Anson Street African Burial Ground, Charleston
-    n_individuals: 36
-    n_low_coverage_genomes: 18
-    n_uniparental_haplotypes: 31
-    notes:
-      - "Predominantly West/West-Central African genomic ancestry"
-      - "One individual with Americas affiliation"
-      - "No autosomal kin pairs reported in the verified read"
-      - "IMPORTANT: genomic ancestry ≠ birthplace"
-      - "REJECTED fabricated claim: '29/36 Lowcountry-born ⇒ H2 support' — not in the paper"
-    birthplace_method: null  # requires isotopes
-    url_or_doi: "10.1073/pnas.2201620120"
-    usable_for: ["presence", "african_ancestry_composition", "community_engaged_aDNA"]
-    not_usable_for: ["birthplace_proportion", "H2_support_via_ancestry_alone"]
-
-  - id: goodman_nyabg_isotopes
-    citation: "Goodman et al. (strontium and lead isotopes at New York African Burial Ground)"
-    site: New York African Burial Ground
-    notes:
-      - "Sr and Pb isotope work exists; exact published tables must be pulled before encoding k/n"
-      - "Lead isotopes may distinguish provenance where Sr is ambiguous"
-    birthplace_method: "strontium / lead isotopes"
-    url_or_doi: null  # fill on paper pull
-    usable_for: ["isotope_birthplace_when_tables_verified"]
-    not_usable_for: ["any_proportion_until_tables_pulled"]
-    status: citation_known_figures_not_yet_extracted
-
+- id: harney_2023_catoctin
+  citation: Harney et al. (2023), Science 381(6657):eade4995
+  site: Catoctin Furnace, Maryland
+  n_individuals: 27
+  notes:
+  - 41,799 23andMe genetic relatives reported
+  - 5 genetic families
+  - Wolof/Kongo sharing noted
+  - Skeletal analysis by Owsley preceded genetics
+  birthplace_method: null
+  url_or_doi: 10.1126/science.ade4995
+  usable_for:
+  - presence
+  - continuity
+  - genetic_family_structure
+  not_usable_for:
+  - african_born_proportion_without_isotopes
+- id: schroeder_2015_saint_martin
+  citation: Schroeder et al. (2015), PNAS 112(12):3669-3673
+  site: Saint Martin
+  n_individuals: 3
+  notes:
+  - Three 17th-century African-born individuals
+  - 'Proof of concept: African-born status recoverable from remains'
+  - Exact H1-vs-H2 question on bodies
+  birthplace_method: genomic + contextual (African-born status asserted in paper)
+  url_or_doi: 10.1073/pnas.1421784112
+  usable_for:
+  - african_born_proof_of_concept
+  - method_demonstration
+  not_usable_for:
+  - national_proportion
+- id: fleskes_2023_anson_street
+  citation: Fleskes et al. (2023), PNAS 120(3):e2201620120
+  site: Anson Street African Burial Ground, Charleston
+  n_individuals: 36
+  n_low_coverage_genomes: 18
+  n_uniparental_haplotypes: 31
+  notes:
+  - Predominantly West/West-Central African genomic ancestry
+  - One individual with Americas affiliation
+  - No autosomal kin pairs reported in the verified read
+  - 'IMPORTANT: genomic ancestry ≠ birthplace'
+  - 'REJECTED fabricated claim: ''29/36 Lowcountry-born ⇒ H2 support'' — not in the
+    paper'
+  birthplace_method: null
+  url_or_doi: 10.1073/pnas.2201620120
+  usable_for:
+  - presence
+  - african_ancestry_composition
+  - community_engaged_aDNA
+  not_usable_for:
+  - birthplace_proportion
+  - H2_support_via_ancestry_alone
+- id: goodman_nyabg_isotopes
+  citation: Goodman, A.H., et al. Isotopic and Elemental Chemistry of Teeth. Chapter
+    6 in Skeletal Biology of the New York African Burial Ground, Vol. 1 (GSA/NPS Final
+    Report).
+  site: New York African Burial Ground (NYABG)
+  stable_url: https://sites.hampshire.edu/agoodman/files/2019/03/Chapter_6_Isotopic_and_Elemental_Chemistry_of_Teet.pdf
+  official_report: https://www.gsa.gov/system/files/Vol1-Part1-TheSkeletalBiologyOfTheNYAGB_Chapters1-6.pdf
+  sample:
+    n_teeth_total_analyzed: 40
+    n_nyabg_teeth: 37
+    n_modified_adults_in_chemical_sample: 13
+    n_nonmodified_subadults_in_chemical_sample: 19
+    n_ghana_reference_molars: 2
+    n_observable_modified_dentitions_excavation: 26
+    note: Chemical sample is selected (modified adults + young non-modified subadults),
+      not a random sample of all 419 recovered or of the estimated 15,000+ interments.
+  inference_rule:
+    african_born_proxy: Culturally modified teeth (and typically higher enamel 87Sr/86Sr
+      outside Manhattan range ~0.711–0.712)
+    local_ny_born_proxy: Young non-modified subadults (died early; enamel/dentin Sr
+      cluster ~0.711–0.712)
+    caveats:
+    - Proxy-based; some individuals mixed on Sr vs ESA (e.g. Burial 101, 106, 281).
+    - Cannot be read as site-wide % African-born without a sampling model.
+    - Ancestry ≠ birthplace for genetic studies; this chapter is isotope + modification.
+  published_numerical_anchors:
+    local_sr_range_approx: 0.711–0.712
+    nist987_replicate: 0.710262 ± 0.000009 (2σ)
+    lead_ppm_range_subset: 1.2–112.2 µg/g (n=6 quantitative Pb)
+    lead_pattern: Elevated in non-modified (NY exposure) vs modified in reported comparisons
+  conservative_encoding_for_model:
+    status: coding_table_v1_recorded
+    k: 13
+    n: 32
+    p_hat: 0.40625
+    usable_as: NYABG chemical-sample proxy only; not national
+  usable_for:
+  - method_demonstration
+  - presence_of_both_birthplace_proxies_in_sample
+  - sampling_model_design
+  not_usable_for:
+  - national_african_born_proportion
+  - unmodeled_site_wide_percentage
+  verified_at: '2026-07-24'
+  extraction_source: Direct from Goodman Ch.6 PDF (Hampshire mirror) + GSA Vol1 Part1
+  coding_table_v1:
+    rule: 'Chemical sample only (Goodman Ch.6): modified adults → African-born proxy;
+      non-modified subadults in sample → local NY-born proxy.'
+    n: 32
+    k_african_born_proxy: 13
+    k_local_ny_born_proxy: 19
+    source_counts:
+      n_modified_adults_in_chemical_sample: 13
+      n_nonmodified_subadults_in_chemical_sample: 19
+    proportion_african_born_proxy: 0.4062
+    caveats:
+    - Selected sample (not random among 419 recovered or 15k+ estimated).
+    - Proxy classification; mixed Sr/ESA cases exist (e.g. Burials 101, 106, 281).
+    - Do not export as site-wide or national African-born rate.
+    - Suitable only as a low-weight, high-uncertainty floor term with explicit sampling
+      model.
+    beta_binomial_suggestion:
+      status: optional_low_weight_term
+      k: 13
+      n: 32
+      note: Use only with strong sampling caveat; prior on p should be weakly informative.
+    verified_at: '2026-07-24'
 stipulated_constants_flagged:
-  # These currently feed physical_loglik and violate quantitative_floor.md §7 discipline
-  - name: n_adna_individuals
-    current_default: 80
-    status: stipulated
-    replacement_path: "sum of verified per-study counts (Harney 27 + Fleskes 18 genomes + …)"
-  - name: termin_in_us_frac
-    current_default: 0.85
-    status: stipulated
-    replacement_path: "Freedmen's Bureau marriage registers self-reported birthplace column (NARA RG 105)"
-  - name: erasure_log_ratio
-    current_default: 4.5
-    status: stipulated
-    replacement_path: "measured volume ratio owner/enumerator quant material vs pre-1865 self-authored"
-  - name: n_regime_jurisdictions
-    current_default: 12
-    status: stipulated
-    replacement_path: "statute inventory (Morris + session laws) or site inventory (Singleton/Fennell/Heath)"
-
+- name: n_adna_individuals
+  current_default: 80
+  status: stipulated
+  replacement_path: sum of verified per-study counts (Harney 27 + Fleskes 18 genomes
+    + …)
+- name: termin_in_us_frac
+  current_default: 0.85
+  status: stipulated
+  replacement_path: Freedmen's Bureau marriage registers self-reported birthplace
+    column (NARA RG 105)
+- name: erasure_log_ratio
+  current_default: 4.5
+  status: stipulated
+  replacement_path: measured volume ratio owner/enumerator quant material vs pre-1865
+    self-authored
+- name: n_regime_jurisdictions
+  current_default: 12
+  status: stipulated
+  replacement_path: statute inventory (Morris + session laws) or site inventory (Singleton/Fennell/Heath)
 m1_encoding_notes:
-  target: "Beta-Binomial on African-born proportion per site, hypothesis-conditional"
-  formula: "P(k African-born of n | H_i) = Binom(n,k) * B(k+α_i, n-k+β_i) / B(α_i, β_i)"
-  requirement: "α_i, β_i documented from isotope literature; H1 centered higher African-born early, declining; H2 different trajectory"
-  flag: "is_floor_quantitative — bypasses apply_reliability; active at all r"
-  sampling_model: "port burial grounds skew first-generation independent of mechanism — sampling term required, not a likelihood tweak"
-  do_not_encode_until: "Goodman tables + any additional published birthplace calls extracted with page/table refs"
+  target: Beta-Binomial on African-born proportion per site, hypothesis-conditional
+  formula: P(k African-born of n | H_i) = Binom(n,k) * B(k+α_i, n-k+β_i) / B(α_i,
+    β_i)
+  requirement: α_i, β_i documented from isotope literature; H1 centered higher African-born
+    early, declining; H2 different trajectory
+  flag: is_floor_quantitative — bypasses apply_reliability; active at all r
+  sampling_model: port burial grounds skew first-generation independent of mechanism
+    — sampling term required, not a likelihood tweak
+  do_not_encode_until: Goodman tables + any additional published birthplace calls
+    extracted with page/table refs

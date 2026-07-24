@@ -447,8 +447,24 @@ Example:
 - Stipulated floor constants flagged; four-test verdict and structural findings recorded.
 - Credit: Kimi K3 (lead), Kat Coder Pro 2.5, Minimax M3.
 
-## v5.9.4 — P1/P3 scaffolds (no invented numbers)
+## v5.9.3 — evidence packet schema + floor wording (GPT 5.6 Luna audit)
 
-- schemas/gross_trial_corpus.schema.yaml (empty; fill from Gross / trial dockets only)
-- model/floor_isotope_terms_scaffold.md (Beta-Binomial / Binomial per site; blocked on Goodman tables)
-- Prioritization reconfirmed: isotopes → Gross → counted inventories → hierarchical independence → H5 submodels
+- schemas/evidence_packet.schema.yaml: publication-ready requirements for claims and likelihood cells.
+- quantitative_floor.md: sharpened "observables remain available; mechanism ranking only with primary-derived likelihood."
+- hierarchical_skeleton labeled PROTOTYPE / ILLUSTRATIVE ONLY.
+- bayesian_core version strings → v5.9.x.
+- floor-01..08 null URL problem and pseudo-observation loader owned in DECISIONS.
+- Recommended order and strongest framing recorded.
+- Credit: GPT 5.6 Luna.
+
+## v5.9.5 — formalisms + floor-quant flag (no invented L cells)
+
+- is_floor_quantitative bypass in apply_reliability
+- reliability_operator.md (mixture vs tempering made explicit)
+- H5a–H5d report reminder at high residual mass
+- n_adna anchored to verified study individual counts (66); other floor constants still stipulated
+
+## v5.9.9 — GA/NC statutes + Goodman floor stream
+
+- jurisdiction_inventory n_verified=5
+- Stream 30 floor-quant Goodman proxy (mild L; sampling caveat)

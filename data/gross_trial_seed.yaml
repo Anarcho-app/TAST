@@ -1,0 +1,216 @@
+schema_version: 1
+source_books:
+- Gross, Ariela J. What Blood Won't Tell: A History of Race on Trial in America. Harvard
+    UP, 2008.
+- Gross, Ariela J. Double Character: Slavery and Mastery in the Antebellum Southern
+    Courtroom. Princeton UP, 2000.
+cases:
+- case_id: morrison_1857_la
+  year: 1857
+  jurisdiction: Jefferson Parish / Carrollton, Louisiana
+  court_or_forum: Louisiana trial courts (freedom suit / racial identity)
+  criterion_invoked: appearance; reputation; "common sense" of race; witness testimony
+    that locals can detect African origin
+  contested: true
+  outcome: Gross recounts Morrison (described as blond-haired, blue-eyed) convinced
+    jailer and white witnesses she was white and wrongly held as a slave; case used
+    in Gross as exemplar of performance/reputation criteria over blood fractions.
+  archive_or_citation: Gross, What Blood Won't Tell (opening case narrative); discussed
+    in secondary literature e.g. Southern California Law Review review of Gross
+  stable_url_or_doi: https://gould.usc.edu/news/an-interview-with-ariela-gross-on-race/
+  verbatim_excerpt: null
+  independence_group: legal_adjudication
+  enslaved_voice_status: partial
+  verified_at: '2026-07-24'
+  publication_ready: false
+  notes: Seed only — add reporter citation and page from Gross before elevating to
+    quantitative stream.
+- case_id: hudgins_v_wright_1806_va
+  year: 1806
+  jurisdiction: Virginia
+  court_or_forum: Virginia Court of Appeals (on appeal from High Court of Chancery,
+    Wythe)
+  criterion_invoked: maternal ancestry (Indian vs African); appearance; partus sequitur
+    ventrem; presumption from 1705 ban on Indian slavery
+  contested: true
+  outcome: 'Jackey Wright and children held free. Court: appellant failed to prove
+    maternal African ancestry; Indian descent through maternal line + appearance supported
+    freedom under long ban on Indian slavery.'
+  archive_or_citation: Hudgins v. Wright, 11 Va. (1 Hen. & M.) 134 (1806); standard
+    casebooks; Wikipedia/Wythepedia summaries consistent on outcome
+  stable_url_or_doi: https://en.wikipedia.org/wiki/Hudgins_v._Wright
+  verbatim_excerpt: null
+  independence_group: legal_adjudication
+  enslaved_voice_status: partial
+  verified_at: '2026-07-24'
+  publication_ready: false
+  notes: Classic freedom suit with racial classification contested in-record. Seed
+    — add official reporter page quotes.
+- case_id: abby_guy_1855_ar
+  year: 1855
+  jurisdiction: Ashley County, Arkansas
+  court_or_forum: Circuit Court (freedom suit)
+  criterion_invoked: appearance; claim of whiteness; performance of white womanhood
+  contested: true
+  outcome: Gross (Litigating Whiteness, Yale L.J. 1998) recounts Abby Guy sued William
+    Daniel claiming she and her children were white and wrongly held as slaves. Case
+    used as exemplar of courtroom performance of race.
+  archive_or_citation: Gross, Litigating Whiteness, 108 Yale L.J. 109 (1998); referenced
+    in What Blood Won't Tell
+  stable_url_or_doi: https://racism.org/articles/race/defining-racial-groups/8202-litigating-whiteness-trials
+  verbatim_excerpt: null
+  independence_group: legal_adjudication
+  enslaved_voice_status: partial
+  verified_at: '2026-07-24'
+  publication_ready: false
+  notes: Seed — add Arkansas reporter/page from Gross before publication_ready.
+- case_id: sally_miller_1840s_la
+  year: 1844
+  jurisdiction: New Orleans / Louisiana
+  court_or_forum: Louisiana courts (Muller v. Belmonti / Sally Miller freedom suit)
+  criterion_invoked: appearance; moral character; claim of German redemptioner kidnapped
+    into slavery
+  contested: true
+  outcome: Gross discusses Sally Miller's freedom suit; lawyer emphasized 'moral features'
+    and demeanour to jury. Case used to show character/performance criteria alongside
+    color.
+  archive_or_citation: Gross, Litigating Whiteness / What Blood Won't Tell; transcript
+    refs in Gross scholarship to Muller v. Belmonti (La. New Orleans D. Ct. 1844)
+  stable_url_or_doi: https://gould.usc.edu/assets/docs/Beyond_Black.pdf
+  verbatim_excerpt: null
+  independence_group: legal_adjudication
+  enslaved_voice_status: partial
+  verified_at: '2026-07-24'
+  publication_ready: false
+  notes: Seed — confirm year/style of cause from Gross book pages.
+- case_id: daniel_v_guy_1855_ar
+  year: 1855
+  jurisdiction: Ashley County, Arkansas
+  court_or_forum: Ashley County Cir. Ct.; Ark. Supreme Court
+  criterion_invoked: appearance; reputation; exhibition to jury; medical opinion
+  contested: true
+  outcome: Jury found for Abby Guy (white/free); appeal issues on exhibition; after
+    remand jury again for Guy; affirmed 23 Ark. 50 (1861).
+  archive_or_citation: Daniel v. Guy, 19 Ark. 121 (1857), aff'd after remand 23 Ark.
+    50 (1861); Gross, Litigating Whiteness, 108 Yale L.J. 109 (1998)
+  stable_url_or_doi: https://gould.usc.edu/assets/docs/Litigating_Whiteness.pdf
+  publication_ready: false
+  verified_at: '2026-07-24'
+  independence_group: legal_adjudication
+  notes: Same matter as abby_guy seed; reporter cites from Gross PDF.
+- case_id: morrison_v_white_1858_la
+  year: 1858
+  jurisdiction: New Orleans / Jefferson Parish, Louisiana
+  court_or_forum: La. New Orleans Dist. Ct.; 16 La. Ann. 100 (1861)
+  criterion_invoked: appearance; community knowledge; performance of whiteness
+  contested: true
+  outcome: Multiple trials; hung juries; war interrupted final resolution. Gross uses
+    as central exemplar.
+  archive_or_citation: Morrison v. White, 16 La. Ann. 100 (1861); Gross, Litigating
+    Whiteness PDF + What Blood Won't Tell
+  stable_url_or_doi: https://gould.usc.edu/assets/docs/Litigating_Whiteness.pdf
+  publication_ready: false
+  verified_at: '2026-07-24'
+  independence_group: legal_adjudication
+- case_id: miller_v_belmonti_1845_la
+  year: 1845
+  jurisdiction: New Orleans, Louisiana
+  court_or_forum: La. courts; 11 Rob. 339 (La. 1845)
+  criterion_invoked: appearance; moral character; German redemptioner narrative
+  contested: true
+  outcome: Louisiana Supreme Court affirmed freedom (11 Rob. 339).
+  archive_or_citation: Miller v. Belmonti, 11 Rob. 339 (La. 1845); Gross, Litigating
+    Whiteness
+  stable_url_or_doi: https://gould.usc.edu/assets/docs/Litigating_Whiteness.pdf
+  publication_ready: false
+  verified_at: '2026-07-24'
+  independence_group: legal_adjudication
+- case_id: bryan_v_walton_1853_ga
+  year: 1853
+  jurisdiction: Houston County, Georgia
+  court_or_forum: Houston County Super. Ct.; Ga. Supreme Court (multiple appeals through
+    1864)
+  criterion_invoked: appearance; ancestry; associations; performance
+  contested: true
+  outcome: Multiple trials on racial identity of Joseph and James Nunez; ultimately
+    found people of color; aff'd 33 Ga. 1 (1864).
+  archive_or_citation: Bryan v. Walton, 14 Ga. 185 (1853), 20 Ga. 480 (1856), 33 Ga.
+    1 (1864); Gross, Litigating Whiteness
+  stable_url_or_doi: https://gould.usc.edu/assets/docs/Litigating_Whiteness.pdf
+  publication_ready: false
+  verified_at: '2026-07-24'
+  independence_group: legal_adjudication
+- case_id: milly_v_chancellor_1839_ky
+  year: 1839
+  jurisdiction: Kentucky
+  court_or_forum: Mason County Cir. Ct.; 23 Ky. 39
+  criterion_invoked: appearance; exhibition to jury
+  contested: true
+  outcome: Appellate court found error in refusing testimony on looks; Milly won freedom.
+  archive_or_citation: Milly v. Chancellor, 23 Ky. 39 (1839); Gross, Litigating Whiteness
+  stable_url_or_doi: https://gould.usc.edu/assets/docs/Litigating_Whiteness.pdf
+  publication_ready: false
+  verified_at: '2026-07-24'
+  independence_group: legal_adjudication
+- case_id: state_v_chavers_1857_nc
+  year: 1857
+  jurisdiction: Brunswick County, North Carolina
+  court_or_forum: Brunswick County Super. Ct.; 50 N.C. (5 Jones) 11 (1857)
+  criterion_invoked: appearance; ancestry
+  contested: true
+  outcome: Racial determination contested; reversed on appeal (50 N.C. 11).
+  archive_or_citation: State v. Chavers, 50 N.C. (5 Jones) 11 (1857); Gross, Litigating
+    Whiteness
+  stable_url_or_doi: https://gould.usc.edu/assets/docs/Litigating_Whiteness.pdf
+  publication_ready: false
+  verified_at: '2026-07-24'
+  independence_group: legal_adjudication
+- case_id: state_v_jacobs_1859_nc
+  year: 1859
+  jurisdiction: Brunswick County, North Carolina
+  court_or_forum: Brunswick County Super. Ct.; 51 N.C. 284 (1859)
+  criterion_invoked: appearance; expert testimony on African descent
+  contested: true
+  outcome: Indictment re firearms; racial status evidence; affirmed 51 N.C. 284.
+  archive_or_citation: State v. Jacobs, 51 N.C. 284 (1859); Gross, Litigating Whiteness
+  stable_url_or_doi: https://gould.usc.edu/assets/docs/Litigating_Whiteness.pdf
+  publication_ready: false
+  verified_at: '2026-07-24'
+  independence_group: legal_adjudication
+- case_id: dean_v_commonwealth_1847_va
+  year: 1847
+  jurisdiction: Virginia
+  court_or_forum: 45 Va. (4 Gratt.) 541 (1847)
+  criterion_invoked: reputation; slander impugning whiteness
+  contested: true
+  outcome: Slander suit over racial reputation; 45 Va. 541.
+  archive_or_citation: Dean v. Commonwealth, 45 Va. (4 Gratt.) 541 (1847); Gross,
+    Litigating Whiteness
+  stable_url_or_doi: https://gould.usc.edu/assets/docs/Litigating_Whiteness.pdf
+  publication_ready: false
+  verified_at: '2026-07-24'
+  independence_group: legal_adjudication
+- case_id: vaughan_v_phebe_1827_tn
+  year: 1827
+  jurisdiction: Tennessee
+  court_or_forum: 8 Tenn. (Mart. & Yer.) 4 (1827)
+  criterion_invoked: Indian descent claim; appearance
+  contested: true
+  outcome: Freedom suit (Phoebe/Phebe); trial found freedom; appellate history in
+    Vaughan v. Phebe.
+  archive_or_citation: Vaughan v. Phebe, 8 Tenn. (Mart. & Yer.) 4 (1827); Gross, Litigating
+    Whiteness
+  stable_url_or_doi: https://gould.usc.edu/assets/docs/Litigating_Whiteness.pdf
+  publication_ready: false
+  verified_at: '2026-07-24'
+  independence_group: legal_adjudication
+rules:
+- publication_ready requires book page or reporter citation + verbatim_excerpt
+- Aggregates only after more cases filled from Gross with pages
+- These two cases document that classification was adversarially contested in court
+  — structural support for H2 mechanism documentation, not a national rate
+gross_yale_lj_note: Gross, Litigating Whiteness, 108 Yale L.J. 109 (1998) surveys
+  numerous nineteenth-century racial determination trials with reporter citations.
+  One extract notes analysis spanning dozens of trials; seed rows here are those with
+  explicit reporter cites in the PDF extract. All publication_ready=false until page-level
+  quotes from Gross or official reporters are attached.

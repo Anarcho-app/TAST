@@ -1,0 +1,95 @@
+schema_version: 1
+purpose: Replace stipulated n_regime_jurisdictions with counted, cited entries.
+entries:
+- jurisdiction_id: sc_1740
+  name: South Carolina
+  instrument: Act for the Better Ordering and Governing Negroes and Other Slaves in
+    This Province (Negro Act) 1740, §XLV
+  year: 1740
+  restriction: Forbids teaching slaves to write; fine 100 current money
+  archive_or_citation: 'Statutes at Large of South Carolina, vol. 7, David J. McCord
+    ed. (Columbia: A.S. Johnston, 1840), pp. 397–413'
+  stable_url: https://www.gilderlehrman.org/ap-african-american-studies/unit-2/origins-enslavement/south-carolina-slave-code-1740
+  verified_at: '2026-07-24'
+  counts_toward_n_regime: true
+- jurisdiction_id: va_1831
+  name: Virginia
+  instrument: Act to amend the act concerning slaves, free negroes and mulattoes,
+    April 7, 1831
+  year: 1831
+  restriction: Meetings of free negroes/mulattoes for teaching reading or writing
+    deemed unlawful assembly; corporal punishment authorized
+  archive_or_citation: Encyclopedia Virginia primary document (full text of act)
+  stable_url: https://encyclopediavirginia.org/primary-documents/an-act-to-amend-the-act-concerning-slaves-free-negroes-and-mulattoes-april-7-1831/
+  verified_at: '2026-07-24'
+  counts_toward_n_regime: true
+- jurisdiction_id: al_1833
+  name: Alabama
+  instrument: Alabama Slave Code of 1833, §31
+  year: 1833
+  restriction: Any person who attempts to teach any free person of color or slave
+    to spell, read or write shall be fined $250–$500 upon conviction by indictment.
+  archive_or_citation: Quoted in Smithsonian American Experience 'Literacy as Freedom'
+    educational materials; standard secondary citations to Alabama Slave Code 1833
+    §31
+  stable_url: https://americanexperience.si.edu/wp-content/uploads/2014/09/Literacy-as-Freedom.pdf
+  verified_at: '2026-07-24'
+  counts_toward_n_regime: true
+  notes: Primary session-law page image not yet linked; text of §31 is standard in
+    secondary sources. Upgrade when archive.org/session law PDF page attached.
+- jurisdiction_id: ga_1829
+  name: Georgia
+  instrument: AN ACT to amend the several laws of this State for the punishment and
+    trial of slaves and free persons of colour (1829), Sec. 11
+  year: 1829
+  restriction: 'If any slave or free person of colour or other person shall teach
+    or cause to be taught, or aid or assist in teaching, any slave or free person
+    of colour to read or write, either printed or written characters: fine and whipping
+    (or either) at court discretion; if white, fine not exceeding $500 and imprisonment
+    at court discretion.'
+  archive_or_citation: Acts of the General Assembly of the State of Georgia, 1829
+    (Camak & Ragland, Milledgeville, 1830)
+  stable_url: https://upload.wikimedia.org/wikipedia/commons/e/e3/Georgia_Assembly_1829_Slave_Laws_pg_168-177.pdf
+  verified_at: '2026-07-24'
+  counts_toward_n_regime: true
+  notes: Primary PDF of session laws; Sec. 11 text extracted from Wikimedia scan.
+- jurisdiction_id: nc_1830
+  name: North Carolina
+  instrument: Act of 1830 (anti-literacy); Revised Statutes / Revised Code citations
+    in Bassett
+  year: 1830
+  restriction: No free person or slave should teach a slave to read or write, the
+    use of figures excepted, or give to a slave any book or pamphlet.
+  archive_or_citation: 'Bassett, Slavery in the State of North Carolina (DocSouth):
+    cites Revised Statutes pp. 209, 578 and Revised Code p. 218 for the 1830 anti-literacy
+    enactment.'
+  stable_url: https://docsouth.unc.edu/nc/bassett99/bassett99.html
+  verified_at: '2026-07-24'
+  counts_toward_n_regime: true
+  notes: Secondary scholarly citation to Revised Statutes pages; session-law image
+    not yet linked.
+summary:
+  n_regime_jurisdictions_verified: 5
+  status: partial inventory — 5 with citable instruments
+  stipulated_constant_replaced: false
+  ids:
+  - sc_1740
+  - va_1831
+  - al_1833
+  - ga_1829
+  - nc_1830
+termin_fraction:
+  status: not measured nationally
+  available_corpora:
+  - NARA RG 105 Freedmen's Bureau
+  - Monticello Getting Word
+  - 10 Million Names
+  rule: Do not encode termin_in_us_frac as a point estimate until a defined sample
+    reports birthplace field counts.
+secondary_listed_not_yet_primary_linked:
+- name: Louisiana
+  approx_year: 1830
+  note: Secondary sources list LA; needs code cite
+- name: Mississippi
+  approx_year: 1832
+  note: Secondary sources list MS; needs code cite

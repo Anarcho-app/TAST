@@ -190,15 +190,48 @@ Credit for the four-question assessment, encoding bug, prior-sweep design, floor
 
 Gap between good and groundbreaking: **M1 + P1** coupled.
 
-## Prioritization confirmation (aligned Grok instance, 2026-07-24)
+## GPT 5.6 Luna audit (2026-07-24) — source chain & operator
 
-v5.9 priority order remains correct for making the floor inform posteriors:
+**Verdict on stated terms**: Central epistemic rule is real and implemented. Core is standard Bayes; r=0 returns prior exactly; administrative outputs labeled UNDEFINED; no replacement national total; zero-weight rule is not "advocacy." Limitation is the evidence and model layer beneath the rule.
 
-1. **P1** — verified per-site isotope/aDNA counts + sampling models only (scaffold: `model/floor_isotope_terms_scaffold.md`; data: `data/verified_isotope_adna.yaml`). No invented proportions.
-2. **P3** — Ariela Gross trial corpus schema (`schemas/gross_trial_corpus.schema.yaml`); empty until archive/paper fill.
-3. **P2** — replace stipulated floor constants with counted inventories (Singleton/Heath/Fennell et al.).
-4. Hierarchical independence / opposing-incentive elevation.
-5. H5a–H5d as first-class likelihood contributors with rejection conditions.
-6. Hygiene: excerpt/page citation, Beta CI, r=0 self-test, prior-sweep, leave-one-out, VERSION log.
+**Critical findings owned**:
+1. **floor-01..08 all have `url_or_archive: null`** — not individually traceable. floor-08 (c=0.97) is synthesis-only. Structural ring is topic-cited; physical ring (Catoctin, Anson, Chesapeake, NPS) is stronger.
+2. **Physical likelihood loader creates pseudo-observations** — n_burial_sites counted from YAML keyword hits; n_adna=80, termin=0.85, erasure=4.5, n_regime=12 are defaults/heuristics. Floor is primary-grounded as a *qualitative* layer, not yet as a defensible quantitative likelihood.
+3. **H1 result depends on un-derived cells** — Stream 1 H1=0.07 has no derivation in-repo. Meta labels "hand-specified (pending primary-linked derivation)." Correct response is side-by-side tables (current / charitable / primary-derived), not a more favorable number.
+4. **Floor preserved but not used to rank mechanisms** — deliberate. Wording sharpened: observables remain available; mechanism ranking only where primary-derived mechanism likelihood exists.
+5. **hierarchical_skeleton is prototype** — heuristic region scores + weighted exp(physical_loglik); labeled illustrative-only until generative model + PPC + calibration.
+6. **H5 still residual in the engine** — subclaims conceptual only; must become first-class submodels with distinct predictions.
 
-Epistemic rule intact: administrative series can still go UNDEFINED; physical floor does inferential work only via primary-derived mechanism terms.
+**Implemented this pass**:
+- `schemas/evidence_packet.schema.yaml` — required fields for publication-ready claims; validation rules blocking synthesis-only floor and analyst-judgment quant cells.
+- Floor epistemic-status wording sharpened in `quantitative_floor.md`.
+- Version strings in bayesian_core aligned to v5.9.x.
+- hierarchical_skeleton explicitly labeled PROTOTYPE / ILLUSTRATIVE ONLY.
+
+**Recommended order (adopted)**:
+1. Freeze epistemic operator and status semantics.
+2. Complete evidence packets for floor-01..08 (replace null URLs and synthesis-only statements).
+3. Re-derive Stream 1 and high-leverage cells from primary-linked observables.
+4. Replace heuristic physical defaults with explicit observation datasets.
+5. Split H5 into competing submodels; correlation/partial pooling.
+6. Regression suite (PPC, leave-one-stream-out, simulation calibration).
+7. Publish current / charitable / primary-derived likelihood tables side by side.
+
+**Strongest framing (adopted)**:
+> A formal system for reporting what a historical quantitative claim means as trust in its source-generating process varies, while preserving a separate physical and structural floor and refusing to convert conditional administrative reconstructions into facts.
+
+Credit: GPT 5.6 Luna. Neither invisible nor authority on substantive demographic claims.
+
+## Infrastructure without invented numbers (v5.9.5)
+
+- `is_floor_quantitative` flag: floor terms bypass r-mixture; active at all r when primary-derived terms exist. No new L cells added.
+- `model/reliability_operator.md`: formal mixture channel $L_{i,r}=rL_i+(1-r)L_i^0$ with $L^0=1/2$; exact prior recovery; estimand status table.
+- H5 report rule in CLI when H5 mass ≥ 25%: must name H5a–H5d.
+- `n_adna_individuals` default → **66** = Harney 27 + Fleskes 36 + Schroeder 3 (verified study sums). termin / erasure / n_regime remain **STIPULATED** and labeled as such.
+- No new analyst likelihood cells. No invented isotope proportions.
+
+## Continue A–C (v5.9.9)
+
+- **Jurisdictions**: n_verified=5 (SC 1740, VA 1831, AL 1833, GA 1829 primary PDF Sec.11, NC 1830 via Bassett/Revised Statutes cites).
+- **Stream 30**: Goodman NYABG chemical-sample proxy (k=13,n=32), is_floor_quantitative=1, mild L (H1=0.55…). Does not assert site-wide %. Documented in stream30_goodman_nyabg.md.
+- Gross corpus unchanged at 13 seeds (page quotes still needed for publication_ready).
