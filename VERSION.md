@@ -415,3 +415,11 @@ Example:
 - quantitative_floor §7: isotopes + skeletal stress markers as mechanism-relevant physical measurements (no invented numbers).
 - Independence assumption now has a concrete literature path.
 - Direction: Claude Opus 4.8 literature pass. Likelihood values and verification remain project work.
+
+## v5.8.1 — Stream 29 group fix + H5 absorption finding (2026-07-24)
+
+- Stream 29 moved group N → R (own group) so `--dampen` cannot flip the only pro-H1 quantitative stream.
+- Measured: adding Stream 29 raises H5 (0.577→0.591) because it penalizes H2 harder than the residual — cleanest demonstration that H5a–H5d decomposition is the blocking item.
+- Full-charitable H1 median now marginal vs prior (6.07% vs 7.27%); upper tail ~20.9%. Bidirectional correction recorded in DECISIONS.
+- Stream 28 explicitly documented as floor-only (no mechanism ranking).
+- Credit: Claude Opus 4.8.

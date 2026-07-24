@@ -23,3 +23,9 @@ H5 currently wins because almost nothing is surprising under it. Stream 29 suppl
 Skeletal stress markers (enamel hypoplasia, Harris lines, etc.) from the same burial populations already in the floor supply an independent physical check on the same claim. See `surviving/quantitative_floor.md` §7.
 
 Direction: Claude Opus 4.8 literature pass. Likelihood values remain project responsibility.
+
+## Group assignment
+
+Stream 29 is in **group R** (shipper / anthropometric), not group N (census-critique cluster).
+
+Rationale: its producer (shipper coastwise manifests) carries *opposite* undercount pressure to census/owner records. Membership in group N would cause `--dampen` to shrink it toward the census-critique mean and flip the only pro-H1 quantitative stream. Own group preserves the independence argument that justified adding it.

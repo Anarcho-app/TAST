@@ -92,3 +92,28 @@ Open / next:
 - H5 column decomposition into H5a–H5d remains the most consequential structural item for the residual.
 
 Credit for the direction and the specific record-set / Steckel / USCT / isotope framing: Claude Opus 4.8. Implementation, likelihood values, and verification remain project responsibility. The review is neither invisible nor treated as authority on the substantive demographic claims.
+
+## Stream 29 measured effect & H5 absorption (v5.8.1, Opus 4.8)
+
+Stream 29 is the first discriminating quantitative stream (only row where H1 > H5).
+
+**Measured effect of adding it:**
+
+```
+                H1         H2      H3      H5
+without 29   2.47e-08    0.209   0.213   0.577
+with 29      3.93e-08    0.167   0.242   0.591
+```
+
+Adding a pro-H1 stream raised H5. Stream 29 penalizes H2 harder than H5, so mass transfers from H2 to the residual. H1 gained 1.6× relative; H5 gained more in absolute terms.
+
+**Implication**: H5 decomposition (H5a–H5d) is the blocking structural item. Until the residual must make its own predictions, new discriminating streams will keep feeding it.
+
+**Group assignment corrected**: Stream 29 moved from group N → **group R**. Membership in the census-critique cluster caused `--dampen 0.5` to flip the only pro-H1 stream (H1 0.70→0.51). Own group preserves the independence rationale (shipper incentive opposite to census).
+
+**Bidirectional correction on the prior claim**:  
+With Stream 29, full-charitable H1 median ≈ 6.07% (essentially at prior 7.27%); 95th percentile ≈ 20.9%. The statement “H1 remains below its prior at the median under full charity” is now *marginal rather than clear*. This is the second softening of that claim as the model improved — recorded here as a bidirectional correction, not a retreat.
+
+**Stream 28**: is_quantitative=0 → documentation/floor gain only; does not enter mechanism ranking. Explicit so it is not misread as an inference change.
+
+Isotope proportions still not encoded pending verification against current papers.
