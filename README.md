@@ -1,4 +1,4 @@
-# TAST Demographic Model — Skepticism-First Edition (v4.0)
+# TAST Demographic Model — Skepticism-First Edition (v5.9)
 
 **All large-scale numerical estimates of the enslaved population in the territory that became the United States are reconstructions from records produced by the trading and slaveholding societies. Those records are biased sources (victors' paperwork). Estimates calculated from them are conditional estimates — never facts. No amount of correction, cross-checking, or “least-bad” framing changes this.**
 
@@ -78,7 +78,7 @@ These are real gaps. They are listed in `VERSION.md` and are the correct targets
 If the answer to (3) is yes and the answers to (1)–(2) are no, the review is talking past the project.
 
 
-## Core Design Principles (v4.0)
+## Core Design Principles
 
 1. **Zero-Weight / Maximal-Skepticism Mode**  
    A single parameter (`victors_reliability ∈ [0.0, 1.0]`) scales the trust placed in every census total, shipping manifest, plantation ledger, and administrative count.  

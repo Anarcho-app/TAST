@@ -134,3 +134,24 @@ Opus 4.8 literature pass on what meets the strict r→0 bar (no owner/trader/enu
 **Discipline held**: no published proportions, mortality rates, or stress frequencies encoded. Literature exists; figures must be pulled from the papers before any likelihood term. Encoding from recall would reintroduce the hand-specified-cell problem.
 
 Stream 28 remains floor/documentation only. Stream 29 remains the first discriminating quantitative stream (group R).
+
+## GLM 5.2 audit (2026-07-24) — verified status + high-leverage fixes
+
+Empirically verified (self-test passes; local = origin/main):
+
+1. **Zero-weight collapse works mathematically.** `collapse_posterior` returns the prior exactly at r=0 (H5=42.73%); continuous, no cliff. The v5.1 print short-circuit is gone.
+2. **Floor is primary-linked in data but not used in inference at r=0.** `physical_loglik` is computed (scalar) and held; it has no H1–H5 dimension, so it cannot enter `bayes_update`. At r=0 the model returns the prior and does no learning from the floor. "Only the floor remains" is true as data availability; the model does not yet *learn* from it. Project already knows this (§7/§11: isotopes are the path).
+3. **Math is standard.** Textbook log-space Bayes, Monte Carlo, Beta means. METHODS.md pedigree is accurate.
+4. **Conditionality is strong.** DISCLAIMER + `--strict` + self-tests.
+
+**Fixes applied this pass:**
+- Windows / cp1252 encoding crash (≈, █) — `sys.stdout.reconfigure(utf-8)` + ASCII `_bar()` fallback. Unblocks "any LLM/human can re-run."
+- `--prior-sweep`: r=0 and r=1 under three priors (current / uniform / mainstream-H1≈0.45). Result: **H1≈0 at r=1 under all three priors** (evidence-driven); at r=0 answer is prior-determined (honest). Zero new data.
+- README header version drift (v4.0 → v5.9) corrected cosmetically.
+
+**Still open (valid-axis, ranked):**
+- Wire isotope term as true floor likelihood (Beta-Binomial, `is_floor_quantitative`, r-independent) — the one change that makes the floor do Bayesian work at all r.
+- Stream 1 split (1a recorded rate vs 1b feasibility ceiling joint with sex-ratio); even H1=0.80 on stream 1 only moves posterior ~11× still tiny — H1≈0 at r=1 is robust to this cell, prior, and damping.
+- Provenance re-grouping so `--dampen` can pool same-producer streams (1,7,8,10 all owner-mediated currently split across groups).
+
+Credit for the four-question assessment, encoding bug, prior-sweep design, floor-not-wired diagnosis, and Stream 1 robustness caveat: GLM 5.2. Implementation of the two immediate fixes is project work.

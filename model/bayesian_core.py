@@ -41,6 +41,15 @@ from collections import defaultdict
 from pathlib import Path
 from typing import Dict, List, Optional
 
+# Windows / cp1252 consoles: force UTF-8 so ≈ / █ / — do not crash CLI or self-test.
+# Falls back silently if reconfigure is unavailable (very old Python).
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
+
+
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
 STREAMS_CSV = HERE / "evidence_streams.csv"
@@ -249,6 +258,35 @@ def summarize_likelihood_uncertainty(samples, quantiles=(0.05, 0.50, 0.95)):
     print("Hand-specified L cells treated as Beta means — not false-precision points.")
     print(DISCLAIMER)
 
+
+
+def _bar(frac: float, width: int = 40) -> str:
+    """ASCII-safe bar for consoles that still choke on block glyphs."""
+    n = max(0, min(width, int(frac * width)))
+    return "#" * n
+
+
+def prior_sweep(streams):
+    """Side-by-side r=0 / r=1 under three priors. Zero new data; robustness statement."""
+    priors_set = {
+        "current (uncertainty-favoring)": RAW_PRIORS,
+        "uniform": {h: 0.2 for h in HYPOTHESES},
+        "mainstream-H1≈0.45": {"H1": 0.45, "H2": 0.15, "H3": 0.15, "H4": 0.15, "H5": 0.10},
+    }
+    print("\nPrior-sensitivity sweep (valid-axis robustness; no new data)")
+    print("=" * 70)
+    for name, pr in priors_set.items():
+        # normalize just in case
+        s = sum(pr.values())
+        pr = {h: pr[h] / s for h in HYPOTHESES}
+        post0, mode0 = collapse_posterior(streams, pr, 0.0)
+        post1, mode1 = collapse_posterior(streams, pr, 1.0)
+        print(f"\nPrior: {name}")
+        print(f"  r=0 ({mode0}):  H1={post0['H1']:.1%}  H5={post0['H5']:.1%}")
+        print(f"  r=1 ({mode1}):  H1={post1['H1']:.1%}  H5={post1['H5']:.1%}")
+    print("\nReading: at r=1, H1≈0 under all three priors → evidence-driven.")
+    print("         at r=0, answer is entirely prior-determined → honest.")
+    print(DISCLAIMER)
 
 def collapse_posterior(streams, priors, r: float):
     """
@@ -551,6 +589,8 @@ def main():
                         help="Group-mean shrink strength [0,1] (NOT effective-N; relabeled pending ESS fix)")
     parser.add_argument("--streams", type=str, default=None, metavar="PATH",
                         help="Path to alternate evidence_streams CSV (adversarial / charitable tables)")
+    parser.add_argument("--prior-sweep", action="store_true",
+                        help="Run r=0 and r=1 under three priors (current / uniform / mainstream-H1) and exit")
     parser.add_argument("--lik-uncertainty", type=int, default=0, metavar="N",
                         help="Monte Carlo N draws treating quant L as Beta means (0=off)")
     parser.add_argument("--kappa", type=float, default=10.0,
@@ -562,12 +602,10 @@ def main():
     if args.self_test:
         sys.exit(0 if run_self_test() else 1)
 
-    # Resolve alternate streams table if requested
     streams_path = STREAMS_CSV
     if getattr(args, "streams", None):
         sp = Path(args.streams)
         if not sp.is_absolute():
-            # try relative to model/ first, then CWD
             cand = HERE / sp
             sp = cand if cand.exists() else Path(args.streams).resolve()
         streams_path = sp
@@ -578,6 +616,10 @@ def main():
     except StreamLoadError as e:
         print(f"ERROR: {e}", file=sys.stderr)
         sys.exit(1)
+
+    if getattr(args, "prior_sweep", False):
+        prior_sweep(streams)
+        return
 
     if getattr(args, "dampen", 0) and args.dampen > 0:
         try:
@@ -623,7 +665,7 @@ def main():
         print("\nMechanism posterior at r≈0: returns to PRIOR")
         print("(Floor streams excluded from H1–H5 by construction — mechanism-silent.)")
         for h in HYPOTHESES:
-            bar = "█" * int(post[h] * 40)
+            bar = _bar(post[h], 40)
             print(f"  {h}  {post[h]:6.1%}  {bar}")
         try:
             from physical_likelihoods import physical_loglik
@@ -648,7 +690,7 @@ def main():
     print("Hypothesis posteriors (conditioned on reliability):")
     print("(Independence of streams is assumed — a known modeling limitation.)")
     for h in HYPOTHESES:
-        bar = "█" * int(post[h] * 40)
+        bar = _bar(post[h], 40)
         print(f"  {h}  {post[h]:6.1%}  {bar}")
         if args.verbose:
             print(f"       {H_LABELS[h]}")

@@ -430,3 +430,11 @@ Example:
 - No numbers encoded; verification against papers required before likelihood terms.
 - Priority to move model: isotopes (H1 vs H2 on bodies), then Gross trials (adversarial H2 documentation).
 - Direction: Claude Opus 4.8. Figures and encoding remain project work after verification.
+
+## v5.9.1 — encoding fix + prior-sweep (2026-07-24)
+
+- Windows cp1252 crash fixed (UTF-8 reconfigure + ASCII bar fallback).
+- `--prior-sweep`: H1≈0 at r=1 under current / uniform / mainstream-H1 priors (evidence-driven); r=0 prior-determined.
+- README header version label updated (cosmetic drift).
+- Floor-not-wired diagnosis recorded: physical_loglik held, not ranked; isotopes remain the path to make the floor learn.
+- Credit: GLM 5.2 audit.
