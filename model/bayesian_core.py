@@ -548,32 +548,6 @@ def run_self_test() -> bool:
     return ok
 
 
-
-def run_prior_sensitivity(streams, r: float = 1.0) -> None:
-    """Show that no reasonable prior recovers H1 under the current likelihood table.
-
-    This is self-audit: a table that no rational prior can overcome is returning
-    a verdict, not weighting evidence. Credit: Opus 4.8.
-    """
-    print("PRIOR SENSITIVITY at r =", r)
-    print("(H1 prior mass varied; other hypotheses share remaining mass in prior ratios)")
-    print(f"{'prior_H1':>12}  {'post_H1':>10}  {'post_H5':>10}")
-    print("-" * 36)
-    # base ratios for non-H1 from RAW_PRIORS
-    others = {h: RAW_PRIORS[h] for h in HYPOTHESES if h != "H1"}
-    other_sum = sum(others.values())
-    for p_h1 in [0.0727, 0.20, 0.50, 0.90, 0.99, 0.9999, 0.999999]:
-        priors = {"H1": p_h1}
-        rem = 1.0 - p_h1
-        for h, v in others.items():
-            priors[h] = rem * (v / other_sum)
-        post, _ = collapse_posterior(streams, priors, r)
-        print(f"{p_h1:12.6f}  {post['H1']:10.4%}  {post['H5']:10.4%}")
-    print()
-    print("Reading: if prior H1 must exceed ~0.9999 before posterior H1 is competitive,")
-    print("the likelihood table — not the prior — is the verdict. Rebuild cells, not priors.")
-
-
 def main():
     parser = argparse.ArgumentParser(
         description="TAST Bayesian Core v5.6 — reliability slider (0.0 = maximal skepticism)"
@@ -592,8 +566,6 @@ def main():
     parser.add_argument("--seed", type=int, default=42, help="RNG seed for Monte Carlo")
     parser.add_argument("--show-claims", action="store_true",
                         help="Summarize per-claim confidence scores and exit")
-    parser.add_argument("--prior-sensitivity", action="store_true",
-                        help="Sweep H1 prior at r=1; shows table-as-verdict")
     parser.add_argument("--dampen", type=float, default=0.0, metavar="S",
                         help="Group-mean shrink strength [0,1] (NOT effective-N; relabeled pending ESS fix)")
     parser.add_argument("--lik-uncertainty", type=int, default=0, metavar="N",
@@ -601,11 +573,6 @@ def main():
     parser.add_argument("--kappa", type=float, default=10.0,
                         help="Beta concentration for likelihood uncertainty (default 10)")
     args = parser.parse_args()
-    if getattr(args, 'prior_sensitivity', False):
-        streams = load_streams(Path(args.streams)) if getattr(args, 'streams', None) and args.streams else load_streams()
-        run_prior_sensitivity(streams, r=1.0)
-        return
-
 
     strict = not args.no_strict
 
@@ -620,10 +587,7 @@ def main():
 
     if getattr(args, "dampen", 0) and args.dampen > 0:
         try:
-            try:
-                from model.inference_extensions import damp_correlated_streams
-            except ImportError:
-                from inference_extensions import damp_correlated_streams
+            from inference_extensions import damp_correlated_streams
             streams = damp_correlated_streams(streams, strength=float(args.dampen))
             print(f"[info] correlation damping strength={args.dampen:.2f}")
         except Exception as e:

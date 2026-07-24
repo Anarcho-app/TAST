@@ -1,5 +1,5 @@
 stream_id,name,H1,H2,H3,H4,H5,group,coverage,provenance,is_quantitative,is_floor_quantitative
-1,Demographic Growth Rates,0.07,0.65,0.70,0.50,0.80,U,90-100%,Owner-mediated census,1,0
+1,Demographic Growth Rates,0.82,0.40,0.55,0.78,0.50,U,90-100%,"GENERATIVE: stream1_generative.py — P(N_1860|NI+arrivals) lognormal; pred=4350719 obs=3953760 L_H1=0.8159; inputs=census/voyage admin series (conditional, not facts)",1,0
 2,Spanish America Comparison,0.30,0.85,0.70,0.40,0.60,B,60-80%,Colonial administrative,1,0
 3,Spatial-Temporal Correlation,0.20,0.80,0.75,0.30,0.65,C,40-60%,Mixed sources,1,0
 4,Plantation Ledger Renaming,0.10,0.80,0.60,0.20,0.55,U,1-5%,Owner-authored ledgers,1,0
@@ -19,7 +19,7 @@ stream_id,name,H1,H2,H3,H4,H5,group,coverage,provenance,is_quantitative,is_floor
 18,Genetic Gradients vs Clusters,0.30,0.50,0.55,0.40,0.55,M,<0.01%,Lab-derived; PCA/UMAP/IBD,0,0
 19,Cliometric Controversy (Fogel/Engerman Critiques),0.30,0.50,0.55,0.35,0.60,N,50-80%,Academic debates; owner-derived data,0,0
 20,Anthropometric Selection Bias (Steckel Heights),0.15,0.65,0.75,0.25,0.80,U,20-50%,Trader manifests; healthier sample bias,1,0
-21,Database Imputation Limits (SlaveVoyages),0.20,0.70,0.75,0.30,0.85,V,60-90%,European logs; imputed gaps,1,0
+21,Database Imputation Limits (SlaveVoyages),0.20,0.70,0.75,0.30,0.85,N,60-90%,European logs; imputed gaps,1,0
 22,Census Schedule Reclassification Patterns,0.15,0.75,0.80,0.25,0.85,U,80-100%,Enumerator/owner-reported; fluidity,1,0
 23,Macro-Economic Costs & Systemic Irrationality,0.30,0.50,0.55,0.35,0.60,N,meta,Modern econ studies; Civil War + systemic costs,0,0
 24,Modern Cohort Constraints (All of Us / gnomAD v4 LAI),0.30,0.50,0.55,0.40,0.55,O,<0.2% pop sampled,Lab-derived; ~1M+ diverse participants,0,0
@@ -27,4 +27,4 @@ stream_id,name,H1,H2,H3,H4,H5,group,coverage,provenance,is_quantitative,is_floor
 26,Retracted/Critiqued Claims Meta (symmetric overreach filter),0.40,0.40,0.40,0.40,0.45,N,meta,Symmetric skepticism; flags overreach in ALL narratives,0,0
 27,Structural Silence / Erasure Index (absence of enslaved quantitative voice),0.30,0.50,0.55,0.40,0.65,N,meta-structural,Anti-literacy laws + legal non-personhood + near-zero pre-1865 enslaved quantitative testimony vs. volume of owner/enumerator records,0,0
 30,NYABG isotope+modification birthplace proxy (Goodman Ch.6),0.55,0.50,0.52,0.52,0.50,P,chemical sample n=32 (13 modified + 19 non-modified subadults); not site-wide,"Goodman et al. NYABG Skeletal Biology Vol.1 Ch.6; k=13 African-born proxy, n=32",1,1
-31,Autosomal Native American ancestry ceiling (Bryc et al 2015),0.60,0.35,0.50,0.55,0.50,P,n=5269 self-identified African-Americans; 0.013% of ~40M AA population; ~0.8% Native American autosomal mean,Bryc et al. AJHG 2015 (23andMe cohort) — genomic proxy independent of owner/enumerator records; falsifies material Indigenous-reclassification only,1,1
+31,Autosomal Native American ancestry ceiling (Bryc et al 2015),0.60,0.35,0.50,0.55,0.50,R,n=5269 self-identified African-Americans; 0.013% of ~40M AA population; ~0.8% Native American autosomal mean,Bryc et al. AJHG 2015 (23andMe cohort) — genomic proxy independent of owner/enumerator records; falsifies material Indigenous-reclassification only,1,1
