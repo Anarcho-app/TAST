@@ -28,13 +28,28 @@ FACTS_YAML = ROOT / "data" / "observable_facts.yaml"
 
 
 @dataclass
+
+def _n_regime_from_inventory() -> int:
+    """Prefer counted inventory over stipulated 12."""
+    inv = ROOT / "data" / "jurisdiction_inventory.yaml"
+    if inv.exists():
+        try:
+            import yaml
+            data = yaml.safe_load(inv.read_text(encoding="utf-8"))
+            n = int(data.get("summary", {}).get("n_regime_jurisdictions_verified", 0) or 0)
+            if n > 0:
+                return n
+        except Exception:
+            pass
+    return 12  # stipulated fallback
+
 class PhysicalObservations:
     n_burial_sites: int = 8
     n_individuals_lower: float = 15000.0
-    n_adna_individuals: int = 80
+    n_adna_individuals: int = 66  # verified sum Harney27+Fleskes36+Schroeder3
     termin_in_us_frac: float = 0.85
     erasure_log_ratio: float = 4.5
-    n_regime_jurisdictions: int = 12
+    n_regime_jurisdictions: int = 12  # overridden at load from inventory when present
     source_note: str = "fallback defaults (YAML not loaded)"
 
 
@@ -91,8 +106,8 @@ def load_observations_from_yaml(path: Path = FACTS_YAML) -> PhysicalObservations
 
     # aDNA: if floor-03 present, keep / bump count
     if "floor-03" in by_id and by_id["floor-03"].get("confidence", 0) >= 0.9:
-        obs.n_adna_individuals = max(obs.n_adna_individuals, 80)
-        notes.append("n_adna←floor-03")
+        obs.n_adna_individuals = max(obs.n_adna_individuals, 66)  # verified study sum
+        notes.append("n_adna←verified study sum (66)")
 
     # genealogical termination
     if "floor-04" in by_id and by_id["floor-04"].get("confidence", 0) >= 0.85:
@@ -102,7 +117,7 @@ def load_observations_from_yaml(path: Path = FACTS_YAML) -> PhysicalObservations
     # structural silence / regime: keep structural constants (not functions of r)
     if "floor-05" in by_id or "floor-06" in by_id:
         obs.erasure_log_ratio = 4.5
-        obs.n_regime_jurisdictions = 12
+        obs.n_regime_jurisdictions = _n_regime_from_inventory()
         notes.append("erasure/regime←floor-05/06")
 
     obs.source_note = "loaded from observable_facts.yaml: " + ", ".join(notes) if notes else obs.source_note

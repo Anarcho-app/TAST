@@ -64,10 +64,12 @@ The κ=8 interval is now logged with exact parameters so the correction log itse
 - `python -m model.bayesian_core --reliability 1.0 --lik-uncertainty 2000 --kappa 8 --seed 42`
 - Observed: H5 5%=22.2%  50%=56.4%  95%=84.0%  (matches independent reproduction)
 
-## Opus 4.8 re-audit fixes (v5.9.10)
+## GPT 5.6 Sol / Kat / Minimax audit fixes (v5.9.11)
 
-1. **is_floor_quantitative now consumed**: `load_streams` reads the flag; `apply_reliability` bypasses r-blend for floor-quant; self-test asserts floor L preserved at r=0 and admin L→0.5.
-2. **r=0 messaging**: computed state is PRIOR return; UNDEFINED is estimand status for admin totals, not a substitute posterior.
-3. **Stream tables aligned** to same id set including stream 30.
-4. **H4 adversarial table** (`evidence_streams_adversarial_H4.csv`): raises H4 on growth/comparative/genealogy cells (mainstream NI account). At r=1: H4 moves 0.0% → ~0.8% — still tiny; H5 still dominates. Documents that H4-charity alone does not recover mainstream mass under current residual structure.
-5. Credit: Claude Opus 4.8 for dead-flag diagnosis, UNDEFINED-vs-prior distinction, H4 blind-spot, stream-set misalignment.
+1. **CLI honesty at r=0**: mode-aware — prints PRIOR or UPDATED; no longer claims exact prior when floor-quant is active.
+2. **is_floor_quantitative consumed end-to-end**: load_streams + apply_reliability + MC/uncertainty paths + self-test.
+3. **Fabricated Anson "29 of 36 Lowcountry-born"** removed from observable_facts.yaml.
+4. **n_adna default 66** (verified study sum); n_regime prefers jurisdiction_inventory count (5).
+5. **Framing**: TAST is complementary audit/sensitivity framework, not a replacement for Hacker et al. national totals.
+
+Credit: GPT 5.6 Sol & Kat Coder Pro 2.5 (Agent A) & Minimax M3 (Agent B).

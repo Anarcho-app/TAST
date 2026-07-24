@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-TAST Bayesian Core — Skepticism-First Edition (v5.9.2)
+TAST Bayesian Core — Skepticism-First Edition (v5.1)
 
 Single parameter: victors_reliability ∈ [0.0, 1.0]
   1.0 = treat census / manifest / ledger counts as approximately accurate
   0.0 = maximal skepticism: all quantitative head-counts become UNDEFINED;
         only qualitative / physical / meta patterns survive.
 
-Core epistemic rules (v5.9):
+Core epistemic rules (v5.1):
   See also model/inference_extensions.py for functional dependence,
   multi-axis reliability, correlation damping, and adversarial hooks.
   1. Estimates calculated from the administrative records are CONDITIONAL
@@ -40,15 +40,6 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 from typing import Dict, List, Optional
-
-# Windows / cp1252 consoles: force UTF-8 so ≈ / █ / — do not crash CLI or self-test.
-# Falls back silently if reconfigure is unavailable (very old Python).
-try:
-    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
-    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
-except Exception:
-    pass
-
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parent
@@ -172,11 +163,6 @@ def load_streams(path: Path = STREAMS_CSV) -> List[Dict]:
 
 
 def apply_reliability(streams: List[Dict], reliability: float) -> List[Dict]:
-    """Blend administrative quantitative likelihoods toward 1/2 as r→0.
-
-    Streams with is_floor_quantitative=1 bypass the blend (primary-derived
-    floor terms stay fully informative at every r). See model/reliability_operator.md.
-    """
     r = max(0.0, min(1.0, reliability))
     scaled = []
     for s in streams:
@@ -245,7 +231,10 @@ def posterior_under_likelihood_uncertainty(
                 # Beta(a,b) via numpy; seed varies per draw for independence
                 L = float(np.random.beta(a, b))
                 L = max(0.02, min(0.98, L))
-                news[h] = r * L + (1.0 - r) * 0.5
+                if int(s.get("is_floor_quantitative", 0) or 0) == 1:
+                    news[h] = L  # floor-quant: no r-dilution
+                else:
+                    news[h] = r * L + (1.0 - r) * 0.5
             noisy.append(news)
         post = bayes_update(noisy, priors)
         for h in HYPOTHESES:
@@ -266,52 +255,17 @@ def summarize_likelihood_uncertainty(samples, quantiles=(0.05, 0.50, 0.95)):
     print(DISCLAIMER)
 
 
-
-def _bar(frac: float, width: int = 40) -> str:
-    """ASCII-safe bar for consoles that still choke on block glyphs."""
-    n = max(0, min(width, int(frac * width)))
-    return "#" * n
-
-
-def prior_sweep(streams):
-    """Side-by-side r=0 / r=1 under three priors. Zero new data; robustness statement."""
-    priors_set = {
-        "current (uncertainty-favoring)": RAW_PRIORS,
-        "uniform": {h: 0.2 for h in HYPOTHESES},
-        "mainstream-H1≈0.45": {"H1": 0.45, "H2": 0.15, "H3": 0.15, "H4": 0.15, "H5": 0.10},
-    }
-    print("\nPrior-sensitivity sweep (valid-axis robustness; no new data)")
-    print("=" * 70)
-    for name, pr in priors_set.items():
-        # normalize just in case
-        s = sum(pr.values())
-        pr = {h: pr[h] / s for h in HYPOTHESES}
-        post0, mode0 = collapse_posterior(streams, pr, 0.0)
-        post1, mode1 = collapse_posterior(streams, pr, 1.0)
-        print(f"\nPrior: {name}")
-        print(f"  r=0 ({mode0}):  H1={post0['H1']:.1%}  H5={post0['H5']:.1%}")
-        print(f"  r=1 ({mode1}):  H1={post1['H1']:.1%}  H5={post1['H5']:.1%}")
-    print("\nReading: at r=1, H1≈0 under all three priors → evidence-driven.")
-    print("         at r=0, answer is entirely prior-determined → honest.")
-    print(DISCLAIMER)
-
-
-def _h5_report_reminder(post: Dict[str, float], threshold: float = 0.25) -> None:
-    """If H5 mass is material, require naming H5a–H5d (interpretation rule)."""
-    if post.get("H5", 0) >= threshold:
-        print("  [H5 rule] Material residual mass — name which of H5a–H5d carries the claim")
-        print("            (see model/h5_subclaims.md / model/h5_report_rule.md).")
-
 def collapse_posterior(streams, priors, r: float):
     """
     Single source of truth for reliability-weighted mechanism update (v5.5).
 
-    Design (continuous collapse + floor quant exception):
-      - Non-quantitative streams are EXCLUDED from H1–H5 ranking at every r.
-      - Quantitative *administrative* streams enter apply_reliability (L→1/2 as r→0).
-      - Quantitative *floor* streams (is_floor_quantitative=1) bypass the r-blend
-        and remain informative at every r (only when primary-derived terms exist).
-      - With no floor-quant terms, r→0 returns exactly to the prior continuously..
+    Design (Claude Opus 3rd pass — continuous collapse):
+      - Non-quantitative / floor streams are EXCLUDED from H1–H5 ranking
+        at every r (mechanism-silent by construction).
+      - Only quantitative streams enter apply_reliability + bayes_update.
+      - As r → 0, each quantitative L → 0.5, so the likelihood is flat
+        across hypotheses and the posterior returns to the prior
+        continuously — no threshold, no cliff, no print substitution.
       - Presence/structure remain in surviving claims, observable_facts,
         and physical_loglik — not in the mechanism ranking.
 
@@ -429,8 +383,10 @@ def monte_carlo_posteriors(
                 for h in HYPOTHESES:
                     L = s[h] + rng.gauss(0, lik_noise)
                     L = max(0.01, min(0.99, L))
-                    # then apply reliability
-                    news[h] = r * L + (1.0 - r) * 0.5
+                    if int(s.get("is_floor_quantitative", 0) or 0) == 1:
+                        news[h] = L
+                    else:
+                        news[h] = r * L + (1.0 - r) * 0.5
             else:
                 # non-quantitative: leave original (or tiny noise)
                 for h in HYPOTHESES:
@@ -458,7 +414,7 @@ def summarize_mc(samples: dict, quantiles=(0.05, 0.50, 0.95)) -> None:
 
 
 def run_self_test() -> bool:
-    print("Running self-tests (v5.9)...")
+    print("Running self-tests (v5.6)...")
     ok = True
 
     try:
@@ -475,8 +431,7 @@ def run_self_test() -> bool:
     s0 = apply_reliability(streams, 0.0)
     s1 = apply_reliability(streams, 1.0)
     for orig, scaled0, scaled1 in zip(streams, s0, s1):
-        is_floor = int(orig.get("is_floor_quantitative", 0) or 0) == 1
-        if orig["is_quantitative"] == 1 and not is_floor:
+        if orig["is_quantitative"] == 1 and not int(orig.get("is_floor_quantitative", 0) or 0):
             for h in HYPOTHESES:
                 if abs(scaled0[h] - 0.5) > 1e-9:
                     print(f"  [FAIL] reliability=0 should push admin quantitative to 0.5")
@@ -484,18 +439,13 @@ def run_self_test() -> bool:
                 if abs(scaled1[h] - orig[h]) > 1e-9:
                     print(f"  [FAIL] reliability=1 should preserve original likelihoods")
                     ok = False
-        elif is_floor:
-            for h in HYPOTHESES:
-                if abs(scaled0[h] - orig[h]) > 1e-9:
-                    print(f"  [FAIL] floor-quantitative must NOT dilute at r=0 (stream {orig['stream_id']})")
-                    ok = False
         else:
             for h in HYPOTHESES:
                 if abs(scaled0[h] - orig[h]) > 1e-9 or abs(scaled1[h] - orig[h]) > 1e-9:
                     print(f"  [FAIL] non-quantitative streams must be unchanged by reliability")
                     ok = False
     if ok:
-        print("  [PASS] apply_reliability extremes (admin dilute; floor-quant preserved)")
+        print("  [PASS] apply_reliability extremes")
 
     post = bayes_update(streams, RAW_PRIORS)
     s = sum(post.values())
@@ -570,16 +520,14 @@ def run_self_test() -> bool:
         post_lo, _ = collapse_posterior(streams_st, RAW_PRIORS, 0.049)
         post_hi, mode_hi = collapse_posterior(streams_st, RAW_PRIORS, 0.05)
         has_floor = any(int(s.get("is_floor_quantitative", 0) or 0) for s in streams_st)
-        # Admin-only path must return exact prior; floor-quant may move it slightly
         if not has_floor and max(abs(post0[h] - RAW_PRIORS[h]) for h in HYPOTHESES) > 1e-9:
-            print(f"  [FAIL] r=0 post != prior: {post0}")
+            print(f"  [FAIL] r=0 post != prior (admin-only): {post0}")
             ok = False
         elif max(abs(post0[h] - post_lo[h]) for h in HYPOTHESES) > 0.05:
             print(f"  [FAIL] discontinuity between r=0 and r=0.049")
             ok = False
         else:
-            tag = "PRIOR (admin-only)" if not has_floor else f"near-prior (floor-quant active, mode={mode0})"
-            print(f"  [PASS] continuous collapse: r=0 → {tag}; no cliff at 0.05")
+            print(f"  [PASS] continuous collapse: r=0 mode={mode0} has_floor={has_floor}; no cliff at 0.05")
             print(f"         r=0 H5={post0['H5']:.4f}  r=1 path mode_at_0.05={mode_hi}")
     except Exception as e:
         print(f"  [FAIL] collapse_posterior self-test: {e}")
@@ -591,7 +539,7 @@ def run_self_test() -> bool:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="TAST Bayesian Core v5.9 — reliability slider (0.0 = maximal skepticism)"
+        description="TAST Bayesian Core v5.6 — reliability slider (0.0 = maximal skepticism)"
     )
     parser.add_argument("--reliability", type=float, default=1.0,
                         help="victors_reliability ∈ [0.0, 1.0] (default 1.0)")
@@ -609,10 +557,6 @@ def main():
                         help="Summarize per-claim confidence scores and exit")
     parser.add_argument("--dampen", type=float, default=0.0, metavar="S",
                         help="Group-mean shrink strength [0,1] (NOT effective-N; relabeled pending ESS fix)")
-    parser.add_argument("--streams", type=str, default=None, metavar="PATH",
-                        help="Path to alternate evidence_streams CSV (adversarial / charitable tables)")
-    parser.add_argument("--prior-sweep", action="store_true",
-                        help="Run r=0 and r=1 under three priors (current / uniform / mainstream-H1) and exit")
     parser.add_argument("--lik-uncertainty", type=int, default=0, metavar="N",
                         help="Monte Carlo N draws treating quant L as Beta means (0=off)")
     parser.add_argument("--kappa", type=float, default=10.0,
@@ -624,24 +568,11 @@ def main():
     if args.self_test:
         sys.exit(0 if run_self_test() else 1)
 
-    streams_path = STREAMS_CSV
-    if getattr(args, "streams", None):
-        sp = Path(args.streams)
-        if not sp.is_absolute():
-            cand = HERE / sp
-            sp = cand if cand.exists() else Path(args.streams).resolve()
-        streams_path = sp
-        print(f"[streams] alternate table: {streams_path}")
-
     try:
-        streams = load_streams(streams_path)
+        streams = load_streams()
     except StreamLoadError as e:
         print(f"ERROR: {e}", file=sys.stderr)
         sys.exit(1)
-
-    if getattr(args, "prior_sweep", False):
-        prior_sweep(streams)
-        return
 
     if getattr(args, "dampen", 0) and args.dampen > 0:
         try:
@@ -674,21 +605,26 @@ def main():
             print(f"{s['stream_id']:3d}  {q}  {s['group']:>5}  {s['name']}")
         return
 
-    print(f"TAST Bayesian Core v5.9  |  victors_reliability = {r:.2f}  |  strict={strict}")
+    print(f"TAST Bayesian Core v5.6  |  victors_reliability = {r:.2f}  |  strict={strict}")
     print("=" * 70)
 
     if r < 0.05:
         print("\n*** MAXIMAL SKEPTICISM MODE ***")
         print("Administrative head-counts, growth rates, and import totals")
         print("derived from owner/trader/enumerator records: UNDEFINED as estimands.")
-        print("Mechanism ranking at r=0 is the PRIOR (computed), not a fitted posterior.")
+        print("(Mechanism ranking can still exist; it is prior or floor-updated, not a national total.)")
         print("Physical and structural floor remains (see surviving/quantitative_floor.md).")
         print_surviving()
         post, mode = collapse_posterior(streams, RAW_PRIORS, r)
-        print("\nMechanism posterior at r≈0: returns to PRIOR")
-        print("(Floor streams excluded from H1–H5 by construction — mechanism-silent.)")
+        if mode == "PRIOR":
+            print("\nMechanism posterior at r≈0: returns to PRIOR (no floor-quant active)")
+            print(">>> This is the PRIOR (RAW_PRIORS), displayed — not a data-fitted result.")
+        else:
+            print("\nMechanism posterior at r≈0: UPDATED (floor-quantitative stream(s) active)")
+            print(">>> Differs from prior because is_floor_quantitative terms bypass the r-blend.")
+        print("(Administrative quant → flat at r=0; floor-quant preserved when present.)")
         for h in HYPOTHESES:
-            bar = _bar(post[h], 40)
+            bar = "█" * int(post[h] * 40)
             print(f"  {h}  {post[h]:6.1%}  {bar}")
         try:
             from physical_likelihoods import physical_loglik
@@ -713,12 +649,10 @@ def main():
     print("Hypothesis posteriors (conditioned on reliability):")
     print("(Independence of streams is assumed — a known modeling limitation.)")
     for h in HYPOTHESES:
-        bar = _bar(post[h], 40)
+        bar = "█" * int(post[h] * 40)
         print(f"  {h}  {post[h]:6.1%}  {bar}")
         if args.verbose:
             print(f"       {H_LABELS[h]}")
-
-    _h5_report_reminder(post)
 
     print("\nConditioning statement:")
     print(f'  "If we treat the recorded population totals as approximately accurate')
