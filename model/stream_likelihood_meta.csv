@@ -1,0 +1,12 @@
+stream_id,name,H1_mean,H2_mean,H3_mean,H4_mean,H5_mean,provenance_note,confidence_ci,source_of_point_estimate,status,notes
+1,Demographic Growth Rates,0.07,0.65,0.70,0.50,0.80,"Owner-mediated census; growth rates from Hacker-style reconstructions + SlaveVoyages net","pending: [0.03,0.15] proposed for H1 under current; adversarial would invert","Analyst judgment (v5.x); inverted relative to H1 prediction","open","Clearest inversion; see DECISIONS.md and adversarial_H1_likelihoods.md"
+2,Spanish America Comparison,0.30,0.85,0.70,0.40,0.60,"Colonial administrative series; comparative NI literature","pending","Analyst","locked for now",""
+3,Spatial-Temporal Correlation,0.20,0.80,0.75,0.30,0.65,"Mixed sources; arrival timing vs population density","pending","Analyst","locked for now",""
+4,Plantation Ledger Renaming,0.10,0.80,0.60,0.20,0.55,"Owner-authored ledgers; name/age/sex fluidity","pending","Analyst; low H1 because renaming can inflate apparent continuity","open for adversarial",""
+7,American Genealogical Record,0.45,0.85,0.85,0.75,0.85,"Owner-mediated + modern genealogical databases","pending","Analyst","locked for now",""
+8,Burial & Birth Records,0.45,0.85,0.85,0.75,0.85,"Owner-mediated records + sparse burial series","pending","Analyst","locked for now",""
+10,Multi-Gen Birth/Genealogy,0.20,0.85,0.85,0.75,0.85,"Owner-mediated multi-generation chains","pending","Analyst; low H1 because chains are post-arrival","locked for now",""
+15,Sex Ratio Skew & Fertility Strain,0.15,0.70,0.65,0.40,0.75,"Demographic records; sex ratio literature","pending","Analyst","open for adversarial",""
+20,Anthropometric Selection Bias (Steckel Heights),0.15,0.65,0.75,0.25,0.80,"Trader manifests; Steckel + critiques","pending","Analyst","open for adversarial",""
+21,Database Imputation Limits (SlaveVoyages),0.20,0.70,0.75,0.30,0.85,"European logs; imputation gaps documented by Eltis et al.","pending","Analyst","locked for now",""
+22,Census Schedule Reclassification Patterns,0.15,0.75,0.80,0.25,0.85,"Enumerator/owner-reported; fluidity literature","pending","Analyst","open for adversarial",""
