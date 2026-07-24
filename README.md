@@ -159,7 +159,7 @@ See [ACKNOWLEDGMENTS.md](ACKNOWLEDGMENTS.md) for primary authorship and collabor
 
 ## Continuous sensitivity map (v5.0)
 
-Mainstream administrative reconstructions correspond to the high-reliability boundary of TAST.
+At high reliability the administrative path is DEFINED (conditional). The claim that this recovers mainstream H1 posteriors is retracted until demonstrated.
 
 ```bash
 python model/sensitivity_map.py

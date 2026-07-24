@@ -26,6 +26,7 @@ from bayesian_core import (
     load_streams,
     apply_reliability,
     bayes_update,
+    collapse_posterior,
     RAW_PRIORS,
     HYPOTHESES,
     DISCLAIMER,
@@ -38,47 +39,15 @@ except ImportError:
 
 
 def run_at_r(streams, r: float) -> Dict:
-    """Single evaluation at a fixed reliability."""
-    if r < 0.05:
-        # Honest: still compute posterior from non-quantitative streams; do not hide it.
-        non_q = [s for s in streams if s.get("is_quantitative", 1) == 0]
-        post = bayes_update(non_q, RAW_PRIORS) if non_q else None
-        pll = None
-        if physical_loglik is not None:
-            params = {
-                "lambda_growth": 0.015,
-                "rho_reclass": 0.25,
-                "r_owner": 0.0,
-                "r_enumerator": 0.0,
-                "undercount": 0.15,
-            }
-            try:
-                pll = physical_loglik(params)
-            except Exception:
-                pll = None
-        return {
-            "r": r,
-            "admin_path": "UNDEFINED",
-            "posteriors": post,
-            "physical_ll": pll,
-            "note": (
-                "Admin totals UNDEFINED. Mechanism posterior (if shown) is from "
-                "non-quantitative streams only — not a return to prior. "
-                "Floor stream audit pending."
-            ),
-        }
-
-    scaled = apply_reliability(streams, r)
-    post = bayes_update(scaled, RAW_PRIORS)
-
+    """Single evaluation at a fixed reliability — uses shared collapse_posterior."""
+    post, mode = collapse_posterior(streams, RAW_PRIORS, r)
     pll = None
     if physical_loglik is not None:
-        # illustrative continuous params consistent with moderate presence
         params = {
             "lambda_growth": 0.015,
             "rho_reclass": 0.25,
-            "r_owner": r,
-            "r_enumerator": r,
+            "r_owner": max(r, 0.0),
+            "r_enumerator": max(r, 0.0),
             "undercount": 0.15,
         }
         try:
@@ -86,6 +55,17 @@ def run_at_r(streams, r: float) -> Dict:
         except Exception:
             pll = None
 
+    if mode == "PRIOR":
+        return {
+            "r": r,
+            "admin_path": "UNDEFINED",
+            "posteriors": post,
+            "physical_ll": pll,
+            "note": (
+                "Admin totals UNDEFINED. Mechanism posterior = PRIOR "
+                "(floor excluded from H1–H5 by construction)."
+            ),
+        }
     return {
         "r": r,
         "admin_path": "DEFINED (conditional)",
@@ -109,7 +89,7 @@ def sensitivity_sweep(
 def print_sensitivity_table(results: List[Dict]) -> None:
     print("TAST Continuous Sensitivity Map (v5.0)")
     print("=" * 72)
-    print("At r=1.0 admin path is DEFINED (conditional). Helper boundary claim RETRACTED until H1 is recoverable under a documented setting.")
+    print("Shared collapse_posterior(): r<0.05 → PRIOR; r≥0.05 → updated. Helper boundary claim RETRACTED.")
     print("As r → 0, administrative path → UNDEFINED; physical floor remains.")
     print()
     print(f"{'r':>6}  {'Admin path':<22}  {'H5':>8}  {'H3':>8}  {'Phys LL':>10}")
@@ -128,7 +108,7 @@ def print_sensitivity_table(results: List[Dict]) -> None:
     print()
     print("Interpretation:")
     print("  r = 1.00  →  admin path DEFINED (conditional); not claimed equal to mainstream H1 posteriors")
-    print("  r → 0.00  →  administrative totals UNDEFINED; only physical/structural floor speaks")
+    print("  r → 0.00  →  admin UNDEFINED; mechanism posterior = PRIOR (floor mechanism-silent by construction)")
     print()
     print(DISCLAIMER)
     print("Physical-floor terms do not depend on administrative head-counts.")

@@ -355,3 +355,21 @@ Still open:
 5. **True collapse + circularity fixes** from v5.2 retained.
 
 Still future (not blockers): full joint hierarchical update combining physical_loglik with stream product; fitted data-level census likelihoods; NumPyro/PyMC.
+
+
+## v5.4 — collapse is a function (Claude Opus second pass)
+
+**Decision (owned):** at r < 0.05 the mechanism posterior **returns to the prior**. Floor streams are mechanism-silent by construction for H1–H5. Presence/structure live in surviving claims, observable_facts.yaml, and physical_loglik.
+
+**Code:**
+- `collapse_posterior(streams, priors, r)` in bayesian_core.py — single source of truth
+- bayesian_core CLI and sensitivity_map both import and call it
+- Self-test asserts `collapse_posterior(r=0) == PRIOR == RAW_PRIORS`
+- README Helper boundary language aligned with retraction
+- At r=0 both modules now print H5=42.7% (prior), not 80%+
+
+Verified:
+```
+r=0 mode PRIOR H5 0.4273 H1 0.0727
+r=1 mode UPDATED H5 ≈ 0.82
+```

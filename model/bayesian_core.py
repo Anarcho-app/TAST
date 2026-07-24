@@ -186,6 +186,28 @@ def bayes_update(streams: List[Dict], priors: Dict[str, float]) -> Dict[str, flo
     return {h: unnorm[h] / total for h in HYPOTHESES}
 
 
+def collapse_posterior(streams, priors, r: float):
+    """
+    Single source of truth for the reliability collapse (v5.4).
+
+    Decision (owned explicitly):
+      At r < 0.05 the mechanism posterior RETURNS TO THE PRIOR.
+      Floor / non-quantitative streams are excluded from H1–H5 ranking
+      by construction — they support presence/structure via surviving
+      claims, observable_facts.yaml, and physical_loglik, not mechanism labels.
+
+    For r >= 0.05: standard apply_reliability + bayes_update.
+
+    Both bayesian_core and sensitivity_map MUST call this function.
+    Self-test asserts posterior(r=0) ≈ priors.
+    """
+    if r < 0.05:
+        return {h: float(priors[h]) for h in HYPOTHESES}, "PRIOR"
+    scaled = apply_reliability(streams, r)
+    post = bayes_update(scaled, priors)
+    return post, "UPDATED"
+
+
 def load_surviving_claims(path: Path = SURVIVING_MD) -> List[str]:
     if not path.exists():
         return ["[surviving/qualitative_claims.md not found]"]
@@ -314,7 +336,7 @@ def summarize_mc(samples: dict, quantiles=(0.05, 0.50, 0.95)) -> None:
 
 
 def run_self_test() -> bool:
-    print("Running self-tests (v5.3)...")
+    print("Running self-tests (v5.4)...")
     ok = True
 
     try:
@@ -413,13 +435,26 @@ def run_self_test() -> bool:
         print(f"  [FAIL] monte_carlo_posteriors: {e}")
         ok = False
 
+    # r=0 must return to prior (collapse is a function, not a print)
+    try:
+        streams_st = load_streams()
+        post0, mode0 = collapse_posterior(streams_st, RAW_PRIORS, 0.0)
+        if mode0 != "PRIOR" or max(abs(post0[h] - RAW_PRIORS[h]) for h in HYPOTHESES) > 1e-12:
+            print(f"  [FAIL] collapse_posterior(r=0) mode={mode0} post={post0}")
+            ok = False
+        else:
+            print("  [PASS] collapse_posterior(r=0) returns PRIOR (= RAW_PRIORS)")
+    except Exception as e:
+        print(f"  [FAIL] collapse_posterior self-test: {e}")
+        ok = False
+
     print("Self-test", "PASSED" if ok else "FAILED")
     return ok
 
 
 def main():
     parser = argparse.ArgumentParser(
-        description="TAST Bayesian Core v5.3 — reliability slider (0.0 = maximal skepticism)"
+        description="TAST Bayesian Core v5.4 — reliability slider (0.0 = maximal skepticism)"
     )
     parser.add_argument("--reliability", type=float, default=1.0,
                         help="victors_reliability ∈ [0.0, 1.0] (default 1.0)")
@@ -481,7 +516,7 @@ def main():
             print(f"{s['stream_id']:3d}  {q}  {s['group']:>5}  {s['name']}")
         return
 
-    print(f"TAST Bayesian Core v5.3  |  victors_reliability = {r:.2f}  |  strict={strict}")
+    print(f"TAST Bayesian Core v5.4  |  victors_reliability = {r:.2f}  |  strict={strict}")
     print("=" * 70)
 
     if r < 0.05:
@@ -490,26 +525,18 @@ def main():
         print("derived from owner/trader/enumerator records: UNDEFINED.")
         print("Physical and structural floor remains (see surviving/quantitative_floor.md).")
         print_surviving()
-        # TRUE collapse (Claude Opus audit): when administrative reliability ≈ 0,
-        # mechanism labels H1–H5 are not settled by hand-tuned floor likelihoods.
-        # Posterior returns to the prior. Physical/structural presence remains
-        # in the surviving claims + observable facts + physical_loglik report.
+        post, mode = collapse_posterior(streams, RAW_PRIORS, r)
         print("\nMechanism posterior at r≈0: returns to PRIOR")
-        print("(Administrative streams excluded; floor is not used to force H1–H5.)")
+        print("(Floor streams excluded from H1–H5 by construction — mechanism-silent.)")
         for h in HYPOTHESES:
-            bar = "█" * int(RAW_PRIORS[h] * 40)
-            print(f"  {h}  {RAW_PRIORS[h]:6.1%}  {bar}")
-        # Optional: report physical floor loglik as presence support, not mechanism ranking
+            bar = "█" * int(post[h] * 40)
+            print(f"  {h}  {post[h]:6.1%}  {bar}")
         try:
             from physical_likelihoods import physical_loglik
-            params = {
-                "lambda_growth": 0.015,
-                "rho_reclass": 0.25,
-                "r_owner": 0.0,
-                "r_enumerator": 0.0,
-                "undercount": 0.15,
-            }
-            pll = physical_loglik(params)
+            pll = physical_loglik({
+                "lambda_growth": 0.015, "rho_reclass": 0.25,
+                "r_owner": 0.0, "r_enumerator": 0.0, "undercount": 0.15,
+            })
             print(f"\nPhysical-floor log-likelihood (presence/structure support): {pll:.2f}")
             print("(Not used to rank H1–H5 at r≈0.)")
         except Exception as e:
@@ -518,9 +545,9 @@ def main():
         print("Meta-claim: No national-scale administrative total is a fact.")
         return
 
+
     # Quantitative path — must carry the strong disclaimer
-    scaled = apply_reliability(streams, r)
-    post = bayes_update(scaled, RAW_PRIORS)
+    post, mode = collapse_posterior(streams, RAW_PRIORS, r)
 
     print("\n" + DISCLAIMER)
     print("-" * 70)
