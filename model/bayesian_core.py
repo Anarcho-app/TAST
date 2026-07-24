@@ -33,6 +33,7 @@ from __future__ import annotations
 import argparse
 import csv
 import math
+import numpy as np
 import random
 import re
 import sys
@@ -184,6 +185,69 @@ def bayes_update(streams: List[Dict], priors: Dict[str, float]) -> Dict[str, flo
     unnorm = {h: math.exp(log_post[h] - max_log) for h in HYPOTHESES}
     total = sum(unnorm.values())
     return {h: unnorm[h] / total for h in HYPOTHESES}
+
+
+
+def posterior_under_likelihood_uncertainty(
+    streams,
+    priors,
+    r: float,
+    n_samples: int = 400,
+    kappa: float = 10.0,
+    seed: int = 42,
+):
+    """
+    Treat each quantitative stream likelihood as the mean of a Beta distribution
+    with concentration kappa (hierarchical_skeleton idea, wired into main path).
+
+    Non-quantitative streams remain excluded from mechanism ranking.
+    Returns dict of hypothesis -> list of posterior samples, plus summary quantiles.
+
+    This makes the 55 hand-specified cells carry uncertainty instead of
+    false-precision point verdicts (Claude Opus 4th pass).
+    """
+    import random
+    rng = random.Random(seed)
+    quant = [s for s in streams if s.get("is_quantitative", 1) == 1]
+    samples = {h: [] for h in HYPOTHESES}
+    if not quant:
+        for h in HYPOTHESES:
+            samples[h] = [float(priors[h])] * n_samples
+        return samples
+
+    kappa = max(float(kappa), 2.0)
+    np.random.seed(seed)
+    for _ in range(n_samples):
+        noisy = []
+        for s in quant:
+            news = dict(s)
+            for h in HYPOTHESES:
+                mean = float(np.clip(s[h], 0.02, 0.98))
+                a = mean * kappa
+                b = (1.0 - mean) * kappa
+                # Beta draw
+                # Beta(a,b) via numpy; seed varies per draw for independence
+                L = float(np.random.beta(a, b))
+                L = max(0.02, min(0.98, L))
+                news[h] = r * L + (1.0 - r) * 0.5
+            noisy.append(news)
+        post = bayes_update(noisy, priors)
+        for h in HYPOTHESES:
+            samples[h].append(post[h])
+    return samples
+
+
+def summarize_likelihood_uncertainty(samples, quantiles=(0.05, 0.50, 0.95)):
+    print("\nPosterior under likelihood uncertainty (Beta means, quant streams only):")
+    print(f"{'H':<4} {'5%':>8} {'50%':>8} {'95%':>8} {'mean':>8}")
+    for h in HYPOTHESES:
+        xs = sorted(samples[h])
+        n = len(xs)
+        qvals = [xs[int(q * (n - 1))] for q in quantiles]
+        mean = sum(xs) / n
+        print(f"{h:<4} {qvals[0]:8.1%} {qvals[1]:8.1%} {qvals[2]:8.1%} {mean:8.1%}")
+    print("Hand-specified L cells treated as Beta means — not false-precision points.")
+    print(DISCLAIMER)
 
 
 def collapse_posterior(streams, priors, r: float):
@@ -343,7 +407,7 @@ def summarize_mc(samples: dict, quantiles=(0.05, 0.50, 0.95)) -> None:
 
 
 def run_self_test() -> bool:
-    print("Running self-tests (v5.5)...")
+    print("Running self-tests (v5.6)...")
     ok = True
 
     try:
@@ -467,7 +531,7 @@ def run_self_test() -> bool:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="TAST Bayesian Core v5.5 — reliability slider (0.0 = maximal skepticism)"
+        description="TAST Bayesian Core v5.6 — reliability slider (0.0 = maximal skepticism)"
     )
     parser.add_argument("--reliability", type=float, default=1.0,
                         help="victors_reliability ∈ [0.0, 1.0] (default 1.0)")
@@ -484,7 +548,11 @@ def main():
     parser.add_argument("--show-claims", action="store_true",
                         help="Summarize per-claim confidence scores and exit")
     parser.add_argument("--dampen", type=float, default=0.0, metavar="S",
-                        help="Group-level correlation damping strength in [0,1] (0=independent)")
+                        help="Group-mean shrink strength [0,1] (NOT effective-N; relabeled pending ESS fix)")
+    parser.add_argument("--lik-uncertainty", type=int, default=0, metavar="N",
+                        help="Monte Carlo N draws treating quant L as Beta means (0=off)")
+    parser.add_argument("--kappa", type=float, default=10.0,
+                        help="Beta concentration for likelihood uncertainty (default 10)")
     args = parser.parse_args()
 
     strict = not args.no_strict
@@ -529,7 +597,7 @@ def main():
             print(f"{s['stream_id']:3d}  {q}  {s['group']:>5}  {s['name']}")
         return
 
-    print(f"TAST Bayesian Core v5.5  |  victors_reliability = {r:.2f}  |  strict={strict}")
+    print(f"TAST Bayesian Core v5.6  |  victors_reliability = {r:.2f}  |  strict={strict}")
     print("=" * 70)
 
     if r < 0.05:
@@ -577,6 +645,15 @@ def main():
     print(f'   (victors_reliability ≈ {r:.2f}), then the above posteriors obtain;')
     print(f'   if we do not, the quantitative claims are undefined."')
     print(f"\n  {DISCLAIMER}")
+
+    if getattr(args, "lik_uncertainty", 0) and args.lik_uncertainty > 0:
+        samples_lu = posterior_under_likelihood_uncertainty(
+            streams, RAW_PRIORS, r,
+            n_samples=args.lik_uncertainty,
+            kappa=getattr(args, "kappa", 10.0),
+            seed=getattr(args, "seed", 42),
+        )
+        summarize_likelihood_uncertainty(samples_lu)
 
     if args.monte_carlo and args.monte_carlo > 0:
         print(f"\n--- Monte Carlo ({args.monte_carlo} samples, seed={args.seed}) ---")

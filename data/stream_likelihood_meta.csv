@@ -1,0 +1,56 @@
+stream_id,stream_name,hypothesis,likelihood,provenance,confidence_ci,notes
+1,Demographic Growth Rates,H1,0.07,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+1,Demographic Growth Rates,H2,0.65,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+1,Demographic Growth Rates,H3,0.70,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+1,Demographic Growth Rates,H4,0.50,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+1,Demographic Growth Rates,H5,0.80,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+2,Spanish America Comparison,H1,0.30,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+2,Spanish America Comparison,H2,0.85,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+2,Spanish America Comparison,H3,0.70,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+2,Spanish America Comparison,H4,0.40,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+2,Spanish America Comparison,H5,0.60,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+3,Spatial-Temporal Correlation,H1,0.20,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+3,Spatial-Temporal Correlation,H2,0.80,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+3,Spatial-Temporal Correlation,H3,0.75,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+3,Spatial-Temporal Correlation,H4,0.30,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+3,Spatial-Temporal Correlation,H5,0.65,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+4,Plantation Ledger Renaming,H1,0.10,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+4,Plantation Ledger Renaming,H2,0.80,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+4,Plantation Ledger Renaming,H3,0.60,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+4,Plantation Ledger Renaming,H4,0.20,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+4,Plantation Ledger Renaming,H5,0.55,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+7,American Genealogical Record,H1,0.45,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+7,American Genealogical Record,H2,0.85,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+7,American Genealogical Record,H3,0.85,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+7,American Genealogical Record,H4,0.75,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+7,American Genealogical Record,H5,0.85,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+8,Burial & Birth Records,H1,0.45,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+8,Burial & Birth Records,H2,0.85,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+8,Burial & Birth Records,H3,0.85,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+8,Burial & Birth Records,H4,0.75,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+8,Burial & Birth Records,H5,0.85,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+10,Multi-Gen Birth/Genealogy,H1,0.20,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+10,Multi-Gen Birth/Genealogy,H2,0.85,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+10,Multi-Gen Birth/Genealogy,H3,0.85,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+10,Multi-Gen Birth/Genealogy,H4,0.75,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+10,Multi-Gen Birth/Genealogy,H5,0.85,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+15,Sex Ratio Skew & Fertility Strain,H1,0.15,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+15,Sex Ratio Skew & Fertility Strain,H2,0.70,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+15,Sex Ratio Skew & Fertility Strain,H3,0.65,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+15,Sex Ratio Skew & Fertility Strain,H4,0.40,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+15,Sex Ratio Skew & Fertility Strain,H5,0.75,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+20,Anthropometric Selection Bias (Steckel Heights),H1,0.15,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+20,Anthropometric Selection Bias (Steckel Heights),H2,0.65,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+20,Anthropometric Selection Bias (Steckel Heights),H3,0.75,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+20,Anthropometric Selection Bias (Steckel Heights),H4,0.25,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+20,Anthropometric Selection Bias (Steckel Heights),H5,0.80,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+21,Database Imputation Limits (SlaveVoyages),H1,0.20,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+21,Database Imputation Limits (SlaveVoyages),H2,0.70,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+21,Database Imputation Limits (SlaveVoyages),H3,0.75,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+21,Database Imputation Limits (SlaveVoyages),H4,0.30,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+21,Database Imputation Limits (SlaveVoyages),H5,0.85,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+22,Census Schedule Reclassification Patterns,H1,0.15,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+22,Census Schedule Reclassification Patterns,H2,0.75,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+22,Census Schedule Reclassification Patterns,H3,0.80,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+22,Census Schedule Reclassification Patterns,H4,0.25,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML
+22,Census Schedule Reclassification Patterns,H5,0.85,hand-specified (pending primary-linked derivation),,Opus: these 55 cells carry the verdict; need same audit trail as facts YAML

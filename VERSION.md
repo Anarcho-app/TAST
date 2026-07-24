@@ -387,3 +387,22 @@ Verified design consequence (Opus):
 **Next open (Opus):**
 - Defend or revise stream 1 (`Demographic Growth Rates` H1=0.07) — the natural-increase differential is central to H1 yet assigned near-zero likelihood under H1
 - Use `--dampen` / correlation structure on the remaining 11 by default or document why not
+
+
+## v5.6 — likelihood uncertainty + audited interpretation layer
+
+- `--lik-uncertainty N --kappa K`: treats each quantitative L as a Beta mean; reports posterior quantiles under likelihood uncertainty (hierarchical_skeleton idea wired into main path).
+- `data/stream_likelihood_meta.csv`: 55 cells with placeholder provenance (hand-specified pending primary-linked derivation) — same audit trail demand as facts YAML.
+- `--dampen` help text corrected: group-mean shrink, not effective sample size.
+- Substantive result (Opus leave-one-out): H1 exclusion is the quantitative table as a whole; not a single-cell or independence artifact. Defense/revision of those cells is now the research task.
+
+Example:
+  python model/bayesian_core.py --reliability 1.0 --lik-uncertainty 300 --kappa 8
+
+
+## v5.7 — H5 falsifiability + decision log + literature bar
+
+- Operationalized H5 into H5a–H5d with explicit rejection conditions (`model/h5_subclaims.md`)
+- `DECISIONS.md` correction log; states we have lowered unearned H5 and not yet raised H1/H4 above residual H5 under the current quant table at r=1
+- `conventional/literature_engage.md` named converge/diverge vs Hacker, SlaveVoyages, Fogel/Engerman, Gutman, Steckel, Borucki & O’Malley
+- Uniform genetics evidentiary bar (same sample-size caution in every direction)

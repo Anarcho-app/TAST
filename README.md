@@ -168,3 +168,9 @@ python model/sensitivity_map.py
 At `r = 1.0` the administrative path is DEFINED (conditional).  
 At `r → 0` it becomes UNDEFINED and only the physical/structural floor remains.  
 This makes the reliability assumption visible instead of invisible.
+
+## H5 falsifiability, decisions, literature
+
+- [model/h5_subclaims.md](model/h5_subclaims.md) — H5a–H5d with rejection conditions
+- [DECISIONS.md](DECISIONS.md) — correction / direction log (including explicit statement that H1 has not yet been raised above residual H5 by the quant table at r=1)
+- [conventional/literature_engage.md](conventional/literature_engage.md) — Hacker, SlaveVoyages, Fogel/Engerman, Gutman, Steckel, Borucki & O’Malley; uniform genetics bar
