@@ -156,3 +156,15 @@ Even in high-reliability mode, the majority of quantifiable demographic claims r
 ## Credit & development
 
 See [ACKNOWLEDGMENTS.md](ACKNOWLEDGMENTS.md) for primary authorship and collaborative development credit.
+
+## Continuous sensitivity map (v5.0)
+
+Mainstream administrative reconstructions correspond to the high-reliability boundary of TAST.
+
+```bash
+python model/sensitivity_map.py
+```
+
+At `r = 1.0` the administrative path is DEFINED (conditional).  
+At `r → 0` it becomes UNDEFINED and only the physical/structural floor remains.  
+This makes the reliability assumption visible instead of invisible.

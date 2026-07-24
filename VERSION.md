@@ -253,3 +253,38 @@ Foundation made undeniable:
 - README now contains an explicit **How to evaluate this project** section.
 - Distinguishes valid technical critiques (independence assumption, remaining hand-specified likelihoods, predictive checks, external validation) from invalid category errors (treating the zero-weight rule as bias/advocacy, calling standard Bayesian math experimental, demanding a replacement national total).
 - Purpose: make shallow 3/10-style dismissals that ignore the project’s stated terms visibly misaligned with the repository itself.
+
+
+## v5.0 — 2026-07-23
+
+Bridge to mainstream ("Helper") baseline via continuous sensitivity mapping:
+
+- New `model/sensitivity_map.py`
+  - Sweeps `victors_reliability` from 1.0 → 0.0
+  - At r = 1.0: administrative path DEFINED (conditional) — closest to mainstream point-estimate regime
+  - At r → 0: administrative path UNDEFINED; only physical/structural floor remains
+  - Physical-floor log-likelihood stays active across the sweep
+
+- Explicit claim: Helper-style reconstructions are a special case of TAST at the r ≈ 1.0 boundary.
+- Does **not** produce a competing national total; it shows how sensitive any such total is to the reliability assumption.
+
+Run:
+  python model/sensitivity_map.py
+  python model/sensitivity_map.py --r 1.0 0.5 0.0
+
+## Facts + Bayesian Maslow (coupled, lean) — 2026-07-23
+
+A + B together:
+
+1. **Facts layer clarity**
+   - `data/FACTS_README.md`: `confidence` = source/observability score; **not** P(claim).
+   - Formal P(claim) only when physical-floor likelihoods can drive it.
+
+2. **Bayesian Maslow module** (`model/bayesian_maslow.py`)
+   - Latent need levels L1–L5 for historical game theory / behavior.
+   - Evidence keys tied to TAST physical/structural floor (burial, anti-literacy, family separation, record silence, genealogical termination, etc.).
+   - Monte Carlo over evidence weights (can take facts-YAML confidence as weights).
+   - Two illustrative frames: coercive regime vs multi-generational bound population.
+   - Explicitly **not** a demographic total; conditional strategic estimate only.
+
+Coupling: same observables, different question (presence/conditionality vs binding needs/payoffs).
