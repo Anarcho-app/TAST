@@ -18,7 +18,7 @@ See also: `quantitative_floor.md` — primary-linked lower bounds and structural
 
 2. Physical burial grounds and archaeological sites (African Burial Ground NYC, Catoctin Furnace, Anson Street Charleston, Chesapeake Bay 17th-c. sites, and additional documented locations) contain the remains of people of African and mixed ancestry interred on American soil. The bodies constitute independent physical testimony.
 
-3. Genealogical chains for the large majority of *documented* Black American (FBA) lineages terminate in U.S. records (church registries, county records, plantation logs, Freedmen’s Bureau, and later community projects). This is a statement about the location of the records, not a claim about the accuracy of any population total derived from them.
+3. Major documented genealogical and naming corpora for the focal multi-generational U.S. population (Freedmen’s Bureau / NARA RG 105; community projects such as Getting Word; 10 Million Names) are centered on U.S. records as the location of documentation. No measured national fraction of all chains is asserted. This is a statement about location-of-record, not about the accuracy of any population total.
 
 4. Forced labor regimes, family separation practices, legal non-personhood, and anti-literacy statutes existed and left both documentary and physical traces.
 
@@ -32,7 +32,7 @@ See also: `quantitative_floor.md` — primary-linked lower bounds and structural
 
 9. The binary “Negro/Black” category on American soil, hardened by one-drop rules and statutes such as the Virginia Racial Integrity Act (1924), created administrative conditions under which multi-generational lineages were recorded (and sometimes erased) as a single racial group.
 
-10. The extreme scarcity of *pre-1865, contemporaneous* systematic enslaved testimony is itself structural evidence of erasure produced by anti-literacy laws and legal non-personhood. Large post-emancipation sworn collections (USCT pensions, Freedmen’s Bureau marriages) exist and make the silence dated rather than absolute; they do not convert the slavery-period asymmetry into ordinary archival loss.
+10. The extreme scarcity of pre-1865 systematic enslaved testimony is itself structural evidence of erasure produced by anti-literacy laws and legal non-personhood.
 
 ---
 
