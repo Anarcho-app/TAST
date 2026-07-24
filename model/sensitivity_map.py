@@ -55,7 +55,7 @@ def run_at_r(streams, r: float) -> Dict:
         except Exception:
             pll = None
 
-    if mode == "PRIOR":
+    if mode == "PRIOR" or r < 0.05:
         return {
             "r": r,
             "admin_path": "UNDEFINED",
@@ -89,7 +89,7 @@ def sensitivity_sweep(
 def print_sensitivity_table(results: List[Dict]) -> None:
     print("TAST Continuous Sensitivity Map (v5.0)")
     print("=" * 72)
-    print("Shared collapse_posterior(): r<0.05 → PRIOR; r≥0.05 → updated. Helper boundary claim RETRACTED.")
+    print("Continuous collapse: quantitative streams only; as r→0, L→0.5 → posterior→prior. Helper claim RETRACTED.")
     print("As r → 0, administrative path → UNDEFINED; physical floor remains.")
     print()
     print(f"{'r':>6}  {'Admin path':<22}  {'H5':>8}  {'H3':>8}  {'Phys LL':>10}")

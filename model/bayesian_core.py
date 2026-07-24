@@ -188,23 +188,30 @@ def bayes_update(streams: List[Dict], priors: Dict[str, float]) -> Dict[str, flo
 
 def collapse_posterior(streams, priors, r: float):
     """
-    Single source of truth for the reliability collapse (v5.4).
+    Single source of truth for reliability-weighted mechanism update (v5.5).
 
-    Decision (owned explicitly):
-      At r < 0.05 the mechanism posterior RETURNS TO THE PRIOR.
-      Floor / non-quantitative streams are excluded from H1–H5 ranking
-      by construction — they support presence/structure via surviving
-      claims, observable_facts.yaml, and physical_loglik, not mechanism labels.
+    Design (Claude Opus 3rd pass — continuous collapse):
+      - Non-quantitative / floor streams are EXCLUDED from H1–H5 ranking
+        at every r (mechanism-silent by construction).
+      - Only quantitative streams enter apply_reliability + bayes_update.
+      - As r → 0, each quantitative L → 0.5, so the likelihood is flat
+        across hypotheses and the posterior returns to the prior
+        continuously — no threshold, no cliff, no print substitution.
+      - Presence/structure remain in surviving claims, observable_facts,
+        and physical_loglik — not in the mechanism ranking.
 
-    For r >= 0.05: standard apply_reliability + bayes_update.
-
-    Both bayesian_core and sensitivity_map MUST call this function.
-    Self-test asserts posterior(r=0) ≈ priors.
+    Returns (posterior_dict, mode) where mode is "PRIOR" if max|post-prior|<1e-9
+    else "UPDATED".
     """
-    if r < 0.05:
-        return {h: float(priors[h]) for h in HYPOTHESES}, "PRIOR"
-    scaled = apply_reliability(streams, r)
+    quant = [s for s in streams if s.get("is_quantitative", 1) == 1]
+    if not quant:
+        post = {h: float(priors[h]) for h in HYPOTHESES}
+        return post, "PRIOR"
+    scaled = apply_reliability(quant, r)
     post = bayes_update(scaled, priors)
+    # Continuous collapse: at low r, post ≈ prior
+    if max(abs(post[h] - priors[h]) for h in HYPOTHESES) < 1e-9:
+        return post, "PRIOR"
     return post, "UPDATED"
 
 
@@ -336,7 +343,7 @@ def summarize_mc(samples: dict, quantiles=(0.05, 0.50, 0.95)) -> None:
 
 
 def run_self_test() -> bool:
-    print("Running self-tests (v5.4)...")
+    print("Running self-tests (v5.5)...")
     ok = True
 
     try:
@@ -435,15 +442,21 @@ def run_self_test() -> bool:
         print(f"  [FAIL] monte_carlo_posteriors: {e}")
         ok = False
 
-    # r=0 must return to prior (collapse is a function, not a print)
+    # Continuous collapse: quantitative-only update → prior at r=0; no cliff
     try:
         streams_st = load_streams()
         post0, mode0 = collapse_posterior(streams_st, RAW_PRIORS, 0.0)
-        if mode0 != "PRIOR" or max(abs(post0[h] - RAW_PRIORS[h]) for h in HYPOTHESES) > 1e-12:
-            print(f"  [FAIL] collapse_posterior(r=0) mode={mode0} post={post0}")
+        post_lo, _ = collapse_posterior(streams_st, RAW_PRIORS, 0.049)
+        post_hi, mode_hi = collapse_posterior(streams_st, RAW_PRIORS, 0.05)
+        if max(abs(post0[h] - RAW_PRIORS[h]) for h in HYPOTHESES) > 1e-9:
+            print(f"  [FAIL] r=0 post != prior: {post0}")
+            ok = False
+        elif max(abs(post0[h] - post_lo[h]) for h in HYPOTHESES) > 0.05:
+            print(f"  [FAIL] discontinuity between r=0 and r=0.049")
             ok = False
         else:
-            print("  [PASS] collapse_posterior(r=0) returns PRIOR (= RAW_PRIORS)")
+            print("  [PASS] continuous collapse: r=0 → PRIOR; no cliff at 0.05")
+            print(f"         r=0 H5={post0['H5']:.4f}  r=1 path mode_at_0.05={mode_hi}")
     except Exception as e:
         print(f"  [FAIL] collapse_posterior self-test: {e}")
         ok = False
@@ -454,7 +467,7 @@ def run_self_test() -> bool:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="TAST Bayesian Core v5.4 — reliability slider (0.0 = maximal skepticism)"
+        description="TAST Bayesian Core v5.5 — reliability slider (0.0 = maximal skepticism)"
     )
     parser.add_argument("--reliability", type=float, default=1.0,
                         help="victors_reliability ∈ [0.0, 1.0] (default 1.0)")
@@ -516,7 +529,7 @@ def main():
             print(f"{s['stream_id']:3d}  {q}  {s['group']:>5}  {s['name']}")
         return
 
-    print(f"TAST Bayesian Core v5.4  |  victors_reliability = {r:.2f}  |  strict={strict}")
+    print(f"TAST Bayesian Core v5.5  |  victors_reliability = {r:.2f}  |  strict={strict}")
     print("=" * 70)
 
     if r < 0.05:

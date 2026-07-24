@@ -373,3 +373,17 @@ Verified:
 r=0 mode PRIOR H5 0.4273 H1 0.0727
 r=1 mode UPDATED H5 ≈ 0.82
 ```
+
+
+## v5.5 — continuous collapse (Claude Opus 3rd pass)
+
+**Delete the threshold.** Non-quantitative streams are excluded from H1–H5 ranking at **all** r. Only quantitative streams enter `apply_reliability` + `bayes_update`. As r → 0, each L → 0.5, likelihood is flat, posterior → prior continuously. No cliff at 0.05.
+
+Verified design consequence (Opus):
+- Slider moves: H5 42.7% → ~58% range rather than stuck at ~82%
+- Collapse is a consequence of the math, not a print or a magic constant
+- Helper gap (H1 tiny at r=1) is now localized to the 11 quantitative rows
+
+**Next open (Opus):**
+- Defend or revise stream 1 (`Demographic Growth Rates` H1=0.07) — the natural-increase differential is central to H1 yet assigned near-zero likelihood under H1
+- Use `--dampen` / correlation structure on the remaining 11 by default or document why not
