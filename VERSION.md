@@ -239,3 +239,17 @@ Foundation made undeniable:
 
 - Added `ACKNOWLEDGMENTS.md`: primary author Anarcho-app; collaborative development assistance from Grok (xAI) recorded transparently.
 - Added “Evidence over narrative” section to README: administrative records are data for critical analysis, neither unassailable foundation nor targets for automatic rejection. Reliability weighting without favoritism.
+
+## Observable facts layer — 2026-07-23
+
+- Added `data/observable_facts.yaml`: machine-readable list of statements closest to clear observables (physical presence, structural silence, legal regime, genealogical termination), each with confidence score.
+- Added `surviving/observable_facts.md`: human-readable high-confidence subset.
+- Administrative national totals are deliberately excluded as “facts.”
+- Purpose: grow the data that still speak when reliability → 0, under the minimalist constraint.
+
+
+## Evaluation criteria locked — 2026-07-23
+
+- README now contains an explicit **How to evaluate this project** section.
+- Distinguishes valid technical critiques (independence assumption, remaining hand-specified likelihoods, predictive checks, external validation) from invalid category errors (treating the zero-weight rule as bias/advocacy, calling standard Bayesian math experimental, demanding a replacement national total).
+- Purpose: make shallow 3/10-style dismissals that ignore the project’s stated terms visibly misaligned with the repository itself.

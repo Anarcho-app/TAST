@@ -45,6 +45,39 @@ Bayesian updating (via the continuous `victors_reliability` parameter) weighs th
 
 Cross-checks against economics, demography, archaeology, genealogy, and logic are required. That is how understanding grows. Narrative preference — on any side — is not a substitute for evidence.
 
+
+## How to evaluate this project
+
+Evaluate TAST on its stated terms. The following distinction is load-bearing.
+
+### Valid axes of critique
+
+- Independence assumption among evidence streams (explicitly flagged as a limitation).
+- Remaining hand-specified point likelihoods in `evidence_streams.csv` (conversion to data-level terms is active work).
+- Need for fuller prior/posterior predictive checks.
+- Need for external validation, adversarial re-analysis, and comparison against independent physical or genealogical series.
+- Scope and density of the physical-floor data (burial, aDNA, termination patterns, erasure metrics).
+- Technical maturity relative to hierarchical generative models in the wider literature.
+
+These are real gaps. They are listed in `VERSION.md` and are the correct targets for improvement.
+
+### Invalid axes of critique (category errors)
+
+- Treating the zero-weight collapse rule itself as “bias,” “advocacy,” or “selective framing.” The rule is the stated contribution: when `victors_reliability → 0`, administrative head-counts become UNDEFINED and only the physical/structural floor remains.
+- Calling standard Bayesian machinery (Bayes’ theorem, product rule, Monte Carlo, hierarchical hyperpriors, Poisson/Beta likelihoods) “non-standard” or “experimental.” See `METHODS.md`.
+- Demanding that the project produce a replacement national population total. It explicitly refuses to do so; its purpose is to make the conditionality of every such total unavoidable.
+- Scoring the refusal to convert “least-bad / best-available” administrative sources into “facts” as a methodological failure. That refusal is required by the project’s own rules.
+- Treating multi-generational American rootedness framing as illegitimate while treating continental-origin-as-default as neutral. Both are framing choices; only one is marked as residual in this repo.
+
+### Short test for any review
+
+1. Does the review engage the physical floor and the zero-weight rule on their own terms?
+2. Does it distinguish standard mathematics from the epistemic rule?
+3. Does it criticize the model for not doing something it explicitly declines to do?
+
+If the answer to (3) is yes and the answers to (1)–(2) are no, the review is talking past the project.
+
+
 ## Core Design Principles (v4.0)
 
 1. **Zero-Weight / Maximal-Skepticism Mode**  

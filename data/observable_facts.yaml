@@ -1,0 +1,682 @@
+meta:
+  description: Observable and near-observable facts for the TAST physical/structural floor. These are
+    the statements closest to clear observables that survive maximal skepticism of administrative head-counts.
+    Confidence scores are transparent and provisional.
+  rule: Administrative national totals are not listed here as facts. Physical presence, structural silence,
+    legal regime, and genealogical termination patterns are prioritized.
+  confidence_note: confidence ∈ [0,1]. Values ≥ 0.85 are treated as high-confidence observables for floor
+    purposes. All remain open to revision with new primary evidence.
+facts:
+- id: floor-01
+  statement: Multiple burial grounds containing remains of people of African and mixed ancestry exist
+    on the territory that became the United States (17th–19th centuries).
+  value: null
+  confidence: 0.95
+  source: NPS African Burial Ground; Harney et al. Science 2023; Fleskes et al. PNAS 2023; Chesapeake
+    aDNA studies
+  provenance: Physical archaeological + aDNA
+  enslaved_source: Physical remains (no voice required)
+  url_or_archive: null
+  type: physical_presence
+- id: floor-02
+  statement: African Burial Ground (New York) contains an estimated 15,000–20,000 interments of people
+    of African descent (late 17th–18th centuries).
+  value: 15,000–20,000 (estimate)
+  confidence: 0.9
+  source: NPS / GSA African Burial Ground reports
+  provenance: Physical archaeological
+  enslaved_source: Physical remains
+  url_or_archive: null
+  type: physical_presence
+- id: floor-03
+  statement: Published aDNA has been recovered from historical individuals of African and mixed ancestry
+    interred at U.S. sites including Catoctin Furnace, Anson Street (Charleston), and Chesapeake Bay 17th-century
+    contexts.
+  value: null
+  confidence: 0.95
+  source: Harney et al. Science 2023; Fleskes et al. PNAS 2023; Current Biology 2023
+  provenance: Lab-derived aDNA + physical remains; community-engaged
+  enslaved_source: Physical remains
+  url_or_archive: null
+  type: physical_presence
+- id: floor-04
+  statement: The large majority of documented genealogical chains for the focal multi-generational U.S.
+    population terminate in U.S. records (church, county, plantation, Freedmen’s Bureau, community projects).
+  value: null
+  confidence: 0.88
+  source: Freedmen’s Bureau records; community genealogical projects (Getting Word, Whitney, etc.)
+  provenance: Genealogical / documentary location-of-record
+  enslaved_source: Mixed (later records include freedpeople’s own statements)
+  url_or_archive: null
+  type: genealogical_structure
+- id: floor-05
+  statement: Colonial and state anti-literacy laws and related statutes restricted enslaved people’s ability
+    to create and preserve their own quantitative records.
+  value: null
+  confidence: 0.92
+  source: Colonial and state session laws; legal-historical literature
+  provenance: Legal / statutory
+  enslaved_source: N/A — statutes are the evidence of restriction
+  url_or_archive: null
+  type: structural_silence
+- id: floor-06
+  statement: Systematic pre-1865 quantitative testimony authored by the enslaved population is extremely
+    scarce relative to the volume of owner, trader, and enumerator quantitative material.
+  value: null
+  confidence: 0.9
+  source: Comparative volume of surviving record classes; WPA collection as post-bellum and limited
+  provenance: Structural / archival asymmetry
+  enslaved_source: Absence is the observable
+  url_or_archive: null
+  type: structural_silence
+- id: floor-07
+  statement: Racial classification on U.S. censuses and vital records for the relevant period was primarily
+    enumerator-driven rather than self-reported.
+  value: null
+  confidence: 0.88
+  source: U.S. Census instructions and historical methodology literature
+  provenance: Administrative / methodological
+  enslaved_source: N/A — classification process itself
+  url_or_archive: null
+  type: administrative_process
+- id: floor-08
+  statement: People of African and mixed ancestry were present on the territory that became the United
+    States for multiple generations prior to 1865.
+  value: null
+  confidence: 0.97
+  source: Convergent physical, genealogical, and documentary evidence
+  provenance: Physical + genealogical + documentary
+  enslaved_source: Physical remains + later testimony
+  url_or_archive: null
+  type: physical_presence
+- id: '23'
+  statement: African Burial Ground (Manhattan)
+  value: 15,000+ estimated burials
+  confidence: 0.95
+  source: National Park Service
+  provenance: Archaeological + federal records
+  enslaved_source: '**YES — physical remains are direct evidence of enslaved presence**'
+  url_or_archive: '[nps.gov](https://www.nps.gov/afbg/index.htm)'
+  type: observable_candidate
+- id: '33'
+  statement: 15,000-20,000 estimated burials; skeletal analysis + artifacts (1690s-1794)
+  value: 15,000-20,000 burials
+  confidence: 0.95
+  source: New York African Burial Ground Archaeological Reports (full GSA/NPS reports)
+  provenance: Federal archaeological excavation
+  enslaved_source: '**YES** — physical remains + mortuary practices of enslaved'
+  url_or_archive: '[nps.gov/afbg](https://www.nps.gov/afbg/learn/historyculture/archaeology.htm) + [gsa.gov
+    Vol.5](https://www.gsa.gov/system/files/Volume5_GenAudNYABG_2.pdf)'
+  type: observable_candidate
+- id: '38'
+  statement: Excavations + surveys of enslaved cemeteries (e.g., Hermitage, Mount Vernon)
+  value: Multiple site reports
+  confidence: 0.95
+  source: Andrew Jackson's Hermitage Enslaved Cemetery + Mount Vernon Slave Memorial Reports
+  provenance: Archaeological digs
+  enslaved_source: '**YES** — physical remains'
+  url_or_archive: '[thehermitage.com/enslaved-cemetery](https://thehermitage.com/enslaved-cemetery) +
+    [mountvernon.org/.../slave-burial-ground-research](https://www.mountvernon.org/preservation/archaeology/slave-burial-ground-research)'
+  type: observable_candidate
+- id: '50'
+  statement: Harlem African Burial Ground fieldwork
+  value: Phase completion (2024-2025); archaeological recovery of remains
+  confidence: 0.95
+  source: NYCEDC/AKRF (2025 report)
+  provenance: Archaeological excavation
+  enslaved_source: '**YES** — physical remains of enslaved/free Black individuals'
+  url_or_archive: '[edc.nyc/project/east-126th-harlem-african-burial-ground-project](https://edc.nyc/project/east-126th-harlem-african-burial-ground-project)'
+  type: observable_candidate
+- id: '51'
+  statement: Genetic legacy of African Americans from Catoctin Furnace
+  value: aDNA from 27 individuals at late 18th/early 19th c. ironworks burial site; 41,000+ living genetic
+    relatives identified via 23andMe
+  confidence: 0.95
+  source: Harney et al. (2023), *Science* 381(6657):eade4995
+  provenance: Lab-derived aDNA; community-engaged; linked to modern ancestry database
+  enslaved_source: '**YES** — physical remains of enslaved/free African Americans; aDNA restores ancestry
+    knowledge'
+  url_or_archive: '[pmc.ncbi.nlm.nih.gov/articles/PMC10958645](https://pmc.ncbi.nlm.nih.gov/articles/PMC10958645/)'
+  type: observable_candidate
+- id: '52'
+  statement: Community-engaged aDNA reveals diverse origins of 18th-century Charleston African descendants
+  value: Low-coverage aDNA from 18 of 36 individuals at Anson Street African Burial Ground; diverse African
+    origins identified
+  confidence: 0.95
+  source: Fleskes et al. (2023), *PNAS* 120(3):e2201620120
+  provenance: Lab-derived aDNA; community-engaged (Gullah Society of Charleston)
+  enslaved_source: '**YES** — physical remains of enslaved African descendants; community-directed research'
+  url_or_archive: '[pmc.ncbi.nlm.nih.gov/articles/PMC9934026](https://pmc.ncbi.nlm.nih.gov/articles/PMC9934026/)'
+  type: observable_candidate
+- id: '53'
+  statement: Historical genomes elucidate European settlement and the African diaspora at 17th-century
+    Chesapeake Bay
+  value: Genomic data from 11 individuals (8 European-ancestry, 3 African-ancestry); ancestry-segregated
+    burial groupings
+  confidence: 0.95
+  source: '*Current Biology* 33(13), 2023'
+  provenance: Lab-derived aDNA; archaeological context
+  enslaved_source: '**YES** — physical remains documenting earliest African diaspora presence and racial
+    segregation in burial practices'
+  url_or_archive: '[sciencedirect.com/science/article/pii/S0960982223005511](https://www.sciencedirect.com/science/article/pii/S0960982223005511)'
+  type: observable_candidate
+- id: '54'
+  statement: 'Anson Street ASABG expanded: 29 of 36 Lowcountry-born; whole-genome confirms West/West-Central
+    African diversity + 1 individual with Fulani affiliation; 21 of 27 genetically male; 1 mother-child
+    pair only kinship found'
+  value: 36 individuals, 18 with genomic data
+  confidence: 0.95
+  source: Fleskes et al. (2023), PNAS + Penn Today summary
+  provenance: Lab-derived aDNA; community-engaged (ASABG Project + Gullah Society)
+  enslaved_source: '**YES** — physical remains; community-directed naming ceremony; reinterment 2019'
+  url_or_archive: '[pnas.org/doi/10.1073/pnas.2201620120](https://www.pnas.org/doi/10.1073/pnas.2201620120)'
+  type: observable_candidate
+- id: '55'
+  statement: 'Chesapeake Bay 17th-c. expanded: ancestry-segregated burial groupings confirm racial classification
+    applied even in death; earliest genomic evidence of African diaspora presence in North America'
+  value: 11 individuals (8 European-ancestry, 3 African-ancestry)
+  confidence: 0.95
+  source: Current Biology 33(13), 2023
+  provenance: Lab-derived aDNA; archaeological context
+  enslaved_source: '**YES** — physical remains; burial segregation = classification in practice'
+  url_or_archive: '[sciencedirect.com/science/article/pii/S0960982223005511](https://www.sciencedirect.com/science/article/pii/S0960982223005511)'
+  type: observable_candidate
+- id: '56'
+  statement: 'Catoctin Furnace expanded: first study linking historical aDNA to modern commercial ancestry
+    platform; demonstrates multi-generational U.S. rootedness via 41,000+ living genetic relatives'
+  value: 27 individuals; 41,000+ living relatives via 23andMe
+  confidence: 0.95
+  source: Harney et al. (2023), Science 381(6657)
+  provenance: Lab-derived aDNA; community-engaged; linked to modern platform
+  enslaved_source: '**YES** — physical remains + modern descendant linkage = American roots proof'
+  url_or_archive: '[pmc.ncbi.nlm.nih.gov/articles/PMC10958645](https://pmc.ncbi.nlm.nih.gov/articles/PMC10958645/)'
+  type: observable_candidate
+- id: '57'
+  statement: 'Estate Little Princess Archaeology Project (St. Croix, USVI): Danish colonial enslaved remains;
+    bioarchaeological + aDNA; comparative Caribbean enslaved population'
+  value: Site-level excavation
+  confidence: 0.95
+  source: Norton & Fleskes, various publications (2019-2024)
+  provenance: Lab-derived aDNA; community-engaged model
+  enslaved_source: '**YES** — physical remains of enslaved; Caribbean comparative control'
+  url_or_archive: '[asabgproject.com](https://www.asabgproject.com/)'
+  type: observable_candidate
+- id: '58'
+  statement: 'First African Baptist Church Cemetery, Philadelphia: ~140+ burials excavated (2023-2024);
+    18th-19th century free & enslaved Black community'
+  value: ~140+ burials
+  confidence: 0.95
+  source: Various press reports + forthcoming publication
+  provenance: Archaeological excavation; urban redevelopment context
+  enslaved_source: '**YES** — physical remains; free + enslaved community evidence'
+  url_or_archive: '[inquirer.com/FABC burial](https://www.inquirer.com/news/first-african-baptist-church-cemetery-philadelphia-archaeology-20231215.html)'
+  type: observable_candidate
+- id: '60'
+  statement: 'Pine Street African & African American Burial Ground, Kingston NY: 18th-century; colonial
+    "Colored" category included Indigenous + multi-ethnic individuals'
+  value: Est. hundreds of burials
+  confidence: 0.95
+  source: Diamond (2006), Northeast Historical Archaeology 35(1):47-62
+  provenance: Archaeological + historical records
+  enslaved_source: '**YES** — physical remains; classification fluidity documented'
+  url_or_archive: '[scholarworks references](https://scholarworks.utrgv.edu/anthro_fac/110/)'
+  type: observable_candidate
+- id: '63'
+  statement: 'Montpelier (James Madison): enslaved community burial ground; descendant-directed research
+    since 2014'
+  value: ~150+ estimated burials
+  confidence: 0.95
+  source: Montpelier Foundation
+  provenance: Archaeological excavation + descendant engagement
+  enslaved_source: '**YES** — physical remains; descendant-directed research'
+  url_or_archive: '[montpelier.org/enslaved](https://www.montpelier.org/learn/the-enslaved-community)'
+  type: observable_candidate
+- id: '67'
+  statement: 'African Burial Ground National Monument NYC expanded: 419 recovered; 10,000-20,000+ estimated
+    total; community-directed research (Howard Univ.)'
+  value: 419 recovered; 10,000-20,000 est.
+  confidence: 0.95
+  source: GSA/NPS/Howard University reports
+  provenance: Federal excavation; community-directed
+  enslaved_source: '**YES** — physical remains; community reburial 2003; national monument'
+  url_or_archive: '[nps.gov/afbg](https://www.nps.gov/afbg/learn/historyculture/archaeology.htm)'
+  type: observable_candidate
+- id: '68'
+  statement: 'Harlem African Burial Ground expanded: June 2024-Sept 2025 fieldwork completed; full site
+    mapped; analysis beginning 2026'
+  value: Complete site recovery
+  confidence: 0.95
+  source: NYCEDC + HABGI (2025)
+  provenance: Archaeological excavation; descendant-directed
+  enslaved_source: '**YES** — physical remains; Dr. Watkins & Dr. Lans bioarchaeologists'
+  url_or_archive: '[edc.nyc/project/east-126th-harlem-african-burial-ground-project](https://edc.nyc/project/east-126th-harlem-african-burial-ground-project)'
+  type: observable_candidate
+- id: '152'
+  statement: 'Great Dismal Swamp maroon communities: sustained ~1700s-1860s; escaped enslaved + Indigenous
+    + others'
+  value: Multi-decade occupation
+  confidence: 0.95
+  source: Sayers (2014) "A Desolate Place for a Defiant People"
+  provenance: Archaeological
+  enslaved_source: '**YES** — self-liberated communities; agency evidence'
+  url_or_archive: '[jstor.org/stable/j.ctvx073z9](https://www.jstor.org/stable/j.ctvx073z9)'
+  type: observable_candidate
+- id: '62'
+  statement: 'Belmont Cemetery, Nashville TN: enslaved burial ground; ongoing preservation'
+  value: Estimated 500+ burials
+  confidence: 0.92
+  source: Nashville historical/preservation records
+  provenance: Archaeological + community records
+  enslaved_source: Partial — physical site + community oral history
+  url_or_archive: '[nashville.gov/City-Cemetery](https://www.nashville.gov/departments/parks/historic-sites/city-cemetery)'
+  type: observable_candidate
+- id: '10'
+  statement: U.S. burial sites (enslaved era)
+  value: 2–4 million estimated
+  confidence: 0.82
+  source: Archaeological surveys + cemetery records
+  provenance: Physical evidence (partially independent)
+  enslaved_source: Partial — burial sites are physical remains of enslaved people themselves
+  url_or_archive: '[nps.gov/afbg](https://www.nps.gov/afbg/index.htm) + state archives'
+  type: observable_candidate
+- id: '59'
+  statement: 'Colonial Williamsburg enslaved cemetery GPR surveys: ground-penetrating radar mapping of
+    unmarked enslaved burials across multiple plantation sites'
+  value: Multiple sites surveyed
+  confidence: 0.82
+  source: Colonial Williamsburg Foundation ongoing projects
+  provenance: Archaeological remote sensing
+  enslaved_source: Partial — non-invasive physical evidence of burial presence
+  url_or_archive: '[colonialwilliamsburg.org/archaeology](https://www.colonialwilliamsburg.org/learn/living-history/archaeology/)'
+  type: observable_candidate
+- id: '61'
+  statement: 'Cedar Key Cemetery, Florida: African American section GPR survey; community-engaged archaeology
+    in majority-White rural setting'
+  value: Cemetery survey
+  confidence: 0.82
+  source: González-Tennant & González-Tennant (2024)
+  provenance: Archaeological GPR survey
+  enslaved_source: Partial — community testimony + physical site documentation
+  url_or_archive: '[scholarworks.utrgv.edu/anthro_fac/110](https://scholarworks.utrgv.edu/anthro_fac/110/)'
+  type: observable_candidate
+- id: '66'
+  statement: 'NY/Hudson Valley African Burial Grounds geospatial study: 7+ sites; colonial "Colored" category
+    confirmed as inclusive of Indigenous + multi-ethnic'
+  value: 7+ sites compared
+  confidence: 0.82
+  source: Danylchak et al. (2025), MDPI
+  provenance: GIS + archaeological records
+  enslaved_source: Partial — spatial analysis; classification fluidity evidence
+  url_or_archive: '[mdpi.com/2673-9461/5/4/25](https://www.mdpi.com/2673-9461/5/4/25)'
+  type: observable_candidate
+- id: '69'
+  statement: 'Montgomery NY African Burial Ground: est. 500 individuals; earliest burial 1756; colonial
+    "Colored" = mixed classification'
+  value: Est. 500 individuals
+  confidence: 0.82
+  source: Sandy (2024), archaeological surveys
+  provenance: Archaeological; magnetometry + GPR
+  enslaved_source: Partial — classification fluidity evidence
+  url_or_archive: '[mdpi.com reference](https://www.mdpi.com/2673-9461/5/4/25)'
+  type: observable_candidate
+- id: '145'
+  statement: 'Historic Black cemeteries threatened in SE U.S.: development, neglect, vandalism; GPR documentation
+    expanding'
+  value: Hundreds of sites
+  confidence: 0.82
+  source: Martin & Everett (2023), Archaeological Prospection
+  provenance: Archaeological survey
+  enslaved_source: Partial — documents ongoing physical erasure
+  url_or_archive: '[onlinelibrary.wiley.com/doi/10.1002/arp.1924](https://onlinelibrary.wiley.com/doi/10.1002/arp.1924)'
+  type: observable_candidate
+- id: '146'
+  statement: 'Chicora Foundation "The Silence of the Dead" (2010): Charleston cemetery survey; foundational
+    inventory'
+  value: Hundreds of sites
+  confidence: 0.82
+  source: Chicora Foundation, SC
+  provenance: Archaeological + oral history
+  enslaved_source: Partial — community input shaped survey
+  url_or_archive: '[chicora.org](https://www.chicora.org/)'
+  type: observable_candidate
+- id: '150'
+  statement: 'Maroon community archaeology: Great Dismal Swamp, FL maroons — communities outside classification
+    systems'
+  value: Multiple sites
+  confidence: 0.82
+  source: Various published excavations
+  provenance: Archaeological
+  enslaved_source: Partial — communities outside racial binary
+  url_or_archive: '[nps.gov/grdismalswamp](https://www.nps.gov/grsm/learn/historyculture/african-american-history.htm)'
+  type: observable_candidate
+- id: '151'
+  statement: 'Angola, Florida site: mixed African-Indigenous-Seminole community; pre-removal; classification
+    fluidity'
+  value: Site excavation
+  confidence: 0.82
+  source: Published reports
+  provenance: Archaeological
+  enslaved_source: Partial — multi-ethnic community evidence
+  url_or_archive: '[floridamemory.com](https://www.floridamemory.com/)'
+  type: observable_candidate
+- id: '64'
+  statement: 'Mapping Charleston''s Black Burial Grounds: NPS-funded GIS project (2023-2025); community-engaged
+    listening sessions shaped scope'
+  value: Citywide burial mapping
+  confidence: 0.75
+  source: Preservation Society of Charleston + ASABG + NPS
+  provenance: Community-engaged GIS mapping
+  enslaved_source: '**YES** — community oral history shapes record; "Black history severely under-collected"'
+  url_or_archive: '[preservationsociety.org](https://www.preservationsociety.org/what-we-do/preservation-initiatives/mapping-charlestons-black-burial-grounds/)'
+  type: observable_candidate
+- id: '65'
+  statement: 'USF African American Burial Ground & Remembering Project: Tampa Bay area; documents erasure
+    of historic Black cemeteries'
+  value: Multiple sites documented
+  confidence: 0.75
+  source: USF Living Heritage Institute (2020+)
+  provenance: Academic-community partnership
+  enslaved_source: '**YES** — oral histories + physical site documentation; cemetery erasure evidence'
+  url_or_archive: '[digitalcommons.usf.edu/african_american_burial_grounds_ohp](https://digitalcommons.usf.edu/african_american_burial_grounds_ohp/)'
+  type: observable_candidate
+- id: '134'
+  statement: 'FindAGrave African American burials: community-contributed grave documentation mapping physical
+    burial evidence'
+  value: Millions of entries
+  confidence: 0.75
+  source: FindAGrave (Ancestry subsidiary)
+  provenance: Community-contributed
+  enslaved_source: '**YES** — community-authored; physical evidence'
+  url_or_archive: '[findagrave.com](https://www.findagrave.com/)'
+  type: observable_candidate
+- id: '137'
+  statement: 'Monticello Getting Word: 200+ descendants interviewed since 1993; multi-generational American
+    genealogies'
+  value: 200+ interviews
+  confidence: 0.75
+  source: Thomas Jefferson Foundation
+  provenance: Community-engaged
+  enslaved_source: '**YES** — descendant testimony; American roots documentation'
+  url_or_archive: '[monticello.org/getting-word](https://www.monticello.org/getting-word/)'
+  type: observable_candidate
+- id: '138'
+  statement: 'Georgetown Memory Project: 272 enslaved sold 1838; 10,000+ descendants traced; 7+ generations
+    American rootedness'
+  value: 272 persons; 10,000+ descendants
+  confidence: 0.75
+  source: Georgetown University
+  provenance: Descendant-led genealogy
+  enslaved_source: '**YES** — 7+ generation American presence documented'
+  url_or_archive: '[georgetownmemoryproject.org](https://www.georgetownmemoryproject.org/)'
+  type: observable_candidate
+- id: '139'
+  statement: 'DAEA DNA project: community-led genetic genealogy connecting descendants to enslaved ancestors'
+  value: Community project
+  confidence: 0.75
+  source: Descendants of Africans Enslaved in America
+  provenance: Community-led
+  enslaved_source: '**YES** — descendant-directed research'
+  url_or_archive: '[daea.com](https://www.daea.com/)'
+  type: observable_candidate
+- id: '140'
+  statement: 'AfriGeneas: African American genealogy research community; millions of cross-referenced
+    records'
+  value: Millions of records
+  confidence: 0.75
+  source: AfriGeneas community
+  provenance: Community-contributed
+  enslaved_source: '**YES** — community-authored genealogical documentation'
+  url_or_archive: '[afrigeneas.com](https://www.afrigeneas.com/)'
+  type: observable_candidate
+- id: '142'
+  statement: 'EJI: 6,500+ racial terror lynchings documented (1877-1950); Community Remembrance soil collection;
+    National Memorial'
+  value: 6,500+ documented
+  confidence: 0.75
+  source: Equal Justice Initiative
+  provenance: Community-engaged
+  enslaved_source: '**YES** — community soil collection = physical evidence'
+  url_or_archive: '[eji.org](https://eji.org/)'
+  type: observable_candidate
+- id: '153'
+  statement: 'Slave Dwelling Project: 200+ sites visited nationwide; overnight stays in enslaved quarters;
+    preservation advocacy'
+  value: 200+ sites
+  confidence: 0.75
+  source: Joseph McGill, Slave Dwelling Project
+  provenance: Community-driven
+  enslaved_source: '**YES** — physical structures as American rootedness evidence'
+  url_or_archive: '[slavedwellingproject.org](https://slavedwellingproject.org/)'
+  type: observable_candidate
+- id: '12'
+  statement: WPA enslaved narratives
+  value: ~2,300 interviews
+  confidence: 0.65
+  source: Library of Congress WPA collection
+  provenance: Direct (but mediated by white interviewers, Jim Crow era)
+  enslaved_source: '**YES — only systematic enslaved voice source (~0.02% sample)**'
+  url_or_archive: '[loc.gov](https://www.loc.gov/collections/slave-narratives-from-the-federal-writers-project-1936-to-1938/)'
+  type: observable_candidate
+- id: '35'
+  statement: ~70,000 bank accounts (signatures, family members, birthplaces ~1865-1874)
+  value: ~70,000 accounts
+  confidence: 0.65
+  source: Freedman's Savings Bank Records
+  provenance: Bank ledgers (federal-chartered)
+  enslaved_source: '**YES** — signatures + self-reported family from formerly enslaved'
+  url_or_archive: '[ancestry.com/cs/freedmens](https://www.ancestry.com/cs/freedmens) or [familysearch.org
+    collection 1417695](https://www.familysearch.org/search/collection/1417695)'
+  type: observable_candidate
+- id: '40'
+  statement: Claims/testimonies from ~20,000 formerly enslaved (property loss post-war)
+  value: ~20,000 claims
+  confidence: 0.65
+  source: Southern Claims Commission Records (1871-1880)
+  provenance: Federal commission hearings
+  enslaved_source: '**YES** — direct oral testimonies'
+  url_or_archive: '[fold3.com/title/794/southern-claims-commission](https://www.fold3.com/title/794/southern-claims-commission)
+    or National Archives microfilm'
+  type: observable_candidate
+- id: '71'
+  statement: 'WPA Slave Narrative Collection: 2,300+ first-person interviews, 500+ photos; 17 states;
+    LOC digitized 2000-2001'
+  value: 2,300+ interviews; 500+ photos
+  confidence: 0.65
+  source: Library of Congress
+  provenance: Federal project; predominantly White interviewers
+  enslaved_source: '**YES** — direct enslaved testimony (mediated; 70+ years post-emancipation)'
+  url_or_archive: '[loc.gov/collections/slave-narratives](https://www.loc.gov/collections/slave-narratives-from-the-federal-writers-project-1936-to-1938/)'
+  type: observable_candidate
+- id: '72'
+  statement: 'WPA Supplementary Series 1: 10 additional volumes from state archives (1977); pre-edited
+    versions recovered'
+  value: 10 volumes
+  confidence: 0.65
+  source: Rawick ed. (Greenwood, 1977)
+  provenance: State archive discoveries
+  enslaved_source: '**YES** — expanded enslaved testimony pool'
+  url_or_archive: '[archives.gov](https://www.archives.gov/files/research/african-americans/slave-narratives.pdf)'
+  type: observable_candidate
+- id: '73'
+  statement: 'WPA Supplementary Series 2: 9 volumes; primarily Texas discoveries (1979)'
+  value: 9 volumes
+  confidence: 0.65
+  source: Rawick ed. (Greenwood, 1979)
+  provenance: State archive discoveries
+  enslaved_source: '**YES** — expanded enslaved testimony'
+  url_or_archive: '[archives.gov](https://www.archives.gov/files/research/african-americans/slave-narratives.pdf)'
+  type: observable_candidate
+- id: '74'
+  statement: 'Fisk University slave narratives: Charles S. Johnson (1929); earliest systematic HBCU-directed
+    effort'
+  value: ~100+ interviews
+  confidence: 0.65
+  source: Johnson, Fisk University
+  provenance: Academic; HBCU-directed
+  enslaved_source: '**YES** — enslaved testimony; Black-directed research'
+  url_or_archive: '[Rawick vols.18-19 reference](https://libguides.rice.edu/WPASlaveNarratives)'
+  type: observable_candidate
+- id: '75'
+  statement: 'Southern University slave narratives: John B. Cade "Opinions Regarding Slavery" (1930s)'
+  value: Multiple interviews
+  confidence: 0.65
+  source: Cade, Journal of Negro History (1935)
+  provenance: Academic; HBCU-directed
+  enslaved_source: '**YES** — enslaved testimony; Black-directed'
+  url_or_archive: '[jstor.org/stable/2714721](https://www.jstor.org/stable/2714721)'
+  type: observable_candidate
+- id: '76'
+  statement: 'Federal Theater Project slave interviews: additional New Deal interviews; National Archives
+    RG 69.5.5'
+  value: Multiple interviews
+  confidence: 0.65
+  source: National Archives, RG 69
+  provenance: Federal project records
+  enslaved_source: '**YES** — enslaved testimony from parallel program'
+  url_or_archive: '[archives.gov](https://www.archives.gov/)'
+  type: observable_candidate
+- id: '77'
+  statement: 'Virginia Writers'' Project "The Negro in Virginia" (1940): ~200+ life histories; Roscoe
+    Lewis continued collecting'
+  value: ~200+ life histories
+  confidence: 0.65
+  source: VWP (1940); Lewis archives
+  provenance: Federal project + independent
+  enslaved_source: '**YES** — enslaved testimony; Virginia-specific'
+  url_or_archive: '[loc.gov WPA reference](https://www.loc.gov/collections/slave-narratives-from-the-federal-writers-project-1936-to-1938/articles-and-essays/introduction-to-the-wpa-slave-narratives/wpa-and-the-slave-narrative-collection)'
+  type: observable_candidate
+- id: '79'
+  statement: 'Turner "Africanisms of the Gullah Dialect" (1949): linguistic evidence of cultural retention;
+    used in ASABG naming ceremony'
+  value: Linguistic corpus
+  confidence: 0.65
+  source: Turner (1949; Univ. SC Press reprint)
+  provenance: Linguistic fieldwork with Gullah
+  enslaved_source: '**YES** — community linguistic testimony'
+  url_or_archive: '[sc.edu/uscpress](https://www.sc.edu/uscpress/)'
+  type: observable_candidate
+- id: '80'
+  statement: 'Georgia Writers'' Project "Drums and Shadows" (1940): coastal GA African heritage; spiritual
+    practices, oral traditions'
+  value: ~100+ interviews
+  confidence: 0.65
+  source: Georgia Writers' Project (Univ. Georgia Press)
+  provenance: Federal project; GA-specific
+  enslaved_source: '**YES** — enslaved/descendant testimony'
+  url_or_archive: '[ugapress.org](https://www.ugapress.org/)'
+  type: observable_candidate
+- id: '132'
+  statement: 'Documenting the American South (DocSouth): full-text slave narratives, autobiographies,
+    plantation records'
+  value: Thousands of documents
+  confidence: 0.65
+  source: UNC Chapel Hill
+  provenance: University-digitized
+  enslaved_source: '**YES** — first-person enslaved narratives'
+  url_or_archive: '[docsouth.unc.edu](https://docsouth.unc.edu/)'
+  type: observable_candidate
+- id: '147'
+  statement: 'LOC Born in Slavery expanded: 200+ photos never before public until 2000-2001 digitization'
+  value: 2,300+ narratives; 200+ new photos
+  confidence: 0.65
+  source: LOC (Citigroup Foundation support)
+  provenance: Federal + foundation digitization
+  enslaved_source: '**YES** — largest enslaved first-person collection'
+  url_or_archive: '[loc.gov/collections/slave-narratives](https://www.loc.gov/collections/slave-narratives-from-the-federal-writers-project-1936-to-1938/)'
+  type: observable_candidate
+- id: '148'
+  statement: 'Booker T. Washington "Story of the Negro" (1909): born enslaved in VA; first-person witness
+    + community chronicler'
+  value: 2 volumes
+  confidence: 0.65
+  source: Washington (Doubleday, 1909)
+  provenance: Contemporary witness (1856-1915)
+  enslaved_source: '**YES** — author born enslaved; witness to American rootedness'
+  url_or_archive: '[archive.org](https://archive.org/)'
+  type: observable_candidate
+- id: '154'
+  statement: 'Perdue et al. "Weevils in the Wheat" (1976): 300+ Virginia WPA interviews with interviewer
+    bias analysis'
+  value: 300+ interviews
+  confidence: 0.65
+  source: Perdue, Barden, Phillips (UVA Press)
+  provenance: Academic compilation
+  enslaved_source: '**YES** — enslaved testimony; bias framework'
+  url_or_archive: '[archive.org](https://archive.org/details/weevilsinwheatin00perd)'
+  type: observable_candidate
+- id: '48'
+  statement: Stolen Relations database launch
+  value: Thousands of records of Indigenous enslavement; interactive map/database
+  confidence: 0.62
+  source: Brown University/Stolen Relations (May 2025 launch)
+  provenance: Community-based archival aggregation
+  enslaved_source: Partial — records of enslaved Indigenous (colonial-mediated)
+  url_or_archive: '[stolenrelations.org](https://stolenrelations.org)'
+  type: observable_candidate
+- id: '115'
+  statement: 'Jackson Heart Study: 5,306 AA participants; largest single-site AA cardiovascular genomics
+    study'
+  value: 5,306
+  confidence: 0.62
+  source: JHS investigators
+  provenance: Lab-derived; community-based
+  enslaved_source: Partial — modern AA participant consent
+  url_or_archive: '[jacksonheartstudy.org](https://www.jacksonheartstudy.org/)'
+  type: observable_candidate
+- id: '141'
+  statement: 'MAAP (Columbia Univ.): interactive Black history site maps; geospatial community presence
+    documentation'
+  value: Hundreds of sites
+  confidence: 0.62
+  source: Columbia University
+  provenance: Academic-community
+  enslaved_source: Partial — physical sites of Black community
+  url_or_archive: '[maap.columbia.edu](https://maap.columbia.edu/)'
+  type: observable_candidate
+- id: '7'
+  statement: Ancient DNA samples worldwide
+  value: ~15,000–20,000
+  confidence: 0.55
+  source: Published aDNA literature (2025)
+  provenance: Lab-derived; peer-reviewed
+  enslaved_source: N/A — samples from deceased; no consent framework for historical populations
+  url_or_archive: '[science.org](https://www.science.org/doi/10.1126/science.adh5007)'
+  type: observable_candidate
+- id: '70'
+  statement: 'National pattern: African American burial grounds as memory sites + genealogical sources;
+    "since colonial period, racist laws prevented enslaved/free from White burial grounds"'
+  value: National pattern
+  confidence: 0.52
+  source: Gilmore (2025), The Conversation
+  provenance: Academic summary
+  enslaved_source: Partial — frames burial grounds as genealogical evidence
+  url_or_archive: '[theconversation.com](https://theconversation.com/rediscovery-of-african-american-burial-grounds-provides-long-overdue-opportunities-for-collective-healing-260394)'
+  type: observable_candidate
+- id: '133'
+  statement: 'FamilySearch African Heritage: 2M+ records for African American genealogical research'
+  value: 2M+ records
+  confidence: 0.52
+  source: FamilySearch (LDS Church)
+  provenance: Digitized from diverse archives
+  enslaved_source: Partial — some enslaved-authored; mostly owner-mediated
+  url_or_archive: '[familysearch.org African American](https://www.familysearch.org/en/wiki/African_American_Genealogy)'
+  type: observable_candidate
+- id: '136'
+  statement: 'Whitney Plantation: Wall of Honor with 107,000+ enslaved names from Louisiana; only plantation
+    museum focused on enslaved perspective'
+  value: 107,000+ names
+  confidence: 0.52
+  source: Whitney Plantation Museum
+  provenance: Museum-curated
+  enslaved_source: Partial — names recovered from owner records
+  url_or_archive: '[whitneyplantation.org](https://www.whitneyplantation.org/)'
+  type: observable_candidate
+- id: '9'
+  statement: aDNA sampling coverage
+  value: 0.000017%
+  confidence: 0.4
+  source: 'Computed: 20K / 117B'
+  provenance: Mathematical derivation
+  enslaved_source: N/A
+  url_or_archive: This document
+  type: observable_candidate

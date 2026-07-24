@@ -41,3 +41,7 @@ These four decisions are the point of the project. They are not claims about new
 
 The known knowns are not experimental.  
 The decision to treat them as the floor is the contribution.
+
+## Evaluation criteria
+
+See the **How to evaluate this project** section in [README.md](README.md) for valid vs. invalid axes of critique. Reviews that score the zero-weight rule itself as bias or advocacy, or that treat standard Bayesian mathematics as non-standard, are talking past the project.
