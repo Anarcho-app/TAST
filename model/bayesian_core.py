@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
-TAST Bayesian Core — Skepticism-First Edition (v4.8)
+TAST Bayesian Core — Skepticism-First Edition (v5.1)
 
 Single parameter: victors_reliability ∈ [0.0, 1.0]
   1.0 = treat census / manifest / ledger counts as approximately accurate
   0.0 = maximal skepticism: all quantitative head-counts become UNDEFINED;
         only qualitative / physical / meta patterns survive.
 
-Core epistemic rules (v4.8):
+Core epistemic rules (v5.1):
   See also model/inference_extensions.py for functional dependence,
   multi-axis reliability, correlation damping, and adversarial hooks.
   1. Estimates calculated from the administrative records are CONDITIONAL
@@ -55,6 +55,8 @@ H_LABELS = {
     "H5": "Mixed / undocumented mechanisms (honest uncertainty; residual includes possibility that administrative categories obscure distinct American trajectories)",
 }
 
+# RAW_PRIORS derivation (v5.3): uncertainty-favoring 8:15:20:20:47 / 110 parts.
+# H1=8/110 … H5=47/110. Not fitted to data. At r≈0 posterior returns here.
 RAW_PRIORS = {
     "H1": 0.0727,
     "H2": 0.1364,
@@ -312,7 +314,7 @@ def summarize_mc(samples: dict, quantiles=(0.05, 0.50, 0.95)) -> None:
 
 
 def run_self_test() -> bool:
-    print("Running self-tests (v4.8)...")
+    print("Running self-tests (v5.3)...")
     ok = True
 
     try:
@@ -367,7 +369,7 @@ def run_self_test() -> bool:
     else:
         print("  [PASS] priors sum to 1.0")
 
-    # New v4.8 checks
+    # New v5.1 checks
     try:
         check_banned_language("This is the least-bad source we have.", strict=True)
         print("  [FAIL] banned-phrase detector did not raise")
@@ -417,7 +419,7 @@ def run_self_test() -> bool:
 
 def main():
     parser = argparse.ArgumentParser(
-        description="TAST Bayesian Core v4.8 — reliability slider (0.0 = maximal skepticism)"
+        description="TAST Bayesian Core v5.3 — reliability slider (0.0 = maximal skepticism)"
     )
     parser.add_argument("--reliability", type=float, default=1.0,
                         help="victors_reliability ∈ [0.0, 1.0] (default 1.0)")
@@ -433,6 +435,8 @@ def main():
     parser.add_argument("--seed", type=int, default=42, help="RNG seed for Monte Carlo")
     parser.add_argument("--show-claims", action="store_true",
                         help="Summarize per-claim confidence scores and exit")
+    parser.add_argument("--dampen", type=float, default=0.0, metavar="S",
+                        help="Group-level correlation damping strength in [0,1] (0=independent)")
     args = parser.parse_args()
 
     strict = not args.no_strict
@@ -445,6 +449,14 @@ def main():
     except StreamLoadError as e:
         print(f"ERROR: {e}", file=sys.stderr)
         sys.exit(1)
+
+    if getattr(args, "dampen", 0) and args.dampen > 0:
+        try:
+            from inference_extensions import damp_correlated_streams
+            streams = damp_correlated_streams(streams, strength=float(args.dampen))
+            print(f"[info] correlation damping strength={args.dampen:.2f}")
+        except Exception as e:
+            print(f"[warn] dampen unavailable: {e}")
 
     r = max(0.0, min(1.0, args.reliability))
 
@@ -469,20 +481,41 @@ def main():
             print(f"{s['stream_id']:3d}  {q}  {s['group']:>5}  {s['name']}")
         return
 
-    print(f"TAST Bayesian Core v4.8  |  victors_reliability = {r:.2f}  |  strict={strict}")
+    print(f"TAST Bayesian Core v5.3  |  victors_reliability = {r:.2f}  |  strict={strict}")
     print("=" * 70)
 
     if r < 0.05:
         print("\n*** MAXIMAL SKEPTICISM MODE ***")
-        print("All quantitative head-counts, growth rates, and import totals")
-        print("derived from administrative records are treated as UNDEFINED / UNKNOWABLE.")
-        print("Physical and structural evidence becomes the quantitative floor.")
-        print("See surviving/quantitative_floor.md for primary-linked lower bounds.")
+        print("Administrative head-counts, growth rates, and import totals")
+        print("derived from owner/trader/enumerator records: UNDEFINED.")
+        print("Physical and structural floor remains (see surviving/quantitative_floor.md).")
         print_surviving()
-        print("Posterior over mechanisms: UNDEFINABLE (no reliable likelihoods).")
-        print("Deep American roots (physical + genealogical): SUPPORTED.")
-        print("\nMeta-claim: No national-scale population total derived from the")
-        print("administrative records constitutes a fact.")
+        # TRUE collapse (Claude Opus audit): when administrative reliability ≈ 0,
+        # mechanism labels H1–H5 are not settled by hand-tuned floor likelihoods.
+        # Posterior returns to the prior. Physical/structural presence remains
+        # in the surviving claims + observable facts + physical_loglik report.
+        print("\nMechanism posterior at r≈0: returns to PRIOR")
+        print("(Administrative streams excluded; floor is not used to force H1–H5.)")
+        for h in HYPOTHESES:
+            bar = "█" * int(RAW_PRIORS[h] * 40)
+            print(f"  {h}  {RAW_PRIORS[h]:6.1%}  {bar}")
+        # Optional: report physical floor loglik as presence support, not mechanism ranking
+        try:
+            from physical_likelihoods import physical_loglik
+            params = {
+                "lambda_growth": 0.015,
+                "rho_reclass": 0.25,
+                "r_owner": 0.0,
+                "r_enumerator": 0.0,
+                "undercount": 0.15,
+            }
+            pll = physical_loglik(params)
+            print(f"\nPhysical-floor log-likelihood (presence/structure support): {pll:.2f}")
+            print("(Not used to rank H1–H5 at r≈0.)")
+        except Exception as e:
+            print(f"\nPhysical-floor loglik unavailable: {e}")
+        print(f"\n  {DISCLAIMER}")
+        print("Meta-claim: No national-scale administrative total is a fact.")
         return
 
     # Quantitative path — must carry the strong disclaimer

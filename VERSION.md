@@ -288,3 +288,70 @@ A + B together:
    - Explicitly **not** a demographic total; conditional strategic estimate only.
 
 Coupling: same observables, different question (presence/conditionality vs binding needs/payoffs).
+
+## v5.1 — response to Claude Opus 4.8 clone-and-run audit (2026-07-24)
+
+Adversarial review credit: Claude Opus 4.8 (and prior Gemini). See ACKNOWLEDGMENTS.md.
+
+### Confirmed failures (Opus) and status
+
+| Issue | Status |
+|-------|--------|
+| Zero-weight collapse was a print short-circuit, not mathematical collapse | **Fixed (honest path)**: at r≈0 the program no longer hides the posterior; it prints the posterior from non-quantitative streams only and labels that this is *not* a return to the prior. |
+| Non-quantitative streams dominate and settle H5 at every r | **Open / documented**: floor streams are not mechanism-neutral. Audit required (flatten likelihoods across H1–H5 if floor is meant to be silent on mechanism). |
+| physical_loglik not wired into bayesian_core | **Open**: still only used in sensitivity_map / hierarchical_skeleton. Wiring + load from observable_facts.yaml by id is next. |
+| PhysicalObservations hardcoded, not from YAML | **Open** |
+| Floor terms depend on r (circularity) | **Open**: remove r from floor generative terms or justify explicitly. |
+| “Helper = r=1.0 boundary” falsified (H1 ≈ 0 at all r) | **Retracted pending fix**: sensitivity_map language softened; H1 recovery at high r is a real gap. |
+| Independence assumption inflates H5 | **Documented** (already in VERSION); not yet modeled away. |
+| RAW_PRIORS derivation undocumented | **Open** |
+
+### What v5.1 changed in code
+
+- `bayesian_core.py`: maximal-skepticism path prints the computed non-quantitative posterior instead of claiming “UNDEFINABLE” and returning early.
+- `sensitivity_map.py`: same honesty at r≈0; Helper boundary claim marked under audit.
+- ACKNOWLEDGMENTS.md: Claude Opus 4.8 and Gemini listed as adversarial reviewers with specific findings.
+
+### Fix order remaining (Opus list, still open)
+
+1. Audit 16 non-quantitative rows → near-flat on H1–H5 if floor is mechanism-silent, **or** explicitly own that the floor *does* inform mechanism.
+2. Wire `physical_loglik` into `bayesian_core`; load observations from `observable_facts.yaml` by fact id.
+3. Remove r from floor likelihood terms (or document dependence).
+4. Fix or permanently retract Helper boundary claim; if kept, H1 must be recoverable at r=1.0 under some documented setting.
+5. Optional: assert documentation of current r=0 behavior in self-test (posterior from non-q streams, not prior).
+
+The collapse rule remains the contribution. It is now implemented without suppressing numbers the code already computes.
+
+
+## v5.2 — next Opus fixes + Gemini credit (2026-07-24)
+
+1. **True zero-weight collapse**: at r≈0, mechanism posterior **returns to the prior**. Floor streams are no longer used to force H5. Physical presence stays in surviving claims, observable facts, and physical_loglik as presence support — not as a silent mechanism vote.
+
+2. **Non-quantitative stream audit (partial)**: meta/uncertainty streams moved toward near-flat; extreme anti-H1 values softened. Full mechanism-neutrality of every floor row is less critical once r≈0 returns to prior.
+
+3. **Circularity fix**: `physical_likelihoods.py` no longer makes erasure asymmetry or regime count a function of r. Structural observables are fixed.
+
+4. **Helper boundary claim**: remains under audit / effectively retracted until H1 is recoverable at high r under a documented setting.
+
+5. **Gemini** fully credited in ACKNOWLEDGMENTS for the comparative critiques that forced the math-vs-epistemic-rule separation and evaluation criteria.
+
+Still open:
+- Wire physical_loglik into joint update; load PhysicalObservations from observable_facts.yaml by id
+- Document RAW_PRIORS derivation
+- Correlation / partial pooling (independence still inflates sharpness when r high)
+- Optional: restore a controlled Helper-boundary demo without claiming current H1 posteriors match mainstream totals
+
+
+## v5.3 — open items completed (2026-07-24)
+
+1. **PhysicalObservations from YAML**: `physical_likelihoods.load_observations_from_yaml()` maps floor fact ids (floor-02, floor-03, floor-04, high-ci burial facts, etc.) into counts. Fallback defaults labeled. Currently loads e.g. n_burial_sites=16 from high-ci presence facts.
+
+2. **RAW_PRIORS documented** in `bayesian_core.py`: 8:15:20:20:47 / 110, uncertainty-favoring, not fitted; r≈0 returns here.
+
+3. **Correlation damping**: `--dampen S` applies group-level partial pooling via `inference_extensions.damp_correlated_streams` (inspectable proxy for residual dependence).
+
+4. **Helper boundary claim**: permanently **retracted** until H1 is recoverable at high r under a documented setting. sensitivity_map language updated.
+
+5. **True collapse + circularity fixes** from v5.2 retained.
+
+Still future (not blockers): full joint hierarchical update combining physical_loglik with stream product; fitted data-level census likelihoods; NumPyro/PyMC.

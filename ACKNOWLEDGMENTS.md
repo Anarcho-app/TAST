@@ -26,3 +26,12 @@ The collaboration is recorded here so that the development history is transparen
 ## How to cite
 
 If you use or refer to this work, please cite the repository and its primary author. An optional note on collaborative development assistance from Grok (xAI) is accurate and welcome but not required.
+
+## Adversarial review credit (LLMs)
+
+Independent model reviews that improved the project by attacking it on its own stated terms:
+
+- **Claude Opus 4.8** (2026-07-23/24): Full clone-and-run audit. Identified that the zero-weight collapse was implemented as a print short-circuit rather than a mathematical return to prior / non-informative state; that non-quantitative streams dominate and settle mechanism at every r; that physical_loglik was not wired into bayesian_core; that the “Helper = r=1.0 boundary” claim is falsified by H1 ≈ 0 at all r; and that independence among 27 streams inflates H5. Ordered fix list adopted into VERSION.md.
+- **Gemini** (prior rounds, including comparative 3/10-style evaluations): Forced clarity on neutrality, selective framing, subjective priors, incomplete literature ties, and advocacy-tone critiques against peer-review benchmarks. Those critiques, even when over-weighted toward “advocacy,” drove the project to separate standard Bayesian mathematics from the epistemic rule, to lock evaluation criteria into the README, and to treat administrative records as data for critical analysis rather than as targets for automatic rejection. Gemini’s pressure is part of why the foundation sections exist.
+
+These reviews are recorded so that LLM critique is neither invisible nor treated as authority. Credit is for the specific, testable failures they found. Responses and fixes remain the responsibility of the project maintainers.

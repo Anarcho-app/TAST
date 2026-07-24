@@ -40,12 +40,32 @@ except ImportError:
 def run_at_r(streams, r: float) -> Dict:
     """Single evaluation at a fixed reliability."""
     if r < 0.05:
+        # Honest: still compute posterior from non-quantitative streams; do not hide it.
+        non_q = [s for s in streams if s.get("is_quantitative", 1) == 0]
+        post = bayes_update(non_q, RAW_PRIORS) if non_q else None
+        pll = None
+        if physical_loglik is not None:
+            params = {
+                "lambda_growth": 0.015,
+                "rho_reclass": 0.25,
+                "r_owner": 0.0,
+                "r_enumerator": 0.0,
+                "undercount": 0.15,
+            }
+            try:
+                pll = physical_loglik(params)
+            except Exception:
+                pll = None
         return {
             "r": r,
             "admin_path": "UNDEFINED",
-            "posteriors": None,
-            "physical_ll": None,
-            "note": "Administrative head-counts / growth rates / imports UNDEFINED. Physical floor only.",
+            "posteriors": post,
+            "physical_ll": pll,
+            "note": (
+                "Admin totals UNDEFINED. Mechanism posterior (if shown) is from "
+                "non-quantitative streams only — not a return to prior. "
+                "Floor stream audit pending."
+            ),
         }
 
     scaled = apply_reliability(streams, r)
@@ -89,7 +109,7 @@ def sensitivity_sweep(
 def print_sensitivity_table(results: List[Dict]) -> None:
     print("TAST Continuous Sensitivity Map (v5.0)")
     print("=" * 72)
-    print("Mainstream ('Helper') point estimates ≈ special case at r = 1.0")
+    print("At r=1.0 admin path is DEFINED (conditional). Helper boundary claim RETRACTED until H1 is recoverable under a documented setting.")
     print("As r → 0, administrative path → UNDEFINED; physical floor remains.")
     print()
     print(f"{'r':>6}  {'Admin path':<22}  {'H5':>8}  {'H3':>8}  {'Phys LL':>10}")
@@ -102,11 +122,12 @@ def print_sensitivity_table(results: List[Dict]) -> None:
         else:
             h5 = f"{res['posteriors']['H5']:7.1%}"
             h3 = f"{res['posteriors']['H3']:7.1%}"
+        # When admin is UNDEFINED, mark that mechanism post is floor-driven
         pll = f"{res['physical_ll']:10.1f}" if res["physical_ll"] is not None else "       —"
         print(f"{r:6.2f}  {admin:<22}  {h5:>8}  {h3:>8}  {pll}")
     print()
     print("Interpretation:")
-    print("  r = 1.00  →  closest to mainstream baseline (Helper as boundary case)")
+    print("  r = 1.00  →  admin path DEFINED (conditional); not claimed equal to mainstream H1 posteriors")
     print("  r → 0.00  →  administrative totals UNDEFINED; only physical/structural floor speaks")
     print()
     print(DISCLAIMER)
