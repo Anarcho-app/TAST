@@ -407,10 +407,11 @@ Example:
 - `conventional/literature_engage.md` named converge/diverge vs Hacker, SlaveVoyages, Fogel/Engerman, Gutman, Steckel, Borucki & O’Malley
 - Uniform genetics evidentiary bar (same sample-size caution in every direction)
 
-## v5.7.1 — --streams fix + honest CI statement (2026-07-24)
+## v5.8 — literature pass → discriminating streams + precise erasure (2026-07-24)
 
-- `--streams PATH` now passes the path explicitly to `load_streams()` (previous global-rebind was a no-op due to Python default-argument binding).
-- Full-charitable H1 CI reported honestly: median below prior, upper tail can exceed it.
-- DECISIONS.md no longer marks unfixed items as closed.
-- Non-canonical duplicate files removed or turned into pointers.
-- Credit: Claude Opus 4.8 (sixth pass) for the default-argument catch and the CI nuance.
+- Stream 28: USCT pension & Freedmen’s Bureau marriage testimony (is_quantitative=0); erasure claim made precise rather than absolute.
+- Stream 29: Steckel anthropometric signature (discriminating; H1 predicts joint morphological pattern, H2 does not).
+- literature_engage.md v2: record producers with opposing incentives; named regional and theory literature; Fogel/USCT irony.
+- quantitative_floor §7: isotopes + skeletal stress markers as mechanism-relevant physical measurements (no invented numbers).
+- Independence assumption now has a concrete literature path.
+- Direction: Claude Opus 4.8 literature pass. Likelihood values and verification remain project work.

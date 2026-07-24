@@ -32,7 +32,7 @@ See also: `quantitative_floor.md` — primary-linked lower bounds and structural
 
 9. The binary “Negro/Black” category on American soil, hardened by one-drop rules and statutes such as the Virginia Racial Integrity Act (1924), created administrative conditions under which multi-generational lineages were recorded (and sometimes erased) as a single racial group.
 
-10. The extreme scarcity of pre-1865 systematic enslaved testimony is itself structural evidence of erasure produced by anti-literacy laws and legal non-personhood.
+10. The extreme scarcity of *pre-1865, contemporaneous* systematic enslaved testimony is itself structural evidence of erasure produced by anti-literacy laws and legal non-personhood. Large post-emancipation sworn collections (USCT pensions, Freedmen’s Bureau marriages) exist and make the silence dated rather than absolute; they do not convert the slavery-period asymmetry into ordinary archival loss.
 
 ---
 

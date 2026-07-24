@@ -33,10 +33,11 @@ Primary anchors:
 
 Primary anchors:
 - LOC WPA Slave Narratives (~2,300 interviews) + supplementary series and HBCU collections.
-- Near-total absence of systematic pre-1865 quantitative testimony authored by the enslaved population.
+- Near-total absence of systematic *pre-1865, self-authored-in-the-moment* quantitative testimony by the enslaved population.
 - Anti-literacy statutes, bans on assembly, legal non-personhood.
+- **Partial counter-example (precision, not rebuttal)**: USCT pension files and Freedmen’s Bureau marriage registers — tens of thousands of sworn or self-reported statements about pre-1865 birth, age, kin, marriage, and sale, produced after emancipation. These make the silence *dated and scoped* (pre-1865 and contemporaneous self-authorship) rather than absolute. Stream 28 encodes this.
 
-**Floor statement**: The volume of owner/trader/enumerator quantitative material vastly exceeds the volume of enslaved-authored quantitative material. The scarcity is not ordinary archival loss; it is the measurable result of legal regimes that prevented the creation of counter-records. This asymmetry is itself evidence.
+**Floor statement**: The volume of owner/trader/enumerator quantitative material vastly exceeds the volume of enslaved-authored quantitative material *produced under slavery*. The scarcity is not ordinary archival loss; it is the measurable result of legal regimes that prevented the creation of counter-records at the time. Post-emancipation sworn testimony (USCT pensions, Bureau marriages) is real and large; it does not erase the structural silence of the slavery period itself. The asymmetry remains evidence.
 
 ## 4. Regime intensity (legal & spatial)
 
@@ -66,3 +67,19 @@ The floor quantifies presence, continuity, erasure, and regime intensity on subs
 - It therefore remains fully weighted when `victors_reliability → 0`.
 - The asymmetry (volume of owner/trader/enumerator quantitative material vs. near-absence of enslaved-authored quantitative material) is treated as positive structural evidence, not as a neutral gap.
 - This is the first explicit encoding of absence as an informative contribution inside the inference layer.
+
+## 7. Mechanism-relevant physical measurements (next increment)
+
+The current physical floor establishes **presence and continuity** but is largely silent on **mechanism** (H1 vs H2). Two measurement classes can change that without borrowing administrative head-counts:
+
+### Isotopic and dental signals on existing burial populations
+- Strontium and oxygen isotope ratios in tooth enamel record childhood geology and drinking water; they can distinguish African-born from American-born individuals directly from remains.
+- Dental modification patterns and carbon isotope ratios (C₄ vs C₃ diets) supply independent origin and diet signals.
+- African Burial Ground, Catoctin Furnace, Anson Street, and Chesapeake contexts already have published work in this area.  
+- **Status**: Literature exists; current published African-born vs American-born proportions must be verified against the latest papers before encoding as likelihood terms. No numbers are asserted here until that verification.
+
+### Skeletal stress markers
+- Enamel hypoplasia, Harris lines, cribra orbitalia, and related markers from the same burial populations provide a physical check on the childhood-stunting → adolescent-catch-up profile predicted by H1 under Steckel-style anthropometrics (Stream 29).
+- Two independent substrates (bodies vs shipper manifests) on the same morphological claim.
+
+These measurements keep the floor’s commitment: they do not depend on census totals, growth rates, or import volumes. They are the highest-value addition that lets the floor speak to mechanism.
