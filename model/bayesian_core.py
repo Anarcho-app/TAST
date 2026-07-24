@@ -550,34 +550,31 @@ def main():
     parser.add_argument("--dampen", type=float, default=0.0, metavar="S",
                         help="Group-mean shrink strength [0,1] (NOT effective-N; relabeled pending ESS fix)")
     parser.add_argument("--streams", type=str, default=None, metavar="PATH",
-                        help="Path to an alternate evidence_streams CSV (for adversarial / sensitivity tables)")
+                        help="Path to alternate evidence_streams CSV (adversarial / charitable tables)")
     parser.add_argument("--lik-uncertainty", type=int, default=0, metavar="N",
                         help="Monte Carlo N draws treating quant L as Beta means (0=off)")
     parser.add_argument("--kappa", type=float, default=10.0,
                         help="Beta concentration for likelihood uncertainty (default 10)")
     args = parser.parse_args()
 
-    # --streams PATH: use an alternate likelihood table (adversarial / charitable)
-    if getattr(args, "streams", None):
-        sp = Path(args.streams)
-        if not sp.is_absolute():
-            cand = HERE / sp
-            sp = cand if cand.exists() else sp.resolve()
-        # Override the module default so all load_streams() calls pick it up
-        import model.bayesian_core as _self
-        # safer: just rebind the name used by load_streams default
-        global STREAMS_CSV
-        STREAMS_CSV = sp
-        print(f"[streams] alternate table: {STREAMS_CSV}")
-
-
     strict = not args.no_strict
 
     if args.self_test:
         sys.exit(0 if run_self_test() else 1)
 
+    # Resolve alternate streams table if requested
+    streams_path = STREAMS_CSV
+    if getattr(args, "streams", None):
+        sp = Path(args.streams)
+        if not sp.is_absolute():
+            # try relative to model/ first, then CWD
+            cand = HERE / sp
+            sp = cand if cand.exists() else Path(args.streams).resolve()
+        streams_path = sp
+        print(f"[streams] alternate table: {streams_path}")
+
     try:
-        streams = load_streams()
+        streams = load_streams(streams_path)
     except StreamLoadError as e:
         print(f"ERROR: {e}", file=sys.stderr)
         sys.exit(1)

@@ -10,9 +10,11 @@ Honest record of directional changes. Bidirectional when evidence supports it.
 | 2026-07-24 | Soften extreme anti-H1 floor likelihoods | **raises H1 path relative to old floor-only** | Before quant-only rule made this moot for ranking |
 | 2026-07-24 | r→0 returns to prior by arithmetic (L→0.5) | **H5 82%+ → 42.7% at r=0** | Bidirectional vs earlier print-forced H5 |
 | 2026-07-24 | Retract Helper = r=1.0 boundary | — | H1 not recovered at high r |
-| 2026-07-24 | Likelihood uncertainty (Beta means) | H5 interval 22.2–84.0% at r=1, κ=8 (n=2000, seed=42) | False precision removed; prior ~19–81% was approximate |
+| 2026-07-24 | Likelihood uncertainty (Beta means) | H5 interval 22.2–84.0% at r=1, κ=8 (n=2000, seed=42) | False precision removed |
 | 2026-07-24 | H5 operationalized into H5a–H5d | H5 must be falsifiable | See model/h5_subclaims.md |
-| 2026-07-24 | Structural limit of Beta layer acknowledged | — | Beta tests precision around analyst means; does not test direction of the means themselves. Credit: Opus 4.8 review |
+| 2026-07-24 | Structural limit of Beta layer acknowledged | — | Beta tests precision around analyst means; does not test direction. Credit: Opus 4.8 |
+| 2026-07-24 | Adversarial H1 tables measured | H1 stays below prior at median even under full charity | See below |
+| 2026-07-24 | H5 column audit | residual wins by never being surprised (8/11 ≥0.75) | Next: decompose into H5a–d |
 
 ## Explicit statement (critique #2)
 
@@ -25,63 +27,25 @@ Publishing your own negative result is the thing most projects never do.
 
 Stream-level defense/revision (especially Demographic Growth Rates H1=0.07) remains open.
 
-## The one finding this pass (Opus 4.8)
-
-The Beta layer removes false precision but cannot test direction. At κ=3 — Beta(0.21, 2.79) for stream 1's H1, about as diffuse as is meaningful — the best of 2000 draws puts H1 at ~1e-4 order:
+## Adversarial H1 results (measured)
 
 ```
-κ=3    H1 median≈1e-10   99th≈4e-07   max/2000≈1e-04
-κ=10   H1 median≈2e-09   99th≈4e-07   max/2000≈4e-06
+r = 1.0              H1 point    H1 CI (κ=8, n=2000)     H5
+current              0.0000      [0.0000, 0.0000]        0.577
+adversarial (5)      0.0001      [0.0000, 0.0004]        0.577
+full_charitable      0.0343      [0.0050, 0.1179]        0.558
+prior                0.0727
 ```
 
-The reason is structural: Beta(mean·κ, (1−mean)·κ) is centered on the analyst's own point estimate. Loosening κ asks how precisely do I know this cell. It never asks is this cell pointed the right way. Eleven cells centered anti-H1 stay anti-H1 under any concentration, because the draws are unbiased around anti-H1 means.
+Under the most charitable mainstream reading of all eleven quantitative cells, H1 remains below its prior at the point estimate and at the median. Likelihood uncertainty (κ=8) admits values above the prior in the upper tail (95th ≈ 11.8 %). The honest statement is therefore:
 
-Quantified, what it would actually take at r=1.0:
+> Under the most charitable mainstream reading, H1 remains below its prior at the median, though likelihood uncertainty admits values above it in the upper tail.
 
-```
-H1 posterior = 1%   →  +0.405 on every H1 cell   (stream 1: 0.07 → 0.48)
-H1 posterior = 5%   →  +0.503 on every H1 cell   (stream 1: 0.07 → 0.57)
-```
+This is weaker than an unqualified “negative result is robust” and more defensible — the distinction the Beta layer was added to surface.
 
-That's not a precision question. That's a reinterpretation question, and nothing in the model currently poses it.
+## H5 column audit
 
-## Stream 1, since DECISIONS.md leaves it open
-
-H1 is "documented arrivals + exceptional natural increase under U.S. conditions." Stream 1 is "Demographic Growth Rates." So the cell is asking: how surprising is the observed growth data, given the hypothesis whose entire content is that growth was exceptional?
-
-The answer encoded is 0.07 — meaning the data would be very surprising under the hypothesis specifically constructed to predict it. On its face that looks inverted, and a mainstream reader would put it high, likely above H5's 0.80. It's the single clearest place where the table reads as encoding its conclusion rather than testing it, and it's doing 10.6× more work than any other cell.
-
-## Concrete next step (adopted from Opus 4.8)
-
-Build the adversarial H1 table: the strongest good-faith version a Hacker- or Eltis-aligned reader would write, particularly for streams 1, 4, 15, 20, 22. Run it. Publish both posteriors side by side.
-
-That converts the honest negative — "we couldn't find evidence that raises H1" — into something much stronger: "here is the best case for H1, run through the same machine, and here is exactly where it fails." It's also what stream 26 (symmetric overreach filter) and the uniform genetics bar already commit us to; right now that symmetry is applied to genetic evidence and to the administrative totals, but not to the likelihood table itself.
-
-## Reproducibility note (2026-07-24)
-
-The κ=8 interval is now logged with exact parameters so the correction log itself is checkable:
-
-- `python -m model.bayesian_core --reliability 1.0 --lik-uncertainty 2000 --kappa 8 --seed 42`
-- Observed: H5 5%=22.2%  50%=56.4%  95%=84.0%  (matches independent reproduction)
-
-## Adversarial H1 results (Opus 4.8, 2026-07-24)
-
-The adversarial exercise was run. Both conditional outcomes are now replaced by measured results.
-
-| Table                        | H1 posterior   | H5 posterior |
-|-----------------------------|----------------|--------------|
-| Current (analyst)           | 2.5 × 10⁻⁸     | 0.577        |
-| 5-cell adversarial          | 8.1 × 10⁻⁵     | 0.577        |
-| Full charitable (all 11)    | ≈ 1–3.5 %      | ≈ 0.56       |
-| Prior                       | 7.27 %         | 42.7 %       |
-
-Even under a maximally charitable mainstream reading of every quantitative cell, H1 lands **below its own prior**. The negative result is robust. That is the strong claim the adversarial design was built to produce, and it holds.
-
-(Exact full-charitable point estimate depends on the precise charitable values chosen; under several reasonable mainstream-friendly assignments H1 remains in the 0.5–3.5 % range, always < prior.)
-
-## H5 column audit (Opus 4.8)
-
-Mean likelihood across the 11 quantitative streams:
+Mean likelihood across the 11 quantitative streams (current table):
 
 ```
 H1:  0.220    0/11 cells ≥ 0.75
@@ -91,19 +55,24 @@ H4:  0.441    3/11
 H5:  0.764    8/11
 ```
 
-H5 (“mixed / undocumented mechanisms / residual uncertainty”) is assigned ≥ 0.75 on eight of eleven streams. A hypothesis that is never surprised by any observation wins a likelihood product by construction. Discrete hypothesis products apply no Occam factor, so a catch-all with uniformly high likelihoods gains ground on every multiplication regardless of what the data say. H5 at 57.7 % is not evidence about mechanisms; it is what happens when you multiply eleven numbers near 0.8.
+H5 (“mixed / undocumented mechanisms / residual”) is assigned ≥ 0.75 on eight of eleven streams. A hypothesis that is never surprised by any observation wins a likelihood product by construction. Discrete hypothesis products apply no Occam factor. H5 at 57.7 % is not evidence about mechanisms; it is what happens when you multiply eleven numbers near 0.8.
 
-This is the exact mirror of the H1-column inversion flagged earlier. Stream 26 (symmetric overreach filter) commits the project to catching it. The H5 column is now the thing to audit.
+This is the exact mirror of the H1-column inversion. Stream 26 commits the project to catching it. The open structural item is to replace the single H5 column with H5a–H5d so each sub-claim must make predictions and can lose.
 
-**Test**: name an observation that would be surprising under H5. If every cell is ≥ 0.75, there is none.
+## Operational status (honest)
 
-This is also what makes `model/h5_subclaims.md` operational rather than rhetorical. H5a–H5d already have rejection conditions; undecomposed H5 does not. Next structural step: replace the single H5 column in the stream table with the four sub-claims so each column must commit to predictions — at which point the residual can actually lose, and a 57 % result would mean something.
+- [x] Measured adversarial numbers published (not only conditional framing)
+- [x] `--streams PATH` flag implemented correctly (path passed explicitly to `load_streams`; no global rebind)
+- [ ] Non-canonical duplicate files still present in some trees — `literature_engage.md` (root canonical) and `data/stream_likelihood_meta.csv` (canonical); delete the other copies when applying this package
+- [ ] H5 column decomposition into H5a–H5d (most consequential remaining item)
 
-## Operational items closed / remaining
+## How to run the comparison
 
-- [x] Report measured adversarial numbers (not only the conditional framing)
-- [x] `--streams PATH` flag added so comparisons are a single reproducible command
-- [x] Duplicate files resolved: `literature_engage.md` (root) and `data/stream_likelihood_meta.csv` are canonical
-- [ ] Decompose H5 column into H5a–H5d (or otherwise force the residual to make falsifiable predictions)
+```bash
+python -m model.bayesian_core --reliability 1.0
+python -m model.bayesian_core --reliability 1.0 --streams model/evidence_streams_adversarial.csv
+python -m model.bayesian_core --reliability 1.0 --streams model/evidence_streams_full_charitable.csv
+python -m model.bayesian_core --reliability 1.0 --streams model/evidence_streams_full_charitable.csv --lik-uncertainty 2000 --kappa 8 --seed 42
+```
 
-Credit: Claude Opus 4.8 (fifth pass, 2026-07-24).
+Credit for diagnosis of the broken global-rebind, the false-negative risk, the CI nuance, and the H5 audit: Claude Opus 4.8.
