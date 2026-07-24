@@ -106,55 +106,23 @@ python -m model.inference_extensions --adversarial                  # hook list 
 
 Credit: Claude Opus 4.8 review (2026-07-24) for the runtime bug, the r=0-is-prior observation, the autosomal-ancestry falsification test, the hierarchical-reliability observation, and the H5 numerical-prediction requirement. Every valid observation landed inside the README's own valid-axes list; scoring the model on the invalid axes would have missed all seven fixes.
 
-## Prior-sensitivity + regroup (2026-07-24) — the over-engineering / table-as-verdict point
+## Stream 2 generative — sign inversion (2026-07-24)
 
-**`--prior-sensitivity`** at r=1 (conservative Stream 31 table):
+Hand-set Stream 2 was H1=0.30 / H2=0.85. Generative comparative model:
+H1≈0.43, H2≈0.001, H4≈0.43, H5≈0.11.
 
-```
-prior H1 = 0.0727  → post H1 ≈ 0.000%
-prior H1 = 0.50    → post H1 ≈ 0.000%
-prior H1 = 0.90    → post H1 ≈ 0.000%
-prior H1 = 0.9999  → post H1 ≈ 0.44%
-prior H1 = 0.999999→ post H1 ≈ 30.5%
-```
+Post-triage + Stream 2 at r=1: H1≈3.7%, H4≈35.8%, H5≈46%. Sign inversion confirmed.
 
-No rational prior recovers H1. The likelihood table is the verdict. Further stream additions and prior tweaks are cosmetic until cells are rebuilt (especially Stream 1). This is the project's own "hidden conditioning" critique applied to itself.
+Credit: Opus 4.8 Max for predicting the inversion.
 
-**Group regroup:** US admin-linked quant streams (1,4,7,8,10,15,20,22) → group `U` so `--dampen` pools them. Floor (30,31) → `P`. SlaveVoyages → `V`. Dampen can now move cell values toward the group mean; H1 posterior remains ~0 because the *product* of still-anti-H1 means dominates — damping is not a substitute for generative cells.
+## Stream 2 rebuilt — post-trade gap, derived means (2026-07-24)
 
-Credit: Claude Opus 4.8 (prior-sensitivity table, KL redundancy detector, regroup-by-source-system).
+Previous Stream 2 used hand-placed μ on log-ratio gap (H1=2.8, H2=0.2) — same failure mode as r_ni=2.5% MLE. Rebuilt:
 
-## Effective-N damping + Stream 1 is the only remaining move (2026-07-24)
+- Observable: closed-window growth rates (no imports)
+- σ from census log-error propagation
+- μ from component priors (Stream 1 family)
+- H1≈0.64, H2a≈0.12, ratio ≈5.5 (not 388)
+- r=1 posterior ≈ H1 1.9% H2 5.9% H4 18.6% H5 29.5%
 
-**Bug:** `damp_correlated_streams` shrank L toward the group mean but still multiplied all k terms — the opposite of correlation control.
-
-**Fix:** `--dampen s` now uses group log-weights `w = k_eff/k` with `k_eff = 1+(k-1)(1-s)`. At s=1, group U (8 streams) contributes as **one** observation.
-
-Measured at r=1 (conservative Stream 31):
-
-```
-s=0.0  H1≈0.0%  H5≈61.1%
-s=0.5  H1≈0.0%  H5≈58.0%
-s=1.0  H1≈0.1%  H5≈54.1%
-```
-
-Collapsing the entire US-admin cluster to one observation moves H1 from 0.0% to **0.1%**. Multiplicity is not the mechanism; **magnitude** is — eleven streams each encode “H1 fits poorly.”
-
-**Streams 30 and 31** kept in separate groups (P vs R): different measurement systems / populations; must not share a damping factor.
-
-**Shortlist collapses to one item:** Derive Stream 1 generatively — P(observed 1790/1860 counts | documented arrivals + NI model with explicit error structure), calibrated against Caribbean/Brazilian contrast cases. If that yields 0.07, the cell is earned. If it yields ~0.5, the headline dissolves. No further stream additions; no prior tweaks; damping is done.
-
-Credit: Claude Opus 4.8 (effective-N formula, magnitude-not-multiplicity correction, Stream 1 sole priority).
-
-## Triage (2026-07-24)
-
-13 quant → **6 quant** in product.
-
-- Demoted measurement-error streams 4, 20, 21 to is_quantitative=0 (σ/reliability layer).
-- Demoted redundant 3, 7, 8, 10 (7≡8 duplicate vectors).
-- Kept 1 (derived), 2, 15, 22, 30, 31.
-- Stream 1 complete generative row restored in CSV.
-
-Next = priors stage for parameters (Steckel CBR/CDR, Caribbean series, sex ratio, Indigenous pool) — not new asserted cells.
-
-Credit: Opus 4.8 Max triage plan.
+Credit: Opus 4.8 High for catching hand-μ and specifying the post-trade observable.
