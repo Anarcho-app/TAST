@@ -1,12 +1,16 @@
 # H5 Operationalization — Falsifiable Sub-Claims with Numerical Predictions (v6.0)
 
-H5 ("mixed / undocumented mechanisms / residual uncertainty") is **not** allowed to win only by being unfalsifiable. It is decomposed into the following sub-claims. Each has a **rejection condition**, a **numerical prediction with interval**, and a **likelihood mapping rule**.
+> **STATUS BANNER (read first):**  
+> v6.0 is a **specification**. Every sub-claim below is still **Status: Open**.  
+> Nothing has been measured from primary series and wired into the product update.  
+> Therefore **H5 still absorbs residual mass exactly as before** at the engine level.  
+> Scalar predictions (e.g. `residual_variance_fraction ≥ 0.18`) are **proposed rejection targets**, not results.  
+> Do not cite this file as evidence that H5 has been tested. Cite it as the checklist of what would test H5.  
+> Blocker for H5a: region-level burial density needs area denominators (km² of documented enslavement zone) not yet in-repo.  
+> Blocker for H5b: region-disaggregated growth rates from primary tables, not hand cells.  
+> Blocker for H5c: counted volumes for owner-enum vs enslaved-authored pre-1865 quant series.  
+> Blocker for H5d: holdout loglik penalties at r=0 after floor-quant terms are fixed.
 
-These sub-claims inform interpretation of residual mass on H5; they do not automatically override the quantitative stream product. They make H5 auditable.
-
-Credit for the numerical-prediction requirement: Claude Opus 4.8 review (2026-07-24), which correctly identified that without falsifiable numerical predictions, H5 is an absorbing state and no mechanism ranking is possible at any value of r.
-
----
 
 ## H5a — Genuine residual / incomplete records
 
@@ -33,7 +37,7 @@ Credit for the numerical-prediction requirement: Claude Opus 4.8 review (2026-07
 - `0.10 ≤ residual < 0.12` → `L(H5a) = 0.40`
 - `residual < 0.10` → `L(H5a) = 0.05` (near-rejection)
 
-**Status:** Open — physical floor supports presence, not a full national path integral. Prediction grounded in burial-ground spatial heterogeneity already documented in `observable_facts.yaml`.
+**Status:** Open — **unmeasured, unwired; residual still absorbs** — physical floor supports presence, not a full national path integral. Prediction grounded in burial-ground spatial heterogeneity already documented in `observable_facts.yaml`.
 
 ---
 
@@ -61,7 +65,7 @@ Credit for the numerical-prediction requirement: Claude Opus 4.8 review (2026-07
 - `0.25 ≤ CV < 0.30` → `L(H5b) = 0.35`
 - `CV < 0.25` → `L(H5b) = 0.05` (near-rejection)
 
-**Status:** Open — requires region-disaggregated primary tables (partially in `raw/`). Prediction uses growth-rate heterogeneity as the discriminating observable.
+**Status:** Open — **unmeasured, unwired; residual still absorbs** — requires region-disaggregated primary tables (partially in `raw/`). Prediction uses growth-rate heterogeneity as the discriminating observable.
 
 ---
 
