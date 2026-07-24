@@ -27,8 +27,6 @@ ROOT = HERE.parent
 FACTS_YAML = ROOT / "data" / "observable_facts.yaml"
 
 
-@dataclass
-
 def _n_regime_from_inventory() -> int:
     """Prefer counted inventory over stipulated 12."""
     inv = ROOT / "data" / "jurisdiction_inventory.yaml"
@@ -43,6 +41,8 @@ def _n_regime_from_inventory() -> int:
             pass
     return 12  # stipulated fallback
 
+
+@dataclass
 class PhysicalObservations:
     n_burial_sites: int = 8
     n_individuals_lower: float = 15000.0

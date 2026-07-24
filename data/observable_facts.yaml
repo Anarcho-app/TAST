@@ -94,6 +94,61 @@ facts:
   enslaved_source: Physical remains + later testimony
   url_or_archive: null
   type: physical_presence
+- id: floor-09
+  statement: Autosomal Native American ancestry in self-identified African-Americans
+    is trace-level (mean ~0.5–2%), independent of owner/enumerator/shipping records.
+    This ceiling falsifies material-scale Indigenous reclassification (H2) as the
+    load-bearing demographic mechanism without discriminating between H1, H3, H4, H5.
+  value: 'mean 0.8% Native American ancestry (Bryc et al. 2015)'
+  confidence: 0.90
+  source: Bryc et al. 2015 (AJHG); Baharian et al. 2016 (Nature Comms); Micheletti
+    et al. 2020 (AJHG); All of Us AJHG Jun 2025; gnomAD v4 LAI (Kore et al. 2025)
+  provenance: Lab-derived autosomal genotyping; participant-opt-in cohorts; NOT owner-mediated
+  enslaved_source: Genomic (descendant self-identified; no administrative intermediary)
+  url_or_archive: 10.1016/j.ajhg.2014.11.010
+  type: physical_presence
+  sample_size_discipline:
+    primary_study:
+      citation: Bryc et al. 2015 AJHG
+      n_individuals: 5269
+      reference_population: ~40,000,000 U.S. self-identified African-American population
+        (2020 Census)
+      pct_of_reference: 0.013%
+      mean_african_ancestry_pct: 73.2
+      mean_european_ancestry_pct: 24.0
+      mean_native_american_ancestry_pct: 0.8
+    cross_checks:
+    - citation: Baharian et al. 2016 Nature Comms
+      n_individuals: 3726
+      pct_of_reference: 0.0093%
+      mean_native_ancestry_pct: ~0.9
+    - citation: Micheletti et al. 2020 AJHG (23andMe)
+      n_individuals: 50281
+      pct_of_reference: 0.126%
+      native_ancestry_pct_range: 0.5-1.2 by U.S. region
+    - citation: All of Us AJHG Jun 2025
+      n_individuals: ~25000 AA subset of ~1M total
+      pct_of_reference: ~0.063%
+      note: Black/AA participants 82.72% African (SD 10.87%); Native 1-2% consistent
+    - citation: gnomAD v4 LAI (Kore et al. 2025 Nature Comms)
+      n_individuals: 20805
+      pct_of_reference: 0.052%
+      finding: Two-way AFR-EUR admixture confirmed; low Native signal
+  falsifies_at_population_scale:
+  - H2 (material Indigenous reclassification as load-bearing demographic mechanism)
+  does_not_falsify:
+  - Regional or individual-level Indigenous absorption
+  - Documented Freedmen / Five Tribes lineages
+  - Any H1/H3/H4 mechanism
+  caveats:
+  - Reference-panel choice matters (1000 Genomes Phase 3 ASW n=61 + ACB n=96 = 157
+    total AA reference drives most global admixture estimates); documented in sources_registry.csv
+    rows 110-118.
+  - Autosomal ancestry ≠ birthplace; ≠ cultural identity; ≠ tribal enrollment.
+  - Consumer cohorts have self-selection bias; low-income and rural populations
+    under-sampled.
+  - The 5-30% Indigenous ancestry that material H2 reclassification would predict
+    is well above the ceiling in any cohort tested at n > 1000.
 - id: '23'
   statement: African Burial Ground (Manhattan)
   value: 15,000+ estimated burials

@@ -22,20 +22,34 @@ from typing import Dict, List
 import numpy as np
 
 # Reuse core pieces
-from bayesian_core import (
-    load_streams,
-    apply_reliability,
-    bayes_update,
-    collapse_posterior,
-    RAW_PRIORS,
-    HYPOTHESES,
-    DISCLAIMER,
-)
+try:
+    from bayesian_core import (
+        load_streams,
+        apply_reliability,
+        bayes_update,
+        collapse_posterior,
+        RAW_PRIORS,
+        HYPOTHESES,
+        DISCLAIMER,
+    )
+except ImportError:
+    from model.bayesian_core import (
+        load_streams,
+        apply_reliability,
+        bayes_update,
+        collapse_posterior,
+        RAW_PRIORS,
+        HYPOTHESES,
+        DISCLAIMER,
+    )
 
 try:
     from physical_likelihoods import physical_loglik
 except ImportError:
-    physical_loglik = None
+    try:
+        from model.physical_likelihoods import physical_loglik
+    except ImportError:
+        physical_loglik = None
 
 
 def run_at_r(streams, r: float) -> Dict:
@@ -87,28 +101,35 @@ def sensitivity_sweep(
 
 
 def print_sensitivity_table(results: List[Dict]) -> None:
-    print("TAST Continuous Sensitivity Map (v5.0)")
-    print("=" * 72)
-    print("Continuous collapse: quantitative streams only; as r→0, L→0.5 → posterior→prior. Helper claim RETRACTED.")
-    print("As r → 0, administrative path → UNDEFINED; physical floor remains.")
+    print("TAST Continuous Sensitivity Map (v5.1)")
+    print("=" * 78)
+    print("Continuous collapse: as r→0, admin quant L→0.5 (flat); posterior → RAW_PRIORS")
+    print("plus is_floor_quantitative offsets. Helper-equivalence claim RETRACTED at r=1.")
+    print("As r → 0, administrative path → UNDEFINED; physical/genomic floor remains.")
     print()
-    print(f"{'r':>6}  {'Admin path':<22}  {'H5':>8}  {'H3':>8}  {'Phys LL':>10}")
-    print("-" * 72)
+    print(f"{'r':>6}  {'Admin path':<22}  {'H1':>7}  {'H2':>7}  {'H3':>7}  {'H4':>7}  {'H5':>7}  {'Phys LL':>9}")
+    print("-" * 78)
     for res in results:
         r = res["r"]
         admin = res["admin_path"]
         if res["posteriors"] is None:
-            h5 = h3 = "  —"
+            h1 = h2 = h3 = h4 = h5 = "   —"
         else:
-            h5 = f"{res['posteriors']['H5']:7.1%}"
-            h3 = f"{res['posteriors']['H3']:7.1%}"
-        # When admin is UNDEFINED, mark that mechanism post is floor-driven
-        pll = f"{res['physical_ll']:10.1f}" if res["physical_ll"] is not None else "       —"
-        print(f"{r:6.2f}  {admin:<22}  {h5:>8}  {h3:>8}  {pll}")
+            h1 = f"{res['posteriors']['H1']:6.1%}"
+            h2 = f"{res['posteriors']['H2']:6.1%}"
+            h3 = f"{res['posteriors']['H3']:6.1%}"
+            h4 = f"{res['posteriors']['H4']:6.1%}"
+            h5 = f"{res['posteriors']['H5']:6.1%}"
+        pll = f"{res['physical_ll']:9.1f}" if res["physical_ll"] is not None else "        —"
+        print(f"{r:6.2f}  {admin:<22}  {h1:>7}  {h2:>7}  {h3:>7}  {h4:>7}  {h5:>7}  {pll}")
     print()
     print("Interpretation:")
     print("  r = 1.00  →  admin path DEFINED (conditional); not claimed equal to mainstream H1 posteriors")
-    print("  r → 0.00  →  admin UNDEFINED; mechanism posterior = PRIOR (floor mechanism-silent by construction)")
+    print("  r → 0.00  →  admin UNDEFINED; mechanism posterior = RAW_PRIORS + floor-quant offset")
+    print("             (Stream 30 NYABG isotope, Stream 31 autosomal ancestry ceiling)")
+    print("             The floor-quant offset is the physical/genomic evidence that survives")
+    print("             zero-weight on the administrative series. See stream30/31 .md files.")
+    print("             Without floor-quant streams, r=0 = RAW_PRIORS exactly (no discrimination).")
     print()
     print(DISCLAIMER)
     print("Physical-floor terms do not depend on administrative head-counts.")

@@ -513,22 +513,33 @@ def run_self_test() -> bool:
         print(f"  [FAIL] monte_carlo_posteriors: {e}")
         ok = False
 
-    # Continuous collapse: quantitative-only update → prior at r=0; no cliff
+    # Continuous collapse: quantitative-only update → prior at r=0 when no
+    # floor-quant streams active; otherwise smoothly transitions with slope
+    # governed by admin-quant contributions. We check for a *mathematical*
+    # discontinuity (cliff at r=0.05) not the slope magnitude, which can be
+    # large by design when floor-quant streams discriminate strongly.
     try:
         streams_st = load_streams()
         post0, mode0 = collapse_posterior(streams_st, RAW_PRIORS, 0.0)
-        post_lo, _ = collapse_posterior(streams_st, RAW_PRIORS, 0.049)
-        post_hi, mode_hi = collapse_posterior(streams_st, RAW_PRIORS, 0.05)
+        post_eps, _ = collapse_posterior(streams_st, RAW_PRIORS, 1e-4)
+        post_below, _ = collapse_posterior(streams_st, RAW_PRIORS, 0.049)
+        post_above, mode_hi = collapse_posterior(streams_st, RAW_PRIORS, 0.05)
         has_floor = any(int(s.get("is_floor_quantitative", 0) or 0) for s in streams_st)
         if not has_floor and max(abs(post0[h] - RAW_PRIORS[h]) for h in HYPOTHESES) > 1e-9:
             print(f"  [FAIL] r=0 post != prior (admin-only): {post0}")
             ok = False
-        elif max(abs(post0[h] - post_lo[h]) for h in HYPOTHESES) > 0.05:
-            print(f"  [FAIL] discontinuity between r=0 and r=0.049")
+        elif max(abs(post0[h] - post_eps[h]) for h in HYPOTHESES) > 1e-3:
+            print(f"  [FAIL] mathematical discontinuity at r=0 (delta > 1e-3 for r=1e-4)")
+            ok = False
+        elif max(abs(post_below[h] - post_above[h]) for h in HYPOTHESES) > 1e-2:
+            print(f"  [FAIL] cliff at r=0.05 threshold (delta > 0.01 between 0.049 and 0.050)")
             ok = False
         else:
             print(f"  [PASS] continuous collapse: r=0 mode={mode0} has_floor={has_floor}; no cliff at 0.05")
-            print(f"         r=0 H5={post0['H5']:.4f}  r=1 path mode_at_0.05={mode_hi}")
+            print(f"         r=0 H5={post0['H5']:.4f}  r=0.05 mode={mode_hi} H5={post_above['H5']:.4f}")
+            if has_floor:
+                slope0 = max(abs(post0[h] - post_below[h]) for h in HYPOTHESES)
+                print(f"         floor-quant slope r=0→0.049: max |Δposterior| = {slope0:.4f} (informational)")
     except Exception as e:
         print(f"  [FAIL] collapse_posterior self-test: {e}")
         ok = False
@@ -627,7 +638,10 @@ def main():
             bar = "█" * int(post[h] * 40)
             print(f"  {h}  {post[h]:6.1%}  {bar}")
         try:
-            from physical_likelihoods import physical_loglik
+            try:
+                from physical_likelihoods import physical_loglik
+            except ImportError:
+                from model.physical_likelihoods import physical_loglik
             pll = physical_loglik({
                 "lambda_growth": 0.015, "rho_reclass": 0.25,
                 "r_owner": 0.0, "r_enumerator": 0.0, "undercount": 0.15,

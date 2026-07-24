@@ -43,7 +43,10 @@ import numpy as np
 try:
     from physical_likelihoods import physical_loglik
 except ImportError:
-    physical_loglik = None
+    try:
+        from model.physical_likelihoods import physical_loglik
+    except ImportError:
+        physical_loglik = None
 
 HERE = Path(__file__).resolve().parent
 STREAMS_CSV = HERE / "evidence_streams.csv"

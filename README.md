@@ -84,6 +84,7 @@ If the answer to (3) is yes and the answers to (1)–(2) are no, the review is t
    A single parameter (`victors_reliability ∈ [0.0, 1.0]`) scales the trust placed in every census total, shipping manifest, plantation ledger, and administrative count.  
    - At `1.0`: conventional + reweighted Bayesian posteriors are computed as before.  
    - At `0.0`: all quantitative head-counts, growth rates, and import totals become *undefined / unknowable*. Only qualitative patterns survive (existence of forced labor regimes, multi-generational presence of people of African and mixed descent on American soil, family separation practices, burial evidence, etc.).
+   - **What the mechanism posterior at r≈0 is:** each administrative quantitative likelihood is pushed to `0.5` (flat across H1–H5), so the log-space product across those streams contributes nothing. The mechanism posterior therefore returns to `RAW_PRIORS` (with a small offset only if `is_floor_quantitative = 1` streams — e.g. Stream 30 NYABG isotope proxy, Stream 31 autosomal ancestry — are active). **The r=0 posterior is the prior, displayed. It is not a data-fitted result and cannot license any ranking of mechanisms.** This is what "administrative counts become UNDEFINED" means for the ranking layer. See `bayesian_core.py:60` and `collapse_posterior()`.
 
 2. **Strict Layer Separation**
    - `raw/` — Verbatim excerpts or links to primary documents, each tagged with provenance (owner-mediated, multi-national shipping, archaeological, oral/community, etc.).
@@ -168,6 +169,23 @@ python model/sensitivity_map.py
 At `r = 1.0` the administrative path is DEFINED (conditional).  
 At `r → 0` it becomes UNDEFINED and only the physical/structural floor remains.  
 This makes the reliability assumption visible instead of invisible.
+
+### Reading the r=0 output correctly
+
+The zero-weight collapse rule is a demonstration that **administrative counts are conditional** — a valid and load-bearing epistemic move. It does **not** license any ranking among mechanisms at `r ≈ 0`, because at that setting the quantitative stream product is flat and the mechanism posterior is essentially the prior returned to you.
+
+Concretely, when the CLI prints at `--reliability 0.0`:
+
+```
+  H1  7.8%  H2 13.3%  H3 18.5%  H4 18.5%  H5 41.8%
+```
+
+those numbers are `RAW_PRIORS` (8:15:20:20:47 / 110), with a small offset from any `is_floor_quantitative = 1` streams (Stream 30 NYABG isotope proxy, Stream 31 autosomal ancestry test). They are **not** a data-fitted verdict on mechanisms.
+
+- The physical-floor log-likelihood is computed and reported at `r ≈ 0`. It supports presence, continuity, erasure, and regime intensity — not mechanism ranking. Reweighting H1–H5 by that log-likelihood is not what the model does at `r ≈ 0`; the floor is mechanism-silent by construction.
+- Any ranking among H1–H5 that appears at `r ≈ 0` reflects `is_floor_quantitative` streams only. Add or remove such a stream and the r=0 posterior changes accordingly. That is the intended discrimination layer: physical/genomic/isotopic evidence that survives zero-weight on the administrative series.
+
+**If you are comparing TAST to another model that produces a national head-count at r=1, do it at r=1. Do not compare an r=0 prior-return to a data-fitted total. The two objects are different by design.**
 
 ## H5 falsifiability, decisions, literature
 

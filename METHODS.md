@@ -28,6 +28,51 @@ None of the rows above is experimental.
 
 These four decisions are the point of the project. They are not claims about new mathematics.
 
+## Sample-size discipline for genomic evidence
+
+DNA / aDNA / autosomal-ancestry / isotope / haplogroup claims in this repo MUST carry:
+
+- `n` (sample size, integer),
+- reference population and its size,
+- `pct_of_reference` = `n / reference_size` shown to at least 2 sig figs (scientific notation when < 0.001%),
+- selection mechanism (consumer opt-in, community-engaged aDNA, isotope survivor, reference panel, etc.),
+- what the sample supports and what it cannot support.
+
+See `dna_sample_size_discipline.md` for the full protocol and worked examples
+(Bryc 2015 n=5,269 / 0.013% of ~40M AA; Harney 2023 n=27 site-level; Goodman
+NYABG n=32 chemical sample = 0.18% of estimated 15,000–20,000 interments; global
+aDNA record ~15,000–20,000 individuals = 0.000017% of ~117B humans ever lived).
+
+Genomic evidence does load-bearing work in the physical floor because it survives
+`victors_reliability = 0`. Precisely because it carries that weight, the sample
+base must remain visible next to every claim it grounds.
+
+Adopted 2026-07-24. Credit: Claude Opus 4.8 review (autosomal-ancestry
+falsification-test observation and the general requirement that DNA claims be
+sample-linked).
+
+## What this project's r=0 output IS
+
+At `victors_reliability = 0`, administrative streams are pushed to a flat
+likelihood of 0.5 and contribute nothing to the H1–H5 log-space product.
+The mechanism posterior therefore returns to `RAW_PRIORS` (8:15:20:20:47 / 110),
+offset only by any `is_floor_quantitative = 1` streams (currently Stream 30
+NYABG isotope proxy, Stream 31 autosomal Native American ancestry ceiling).
+See `bayesian_core.py:60`, `collapse_posterior()`, and the README section
+"Reading the r=0 output correctly."
+
+This means:
+
+- The r=0 output demonstrates that the administrative counts are conditional
+  and can be zero-weighted without breaking the machine. That is the
+  demonstration TAST is designed to make.
+- It does not license a ranking of H1–H5 mechanisms at r=0 in the absence of
+  `is_floor_quantitative` streams. Any r=0 ranking is exactly the physical-floor
+  discrimination active at that moment.
+- Comparisons to models that produce a national head-count at r=1 must be made
+  at r=1. The r=0 output is a prior return by construction and is not commensurate
+  with a data-fitted total.
+
 ## Predictive checks and adversarial re-analysis
 
 - Prior and posterior predictive checks are the correct way to make residual prior influence visible. Their expansion is active work.

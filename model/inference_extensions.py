@@ -20,7 +20,7 @@ from __future__ import annotations
 
 import csv
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Sequence, Tuple
 from collections import defaultdict
 
 import numpy as np
@@ -170,6 +170,155 @@ def print_adversarial_hooks() -> None:
     print(ADVERSARIAL_CHECKLIST)
 
 
+# ---------------------------------------------------------------------------
+# Hierarchical Multi-Regime Reliability (opt-in layer, v5.9.12)
+# ---------------------------------------------------------------------------
+# Optional hierarchical reliability layer for the TAST inference pipeline. It
+# is NOT active by default. The existing scalar victors_reliability (a single r
+# in [0, 1] applied uniformly to all administrative streams) remains the default.
+#
+# Motivation (from Claude Opus 4.8 review, 2026-07-24): treating mutually
+# hostile record-producing regimes (Portuguese, Spanish, British, French, Dutch,
+# Danish, Brazilian, Cuban port records, admiralty courts, marine insurance,
+# abolitionist parliamentary inquiries, U.S. federal census) as maximally
+# correlated under a single scalar r is a modeling error with direction -- it
+# systematically understates the evidential weight of the corroborated core.
+# A per-regime reliability vector r_g, aggregated to per-stream effective r_s
+# via the regimes each stream draws on, captures independent error structure.
+#
+# Epistemic rule preserved: administrative regimes remain conditional. When
+# every r_g -> 0, all r_s -> 0 and the collapse rule still applies.
+#
+# abolitionist_inquiry note: this regime has priors weighted toward higher
+# reliability because its bias direction is opposite to slaver records -- it
+# tends to under- rather than over-count the trade, making its corroboration
+# of slaver figures especially probative.
+
+# Weakly informative Beta(alpha, beta) priors for each record-producing regime.
+# Mean reliability = alpha / (alpha + beta).
+DEFAULT_REGIME_PRIORS: Dict[str, Tuple[float, float]] = {
+    "us_federal_census":            (6.0, 4.0),  # mean 0.60; known undercount bias
+    "us_state_owner_ledger":        (5.0, 5.0),  # mean 0.50; owner-reported
+    "portuguese_shipping":          (5.0, 4.0),  # mean 0.56; colonial records
+    "spanish_shipping_and_census":  (5.0, 4.0),  # mean 0.56
+    "british_shipping_and_ledger":  (6.0, 4.0),  # mean 0.60; relatively well-kept
+    "french_shipping_and_ledger":   (5.0, 4.0),  # mean 0.56
+    "dutch_shipping_and_ledger":    (5.0, 4.0),  # mean 0.56
+    "danish_shipping_and_ledger":   (5.0, 4.0),  # mean 0.56
+    "brazilian_port":               (5.0, 5.0),  # mean 0.50; variable quality
+    "cuban_port":                   (5.0, 5.0),  # mean 0.50
+    "admiralty_court":              (6.0, 3.0),  # mean 0.67; adversarial legal
+    "marine_insurance":             (6.0, 3.0),  # mean 0.67; financial incentive
+    "abolitionist_inquiry":         (7.0, 3.0),  # mean 0.70; adversarial to trade
+    # Default fallback regime for unannotated streams (preserves scalar-r parity).
+    "us_admin":                     (5.0, 5.0),  # mean 0.50; generic administrative
+}
+
+
+def regime_scalar_for_stream(
+    regime_weights: Dict[str, float],
+    regime_reliabilities: Dict[str, float],
+) -> float:
+    """Aggregate per-regime reliabilities into a per-stream effective reliability.
+
+    r_s = sum(w_g * r_g) / sum(w_g)
+
+    Returns 1.0 when no regimes overlap (unannotated stream falls back to
+    scalar-r layer).
+    """
+    if not regime_weights:
+        return 1.0
+    common = set(regime_weights) & set(regime_reliabilities)
+    if not common:
+        return 1.0
+    num = sum(regime_weights[g] * regime_reliabilities[g] for g in common)
+    den = sum(regime_weights[g] for g in common)
+    return float(num / den) if den != 0 else 1.0
+
+
+def hierarchical_reliability_vector(
+    streams: Sequence[str],
+    regime_priors: Optional[Dict[str, Tuple[float, float]]] = None,
+    regime_weights: Optional[Dict[str, Dict[str, float]]] = None,
+    seed: Optional[int] = None,
+) -> Dict[str, float]:
+    """Sample per-regime reliabilities and aggregate to per-stream values.
+
+    Each r_g ~ Beta(alpha_g, beta_g) independently. Each stream reliability r_s
+    is the weighted average of the r_g values for the regimes that stream draws
+    on. Unannotated streams default to a single "us_admin" regime with weight 1.0,
+    preserving scalar-r parity.
+    """
+    if regime_priors is None:
+        regime_priors = DEFAULT_REGIME_PRIORS
+    rng = np.random.default_rng(seed)
+    regime_reliabilities: Dict[str, float] = {
+        regime: float(rng.beta(alpha, beta))
+        for regime, (alpha, beta) in regime_priors.items()
+    }
+    result: Dict[str, float] = {}
+    for stream in streams:
+        weights = (regime_weights or {}).get(stream, {"us_admin": 1.0})
+        result[stream] = regime_scalar_for_stream(weights, regime_reliabilities)
+    return result
+
+
+def demonstrate_hierarchical_reliability(
+    n_samples: int = 2000,
+    seed: int = 42,
+) -> None:
+    """Demonstrate hierarchical reliability via Monte Carlo comparison.
+
+    Prints per-stream mean r_s and 90% CI across `n_samples` prior draws, with
+    each stream annotated to a single regime for clarity. In real use, streams
+    would carry multi-regime weights.
+    """
+    streams = list(DEFAULT_REGIME_PRIORS.keys())
+    demo_weights: Dict[str, Dict[str, float]] = {
+        s: {s: 1.0} for s in streams
+    }
+    scalar_r = 0.55  # representative scalar for comparison
+    samples: Dict[str, List[float]] = {s: [] for s in streams}
+    for s in range(n_samples):
+        vec = hierarchical_reliability_vector(
+            streams,
+            regime_priors=DEFAULT_REGIME_PRIORS,
+            regime_weights=demo_weights,
+            seed=s,
+        )
+        for st in streams:
+            samples[st].append(vec[st])
+    print("\n=== Hierarchical Reliability Demonstration ===")
+    print("(Opt-in layer; scalar victors_reliability remains the default.)")
+    print(f"{'Regime':<32} {'Scalar r':>10} {'Hier r_s mean':>14} {'90% CI':>20}")
+    print("-" * 78)
+    for st in streams:
+        arr = np.asarray(samples[st])
+        lo, hi = np.percentile(arr, [5.0, 95.0])
+        print(f"{st:<32} {scalar_r:>10.3f} {arr.mean():>14.3f}  [{lo:.3f}, {hi:.3f}]")
+    print()
+    # Show the collapse boundary is preserved.
+    zero_priors = {k: (1e-3, 1e3) for k in DEFAULT_REGIME_PRIORS}  # Beta mass ~0
+    zero_vec = hierarchical_reliability_vector(
+        streams, regime_priors=zero_priors, seed=seed
+    )
+    max_r = max(zero_vec.values())
+    print(f"Collapse check: max r_s with all Beta(1e-3, 1e3) priors = {max_r:.4e}")
+    print("(All r_s -> 0 when all regime priors are pushed to zero; collapse rule intact.)")
+    print("\nCONDITIONAL. Administrative regimes remain victors' paperwork.")
+
+
+# CLI hook to add to main() argparse block:
+#   parser.add_argument(
+#       "--demo-hierarchical",
+#       action="store_true",
+#       help="Run the hierarchical multi-regime reliability demonstration",
+#   )
+# And in the dispatch block:
+#   if args.all or args.demo_hierarchical:
+#       demonstrate_hierarchical_reliability()
+
+
 def main():
     import argparse
     parser = argparse.ArgumentParser(description="TAST inference extensions (v4.8)")
@@ -179,6 +328,8 @@ def main():
     parser.add_argument("--claims", action="store_true")
     parser.add_argument("--min-ci", type=float, default=0.70)
     parser.add_argument("--adversarial", action="store_true")
+    parser.add_argument("--demo-hierarchical", action="store_true",
+                        help="Run hierarchical multi-regime reliability demo (opt-in)")
     parser.add_argument("--all", action="store_true")
     args = parser.parse_args()
 
@@ -190,6 +341,9 @@ def main():
         print()
     if args.all or args.demo_bias:
         demonstrate_bias_model()
+        print()
+    if args.all or args.demo_hierarchical:
+        demonstrate_hierarchical_reliability()
         print()
     if args.all or args.claims:
         claim_level_summary(args.min_ci)
