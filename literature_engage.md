@@ -51,3 +51,28 @@ Hartman, Fuentes, Smallwood, and Jennifer Morgan argue that the archive’s arit
 
 Living matrix. Each diverge cell is a candidate for an adversarial likelihood adjustment or a primary-source counter-argument.  
 Direction for record-set diversity and discriminating streams: Claude Opus 4.8 (literature pass). Implementation and likelihood values remain project responsibility.
+
+
+## Bioarchaeology, isotopes, law, and sites (floor candidates)
+
+These are mapped in `surviving/quantitative_floor.md` §§7–9. They meet the strict zero-weight bar (do not route through owner/trader/enumerator counts). No published rates or proportions are encoded until verified.
+
+| Author / corpus | Domain | Floor role |
+|-----------------|--------|------------|
+| Blakey & Rankin-Hill (NYABG Skeletal Biology Final Report) | Bioarchaeology | Technical corpus behind NYABG; age-at-death, stress markers |
+| Rathbun | SC plantation skeletal series | Regional mortality / stress from bodies |
+| Owsley | Catoctin skeletal (pre-genetics) | Same population as later aDNA |
+| Davidson | Freedman’s Cemetery, Dallas | Large post-emancipation series |
+| Rose (ed.) | Cedar Grove, AR | Documented series |
+| Handler & Lange | Newton Plantation, Barbados | Comparative Caribbean from bodies |
+| Goodman et al. | Sr / Pb isotopes, NYABG | Childhood geology + lead exposure |
+| Schroeder et al. (incl. 2015 PNAS Saint Martin) | Isotopes + African-born genomes from remains | Proof of concept for H1-vs-H2 on bodies |
+| Laffoon; Bastos et al. | Caribbean / Rio baselines | Comparative isotope reference |
+| Thomas Morris, *Southern Slavery and the Law* | Legal survey | Regime structure, self-documenting |
+| **Ariela Gross**, *Double Character*; *What Blood Won’t Tell* | Racial-determination trials | **Priority**: adversarial court record of classification process (H2); no enumerator interest |
+| Singleton; Heath; Fennell; Franklin | Plantation / quarter archaeology | Site counts, spatial distribution, dendrochronology — potential replacement for stipulated jurisdiction counts |
+
+**Not floor** (different producers, still paper — quantitative streams with own groups): Kiple & King; Savitt; Hall (Louisiana Slave Database); Higman (*Slave Populations of the British Caribbean* — improves Stream 2, does not enter the floor).
+
+Priority for moving the model: (1) verified isotope terms so the floor can speak to mechanism; (2) Gross trial corpus as contemporaneous adversarial documentation of H2.
+

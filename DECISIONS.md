@@ -117,3 +117,20 @@ With Stream 29, full-charitable H1 median ≈ 6.07% (essentially at prior 7.27%)
 **Stream 28**: is_quantitative=0 → documentation/floor gain only; does not enter mechanism ranking. Explicit so it is not misread as an inference change.
 
 Isotope proportions still not encoded pending verification against current papers.
+
+## Zero-layer expansion (v5.9) — genuine floor vs better paper
+
+Opus 4.8 literature pass on what meets the strict r→0 bar (no owner/trader/enumerator routing).
+
+**Implemented in `surviving/quantitative_floor.md`:**
+
+- §7 Bodies: Blakey & Rankin-Hill, Rathbun, Owsley, Davidson, Rose, Handler & Lange; measurement classes (age-at-death, entheseal/MSK stress, hypoplasia/Harris/cribra).
+- §7.2 Isotopes expanded: Goodman, Schroeder (incl. 2015 PNAS Saint Martin), Laffoon, Bastos; lead isotopes noted separately.
+- §8 Statutes & adjudication: Morris; **Ariela Gross prioritized** (racial-determination trials = adversarial documentation of H2’s mechanism).
+- §9 Sites & material culture: Singleton, Heath, Fennell, Franklin — path to replace stipulated jurisdiction counts with counted inventories.
+- §10 Explicit *not* floor: Kiple & King, Savitt, Hall, Higman — different producers, still paper; own quantitative groups, not the floor.
+- §11 Priority order to move the model: (1) verified isotopes, (2) Gross trials.
+
+**Discipline held**: no published proportions, mortality rates, or stress frequencies encoded. Literature exists; figures must be pulled from the papers before any likelihood term. Encoding from recall would reintroduce the hand-specified-cell problem.
+
+Stream 28 remains floor/documentation only. Stream 29 remains the first discriminating quantitative stream (group R).

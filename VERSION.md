@@ -423,3 +423,10 @@ Example:
 - Full-charitable H1 median now marginal vs prior (6.07% vs 7.27%); upper tail ~20.9%. Bidirectional correction recorded in DECISIONS.
 - Stream 28 explicitly documented as floor-only (no mechanism ranking).
 - Credit: Claude Opus 4.8.
+
+## v5.9 — genuine floor map (bodies, isotopes, law, sites) (2026-07-24)
+
+- quantitative_floor.md §§7–11: bioarchaeological corpus, expanded isotopes (incl. Schroeder 2015 PNAS), Gross racial-determination trials prioritized, site/material culture path, explicit not-floor boundary (Kiple/Savitt/Hall/Higman).
+- No numbers encoded; verification against papers required before likelihood terms.
+- Priority to move model: isotopes (H1 vs H2 on bodies), then Gross trials (adversarial H2 documentation).
+- Direction: Claude Opus 4.8. Figures and encoding remain project work after verification.
