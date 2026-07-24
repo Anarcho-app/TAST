@@ -34,6 +34,17 @@ The known knowns (physical remains on American soil, genealogical chains termina
 The decision to treat those known knowns as the floor and the administrative series as optionally discardable is the point of the project.
 
 
+
+## Evidence over narrative
+
+Slaveowners’ documents, shipping manifests, and other victors’ accounts are valuable primary sources. They are also incomplete and self-interested.  
+
+This project treats them as **data for critical analysis**, not as an unassailable foundation and not as targets for automatic rejection.  
+
+Bayesian updating (via the continuous `victors_reliability` parameter) weighs their reliability without favoritism. When reliability is high, the administrative series inform the posterior; when reliability approaches zero, those series become non-informative and only the physical and structural floor remains.  
+
+Cross-checks against economics, demography, archaeology, genealogy, and logic are required. That is how understanding grows. Narrative preference — on any side — is not a substitute for evidence.
+
 ## Core Design Principles (v4.0)
 
 1. **Zero-Weight / Maximal-Skepticism Mode**  
@@ -108,3 +119,7 @@ Even in high-reliability mode, the majority of quantifiable demographic claims r
 ---
 
 *This repository is a tool for epistemic hygiene, not a competing origin narrative.*
+
+## Credit & development
+
+See [ACKNOWLEDGMENTS.md](ACKNOWLEDGMENTS.md) for primary authorship and collaborative development credit.

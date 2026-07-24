@@ -233,3 +233,9 @@ Foundation made undeniable:
 - New `METHODS.md` lists classic textbook references for every formal object and states clearly that the mathematics is standard; the novel contribution is the zero-weight collapse rule and the physical floor.
 - Quantitative floor header restates the same separation.
 - Novelty is deliberately limited to the epistemic decision rule. The known knowns (physical remains, genealogical termination, anti-literacy statutes, owner-mediated provenance) are not experimental; the decision to treat them as the floor is the point of the project.
+
+
+## Credit note — 2026-07-23
+
+- Added `ACKNOWLEDGMENTS.md`: primary author Anarcho-app; collaborative development assistance from Grok (xAI) recorded transparently.
+- Added “Evidence over narrative” section to README: administrative records are data for critical analysis, neither unassailable foundation nor targets for automatic rejection. Reliability weighting without favoritism.
