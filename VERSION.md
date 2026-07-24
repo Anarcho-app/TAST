@@ -438,3 +438,17 @@ Example:
 - README header version label updated (cosmetic drift).
 - Floor-not-wired diagnosis recorded: physical_loglik held, not ranked; isotopes remain the path to make the floor learn.
 - Credit: GLM 5.2 audit.
+
+## v5.9.2 — multi-agent audit + verified isotope skeleton (2026-07-24)
+
+- UTF-8 guard ported to physical_likelihoods.py and hierarchical_skeleton.py.
+- data/verified_isotope_adna.yaml: only figures confirmed against primary papers (Harney 2023, Schroeder 2015, Fleskes 2023 accurate counts). Fabricated Anson Street birthplace claim rejected.
+- model/M1_floor_likelihood_design.md: design for hypothesis-conditional floor likelihoods (no parameters invented).
+- Stipulated floor constants flagged; four-test verdict and structural findings recorded.
+- Credit: Kimi K3 (lead), Kat Coder Pro 2.5, Minimax M3.
+
+## v5.9.4 — P1/P3 scaffolds (no invented numbers)
+
+- schemas/gross_trial_corpus.schema.yaml (empty; fill from Gross / trial dockets only)
+- model/floor_isotope_terms_scaffold.md (Beta-Binomial / Binomial per site; blocked on Goodman tables)
+- Prioritization reconfirmed: isotopes → Gross → counted inventories → hierarchical independence → H5 submodels

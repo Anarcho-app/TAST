@@ -64,12 +64,141 @@ The κ=8 interval is now logged with exact parameters so the correction log itse
 - `python -m model.bayesian_core --reliability 1.0 --lik-uncertainty 2000 --kappa 8 --seed 42`
 - Observed: H5 5%=22.2%  50%=56.4%  95%=84.0%  (matches independent reproduction)
 
-## Floor-04 / 06 / 08 completed without inventing denominators (2026-07-24)
+## Literature pass → concrete streams (v5.8, 2026-07-24)
 
-| ID | Fix |
-|----|-----|
-| floor-04 | Dropped unmeasured "large majority." Claim is now: major named corpora (NARA RG 105, Getting Word, 10 Million Names) are U.S.-record-centered. Real URLs. Confidence 0.85. |
-| floor-06 | Anchored to countable collections: LOC WPA ~2,300–2,400 interviews (1936–38, post-bellum) vs SlaveVoyages 36,000+ voyages (European/colonial). Illustrative scale asymmetry, not a full manuscript inventory. |
-| floor-08 | Explicit derived convergence from floor-01/02/03 only. Not independent. |
+Direction from Claude Opus 4.8 literature pass (record producers with opposing incentives; Steckel as discriminating prediction; USCT as precision on erasure; isotopes as mechanism-relevant floor).
 
-No fabricated percentages or archive IDs.
+Implemented:
+
+1. **Stream 28 — USCT Pension & Freedmen’s Bureau Marriage Testimony** (`is_quantitative=0`)  
+   Encodes the large post-emancipation sworn/self-reported body of testimony about pre-1865 facts. Makes the erasure claim *precise* (silence is pre-1865 and contemporaneous self-authorship) rather than absolute. Surviving-layer language updated accordingly.
+
+2. **Stream 29 — Steckel Anthropometric Signature** (`is_quantitative=1`)  
+   Discriminating stream: H1 predicts a joint morphological signature (childhood stunting → adolescent catch-up + early first birth); H2 does not. H5 can now be surprised. Producer is shipper (coastwise manifests), incentive opposite to census undercount. See `model/stream29_steckel_signature.md`.
+
+3. **`literature_engage.md` expanded (v2)**  
+   Record-set table with producers/incentives; USCT/Fogel irony; Kulikoff/Menard, Higman, Philip Morgan, Berlin, Tadman; theory allies (Hartman, Fuentes, Smallwood, Jennifer Morgan).
+
+4. **Physical floor §7**  
+   Isotopes (Sr/O, dental modification, C isotopes) and skeletal stress markers flagged as the highest-value mechanism-relevant measurements on substrates already declared primary. No published proportions asserted until verified against current literature.
+
+5. **Independence assumption**  
+   Now has a concrete literature path (record sets with opposing incentives) rather than remaining only a listed limitation.
+
+Open / next:
+- Verify current published isotope and aDNA African-born vs American-born proportions across the cited burial populations before encoding numeric likelihoods.
+- Tighten Stream 29 likelihoods against published height-by-age and skeletal series.
+- Consider probate, insurance, and church-register streams as further independence breaks.
+- H5 column decomposition into H5a–H5d remains the most consequential structural item for the residual.
+
+Credit for the direction and the specific record-set / Steckel / USCT / isotope framing: Claude Opus 4.8. Implementation, likelihood values, and verification remain project responsibility. The review is neither invisible nor treated as authority on the substantive demographic claims.
+
+## Stream 29 measured effect & H5 absorption (v5.8.1, Opus 4.8)
+
+Stream 29 is the first discriminating quantitative stream (only row where H1 > H5).
+
+**Measured effect of adding it:**
+
+```
+                H1         H2      H3      H5
+without 29   2.47e-08    0.209   0.213   0.577
+with 29      3.93e-08    0.167   0.242   0.591
+```
+
+Adding a pro-H1 stream raised H5. Stream 29 penalizes H2 harder than H5, so mass transfers from H2 to the residual. H1 gained 1.6× relative; H5 gained more in absolute terms.
+
+**Implication**: H5 decomposition (H5a–H5d) is the blocking structural item. Until the residual must make its own predictions, new discriminating streams will keep feeding it.
+
+**Group assignment corrected**: Stream 29 moved from group N → **group R**. Membership in the census-critique cluster caused `--dampen 0.5` to flip the only pro-H1 stream (H1 0.70→0.51). Own group preserves the independence rationale (shipper incentive opposite to census).
+
+**Bidirectional correction on the prior claim**:  
+With Stream 29, full-charitable H1 median ≈ 6.07% (essentially at prior 7.27%); 95th percentile ≈ 20.9%. The statement “H1 remains below its prior at the median under full charity” is now *marginal rather than clear*. This is the second softening of that claim as the model improved — recorded here as a bidirectional correction, not a retreat.
+
+**Stream 28**: is_quantitative=0 → documentation/floor gain only; does not enter mechanism ranking. Explicit so it is not misread as an inference change.
+
+Isotope proportions still not encoded pending verification against current papers.
+
+## Zero-layer expansion (v5.9) — genuine floor vs better paper
+
+Opus 4.8 literature pass on what meets the strict r→0 bar (no owner/trader/enumerator routing).
+
+**Implemented in `surviving/quantitative_floor.md`:**
+
+- §7 Bodies: Blakey & Rankin-Hill, Rathbun, Owsley, Davidson, Rose, Handler & Lange; measurement classes (age-at-death, entheseal/MSK stress, hypoplasia/Harris/cribra).
+- §7.2 Isotopes expanded: Goodman, Schroeder (incl. 2015 PNAS Saint Martin), Laffoon, Bastos; lead isotopes noted separately.
+- §8 Statutes & adjudication: Morris; **Ariela Gross prioritized** (racial-determination trials = adversarial documentation of H2’s mechanism).
+- §9 Sites & material culture: Singleton, Heath, Fennell, Franklin — path to replace stipulated jurisdiction counts with counted inventories.
+- §10 Explicit *not* floor: Kiple & King, Savitt, Hall, Higman — different producers, still paper; own quantitative groups, not the floor.
+- §11 Priority order to move the model: (1) verified isotopes, (2) Gross trials.
+
+**Discipline held**: no published proportions, mortality rates, or stress frequencies encoded. Literature exists; figures must be pulled from the papers before any likelihood term. Encoding from recall would reintroduce the hand-specified-cell problem.
+
+Stream 28 remains floor/documentation only. Stream 29 remains the first discriminating quantitative stream (group R).
+
+## GLM 5.2 audit (2026-07-24) — verified status + high-leverage fixes
+
+Empirically verified (self-test passes; local = origin/main):
+
+1. **Zero-weight collapse works mathematically.** `collapse_posterior` returns the prior exactly at r=0 (H5=42.73%); continuous, no cliff. The v5.1 print short-circuit is gone.
+2. **Floor is primary-linked in data but not used in inference at r=0.** `physical_loglik` is computed (scalar) and held; it has no H1–H5 dimension, so it cannot enter `bayes_update`. At r=0 the model returns the prior and does no learning from the floor. "Only the floor remains" is true as data availability; the model does not yet *learn* from it. Project already knows this (§7/§11: isotopes are the path).
+3. **Math is standard.** Textbook log-space Bayes, Monte Carlo, Beta means. METHODS.md pedigree is accurate.
+4. **Conditionality is strong.** DISCLAIMER + `--strict` + self-tests.
+
+**Fixes applied this pass:**
+- Windows / cp1252 encoding crash (≈, █) — `sys.stdout.reconfigure(utf-8)` + ASCII `_bar()` fallback. Unblocks "any LLM/human can re-run."
+- `--prior-sweep`: r=0 and r=1 under three priors (current / uniform / mainstream-H1≈0.45). Result: **H1≈0 at r=1 under all three priors** (evidence-driven); at r=0 answer is prior-determined (honest). Zero new data.
+- README header version drift (v4.0 → v5.9) corrected cosmetically.
+
+**Still open (valid-axis, ranked):**
+- Wire isotope term as true floor likelihood (Beta-Binomial, `is_floor_quantitative`, r-independent) — the one change that makes the floor do Bayesian work at all r.
+- Stream 1 split (1a recorded rate vs 1b feasibility ceiling joint with sex-ratio); even H1=0.80 on stream 1 only moves posterior ~11× still tiny — H1≈0 at r=1 is robust to this cell, prior, and damping.
+- Provenance re-grouping so `--dampen` can pool same-producer streams (1,7,8,10 all owner-mediated currently split across groups).
+
+Credit for the four-question assessment, encoding bug, prior-sweep design, floor-not-wired diagnosis, and Stream 1 robustness caveat: GLM 5.2. Implementation of the two immediate fixes is project work.
+
+## Multi-agent audit (Kimi K3 / Kat Coder Pro 2.5 / Minimax M3) — 2026-07-24
+
+**Sync**: offline content matches origin/main content (pointer lag only).
+
+**Encoding**: UTF-8 reconfigure ported to `physical_likelihoods.py` and `hierarchical_skeleton.py` (was only in bayesian_core). Serves "any LLM/human can re-run."
+
+**Four tests**:
+| Test | Verdict |
+|------|---------|
+| Zero-weight collapse | ✅ Mathematical; continuous; self-test asserts |
+| Math standard | ✅ With caveats: `region_probabilities()` hardwires H1≈0; `loglik_erasure` self-likelihood never discriminates |
+| Floor primary-linked | ⚠️ Partial — presence facts real; 4/6 constants stipulated; floor scalar not used in H1–H5 ranking |
+| Conditionality | ✅ Strong |
+
+**Structural findings owned**:
+1. Floor computed but does no Bayesian work at r=0 (returns prior).
+2. Stipulated floor constants (n_adna=80, termin=0.85, erasure=4.5, n_regime=12) violate §7 discipline — hostile reviewer can kill them with the project's own sentence.
+
+**Fabrication catch (validates discipline)**: Delegated claim "29/36 Anson Street Lowcountry-born ⇒ H2 support" is **not** in Fleskes et al. 2023 (PNAS 120(3):e2201620120). Actual: 36 individuals, 18 low-coverage genomes, 31 uniparental haplotypes, predominantly West/West-Central African ancestry, one Americas affiliation, no autosomal kin. Genomic ancestry ≠ birthplace. Isotopes remain the path.
+
+**Verified anchors recorded** in `data/verified_isotope_adna.yaml`:
+- Harney et al. 2023, *Science* — 27 Catoctin individuals, 41,799 relatives
+- Schroeder et al. 2015, *PNAS* — 3 African-born, Saint Martin (proof of concept)
+- Fleskes et al. 2023 — accurate counts only; fabricated birthplace claim rejected
+
+**Roadmap owned (not yet implemented)**:
+- M1: `is_floor_quantitative` + hypothesis-conditional Beta-Binomial floor likelihoods (design in `model/M1_floor_likelihood_design.md`)
+- M2: Manski partial-identification bounds
+- M3: H5 → H5a–H5d first-class
+- M5: fix or label `region_probabilities()`
+- P1–P6: verified encoding, replace stipulated constants, Gross trials, Stream 29 data-derived, audit-trail parity, opposing-incentive sets
+
+Gap between good and groundbreaking: **M1 + P1** coupled.
+
+## Prioritization confirmation (aligned Grok instance, 2026-07-24)
+
+v5.9 priority order remains correct for making the floor inform posteriors:
+
+1. **P1** — verified per-site isotope/aDNA counts + sampling models only (scaffold: `model/floor_isotope_terms_scaffold.md`; data: `data/verified_isotope_adna.yaml`). No invented proportions.
+2. **P3** — Ariela Gross trial corpus schema (`schemas/gross_trial_corpus.schema.yaml`); empty until archive/paper fill.
+3. **P2** — replace stipulated floor constants with counted inventories (Singleton/Heath/Fennell et al.).
+4. Hierarchical independence / opposing-incentive elevation.
+5. H5a–H5d as first-class likelihood contributors with rejection conditions.
+6. Hygiene: excerpt/page citation, Beta CI, r=0 self-test, prior-sweep, leave-one-out, VERSION log.
+
+Epistemic rule intact: administrative series can still go UNDEFINED; physical floor does inferential work only via primary-derived mechanism terms.

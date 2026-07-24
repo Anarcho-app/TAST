@@ -1,0 +1,35 @@
+# Ariela Gross racial-determination trial corpus schema (P3)
+# Fill only from published case reports / archival dockets. No invented rows.
+# Source texts: Double Character; What Blood Won't Tell; cited trial records.
+
+schema_version: 1
+purpose: >
+  Contemporaneous adversarial documentation of racial classification under legal
+  pressure — the cleanest record class for H2-style determination. Quantitative
+  only where the trial supplies countable outcomes; otherwise structural.
+
+required_fields_per_case:
+  - case_id
+  - year
+  - jurisdiction          # county/state
+  - court_or_forum
+  - criterion_invoked     # appearance | ancestry | reputation | association | other
+  - contested             # true if classification was adversarially disputed in-record
+  - outcome               # classified as / held to be ...
+  - archive_or_citation   # page, reporter, or archival path
+  - stable_url_or_doi
+  - verbatim_excerpt      # short operative finding if available
+  - independence_group    # legal_adjudication
+  - verified_at
+
+optional_fields:
+  - party_roles
+  - related_statute
+  - notes
+
+rules:
+  - Do not encode a case without archive_or_citation and verified_at.
+  - Aggregates (counts by criterion/outcome) only after N cases are filled from sources.
+  - Stream status: is_quantitative only if countable outcomes are used; else structural floor.
+
+placeholder_rows: []   # intentionally empty until paper/archive pull

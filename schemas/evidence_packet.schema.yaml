@@ -1,0 +1,72 @@
+# TAST Primary Evidence Packet Schema (v1)
+# Every load-bearing claim that is publication-ready must satisfy this packet.
+# Automated validation should refuse publication-ready status when required fields are missing.
+
+schema_version: 1
+purpose: >
+  Make the source chain executable. A claim without a complete packet is not
+  publication-ready. Floor claims and likelihood cells both use this schema.
+
+required_fields:
+  - claim_id          # stable id (e.g. floor-01, stream-1-H1, claim-042)
+  - statement         # exact claim text
+  - estimand          # what quantity or proposition is being claimed
+  - source_type       # physical | statutory | administrative | genealogical | lab | secondary_synthesis
+  - archive           # repository name or "none — synthesis"
+  - collection        # collection / series if applicable
+  - record_id         # catalog or item id if applicable
+  - document_title
+  - original_date     # of the source document, not digitization
+  - page_or_folio
+  - stable_url        # DOI, permalink, or archive.org; null only if unpublished MS with path
+  - verbatim_excerpt  # short quotation or extraction rule
+  - transcription     # if excerpt is normalized
+  - scope             # geographic / temporal / population scope
+  - creator_or_record_producer
+  - provenance_role   # owner | enumerator | shipper | clergy | formerly_enslaved | lab | court | other
+  - enslaved_voice_status  # none | partial | direct | n/a
+  - independence_group     # for correlation / dampen
+  - measurement_uncertainty
+  - extraction_method      # verbatim | counted | derived | analyst_judgment
+  - verified_at            # ISO date of last human verification
+  - publication_ready      # true only when all required fields non-null and extraction_method != analyst_judgment for quantitative cells
+
+optional_fields:
+  - publication_date
+  - digitization_date
+  - related_claim_ids
+  - notes
+
+validation_rules:
+  - floor_claims_must_not_be_synthesis_only: >
+      source_type secondary_synthesis cannot be publication_ready for floor-01..floor-08
+      unless related_claim_ids point to complete physical/statutory packets.
+  - quantitative_likelihood_cells: >
+      extraction_method must be counted or derived (not analyst_judgment) for
+      publication-ready status of mechanism-ranking cells.
+  - url_or_archive_null_blocks_ready: >
+      stable_url null and archive "none" together block publication_ready.
+
+example_minimal_physical:
+  claim_id: floor-example-burial
+  statement: "Multiple burial grounds of African and mixed ancestry exist on the territory that became the United States (17th–19th c.)."
+  estimand: presence_lower_bound
+  source_type: physical
+  archive: NPS / GSA
+  collection: African Burial Ground National Monument
+  record_id: null
+  document_title: "African Burial Ground Archaeology Reports"
+  original_date: "1990s–2000s excavation reports"
+  page_or_folio: null
+  stable_url: "https://www.nps.gov/afbg/index.htm"
+  verbatim_excerpt: null  # fill from report
+  transcription: null
+  scope: "NYC; other sites cited separately"
+  creator_or_record_producer: federal archaeology / community
+  provenance_role: lab
+  enslaved_voice_status: n/a
+  independence_group: physical_burial
+  measurement_uncertainty: "site inventory incomplete nationally"
+  extraction_method: counted
+  verified_at: "2026-07-24"
+  publication_ready: false  # until excerpt + page filled
