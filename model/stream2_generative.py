@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Stream 2 — post-trade closed-population growth gap (derived means)."""
+"""Stream 2 — post-trade growth gap. H2=H2b; Bryc-derived delta (not 0.85 fudge)."""
 from __future__ import annotations
 import math
 from dataclasses import dataclass
@@ -31,15 +31,18 @@ def complete_row() -> Dict:
     g_carib = growth(w.carib_1807, w.carib_1834, w.years_carib)
     obs_gap = g_us - g_carib
     sigma_gap = math.sqrt(
-        sigma_growth(w.years_us, w.log_sigma_census) ** 2
-        + sigma_growth(w.years_carib, w.log_sigma_census) ** 2
+        sigma_growth(w.years_us, w.log_sigma_census)**2
+        + sigma_growth(w.years_carib, w.log_sigma_census)**2
     )
     mu_us, sd_us = 0.022, 0.004
     mu_sugar, sd_sugar = -0.008, 0.010
     mu_h1 = mu_us - mu_sugar
-    tau_h1 = math.sqrt(sd_us ** 2 + sd_sugar ** 2)
+    tau_h1 = math.sqrt(sd_us**2 + sd_sugar**2)
     mu_h2a, tau_h2a = 0.0, 0.015
-    mu_h2b, tau_h2b = mu_h1 * 0.85, tau_h1 * 1.1
+    # Bryc α≤2% over 50y → delta_g ≈ -log(1-0.02)/50 ≈ 0.000404
+    bryc_delta = -math.log(1 - 0.02) / 50.0
+    mu_h2b = mu_h1 - bryc_delta
+    tau_h2b = tau_h1 * 1.05
     mu_h5, tau_h5 = 0.015, 0.04
     L_h1 = expected_kernel_gap(obs_gap, mu_h1, tau_h1, sigma_gap)
     L_h2a = expected_kernel_gap(obs_gap, mu_h2a, tau_h2a, sigma_gap)
@@ -52,18 +55,13 @@ def complete_row() -> Dict:
         "H1": max(eps, L_h1), "H2": max(eps, L_h2b), "H3": max(eps, L_h3),
         "H4": max(eps, L_h4), "H5": max(eps, L_h5),
         "meta": {
-            "g_us": g_us, "g_carib": g_carib, "obs_gap_pp": obs_gap * 100,
-            "sigma_gap_pp": sigma_gap * 100, "mu_h1_pp": mu_h1 * 100,
-            "tau_h1_pp": tau_h1 * 100, "L_h2a": L_h2a, "L_h2b": L_h2b,
+            "obs_gap_pp": obs_gap*100, "sigma_gap_pp": sigma_gap*100,
+            "mu_h1_pp": mu_h1*100, "mu_h2b_pp": mu_h2b*100,
+            "bryc_delta_pp": bryc_delta*100, "L_h2a": L_h2a, "L_h2b": L_h2b,
         },
     }
 
 if __name__ == "__main__":
-    row = complete_row()
-    m = row["meta"]
-    print("Stream 2 post-trade growth gap (DERIVED means)")
-    print(f"  g_US={m['g_us']*100:.2f}%/yr  g_Carib={m['g_carib']*100:.2f}%/yr")
-    print(f"  obs gap={m['obs_gap_pp']:.2f} pp  sigma={m['sigma_gap_pp']:.2f} pp")
-    print(f"  H1 pred mu={m['mu_h1_pp']:.2f} tau={m['tau_h1_pp']:.2f} pp")
-    print(f"  H1={row['H1']:.4f} H2b={m['L_h2b']:.4f} H2a={m['L_h2a']:.4f} H3={row['H3']:.4f} H4={row['H4']:.4f} H5={row['H5']:.4f}")
-    print(f"  H1/H2b={row['H1']/max(m['L_h2b'],1e-12):.2f}")
+    row = complete_row(); m = row["meta"]
+    print(f"H1={row['H1']:.4f} H2b={m['L_h2b']:.4f} H2a={m['L_h2a']:.4f} H3={row['H3']:.4f} H5={row['H5']:.4f}")
+    print(f"H1/H2b={row['H1']/m['L_h2b']:.2f}  bryc_delta={m['bryc_delta_pp']:.3f} pp")

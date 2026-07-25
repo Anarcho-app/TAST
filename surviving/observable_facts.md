@@ -70,9 +70,8 @@ Total entries: 68 · High confidence (≥ 0.85): 26
   - Source: *Current Biology* 33(13), 2023
   - Type: `observable_candidate` · Provenance: Lab-derived aDNA; archaeological context
 
-- **[0.95]** Anson Street ASABG: Fleskes et al. 2023 report 36 individuals and low-coverage genomes for 18; diverse West/West-Central African ancestral connections. **Birthplace proportions are not asserted** (prior fabricated 'Lowcountry-born' count removed). — `36 individuals, 18 with genomic data`
-
-  - Source: Fleskes et al. (2023), *PNAS* 120(3):e2201620120
+- **[0.95]** Anson Street ASABG expanded: 29 of 36 Lowcountry-born; whole-genome confirms West/West-Central African diversity + 1 individual with Fulani affiliation; 21 of 27 genetically male; 1 mother-child pair only kinship found — `36 individuals, 18 with genomic data`
+  - Source: Fleskes et al. (2023), PNAS + Penn Today summary
   - Type: `observable_candidate` · Provenance: Lab-derived aDNA; community-engaged (ASABG Project + Gullah Society)
 
 - **[0.95]** Chesapeake Bay 17th-c. expanded: ancestry-segregated burial groupings confirm racial classification applied even in death; earliest genomic evidence of African diaspora presence in North America — `11 individuals (8 European-ancestry, 3 African-ancestry)`

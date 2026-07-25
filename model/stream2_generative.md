@@ -1,24 +1,14 @@
-# Stream 2 — Post-trade growth gap (derived)
+# Stream 2 — Post-trade growth gap (derived, H2=H2b)
 
-Observable: g_US(1810→1860) − g_Carib(1807→1834). **No import series.**
+Observable: g_US(1810–1860) − g_Carib(1807–1834). No imports. σ≈0.89 pp from census log-error.
 
-| | Value |
-|--|-------|
-| g_US | +2.40%/yr |
-| g_Carib | −0.57%/yr |
-| obs gap | **+2.97 pp/yr** |
-| σ_gap | ≈0.89 pp (from census log-error 0.15) |
+| Hyp | L | Notes |
+|-----|---|-------|
+| H1 | 0.638 | μ_gap = 2.2% − (−0.8%) from component priors |
+| H2 (H2b) | 0.620 | same NI + Bryc-limited absorption (−0.04 pp) |
+| H2a | 0.121 | absorption *instead of* NI — killed 5.3:1 |
+| H3 | 0.629 | mixture H1/H2b |
+| H4 | 0.638 | = H1 on this observable |
+| H5 | 0.204 | diffuse |
 
-## Derived means (component priors — not hand-placed on the gap)
-
-| Hyp | μ_gap | Method |
-|-----|-------|--------|
-| H1/H4 | 3.0 pp | μ_US_vital(2.2%) − μ_sugar(−0.8%) |
-| H2a | 0 pp | absorption-instead: no US outlier NI |
-| H5 | intermediate | diffuse τ |
-
-Table H2 = **H2a** ≈ 0.12. H1/H2 ≈ **5.5** (not 388).
-
-## Why this observable is stronger than Stream 1
-
-Constant proportional undercount cancels in growth rates. Import/smuggling error is irrelevant. Addresses the project's founding reliability objection on this stream.
+H1/H2b ≈ 1.03 — **does not discriminate**. Convergence with Stream 1: H2a dead, H2b ≈ H1.
