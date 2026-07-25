@@ -106,55 +106,69 @@ python -m model.inference_extensions --adversarial                  # hook list 
 
 Credit: Claude Opus 4.8 review (2026-07-24) for the runtime bug, the r=0-is-prior observation, the autosomal-ancestry falsification test, the hierarchical-reliability observation, and the H5 numerical-prediction requirement. Every valid observation landed inside the README's own valid-axes list; scoring the model on the invalid axes would have missed all seven fixes.
 
-## Prior-sensitivity + regroup (2026-07-24) — the over-engineering / table-as-verdict point
+## Stream 1 generative derivation (2026-07-24)
 
-**`--prior-sensitivity`** at r=1 (conservative Stream 31 table):
+**Before:** Stream 1 H1=0.07 (inverted: growth surprising under the growth hypothesis).
 
-```
-prior H1 = 0.0727  → post H1 ≈ 0.000%
-prior H1 = 0.50    → post H1 ≈ 0.000%
-prior H1 = 0.90    → post H1 ≈ 0.000%
-prior H1 = 0.9999  → post H1 ≈ 0.44%
-prior H1 = 0.999999→ post H1 ≈ 30.5%
-```
+**After:** `stream1_generative.py` — lognormal P(N_1860 | 1790 stock × e^{r t} + residual imports). With r≈2.5%/yr and σ_log=0.15: **L(H1)≈0.82**. Table cell set to H1=0.82, H4=0.78, H5=0.50.
 
-No rational prior recovers H1. The likelihood table is the verdict. Further stream additions and prior tweaks are cosmetic until cells are rebuilt (especially Stream 1). This is the project's own "hidden conditioning" critique applied to itself.
+**Posterior at r=1:** H1 remains ≈0%. One earned cell does not overcome ten remaining anti-H1 admin-critique cells. Confirms magnitude diagnosis.
 
-**Group regroup:** US admin-linked quant streams (1,4,7,8,10,15,20,22) → group `U` so `--dampen` pools them. Floor (30,31) → `P`. SlaveVoyages → `V`. Dampen can now move cell values toward the group mean; H1 posterior remains ~0 because the *product* of still-anti-H1 means dominates — damping is not a substitute for generative cells.
+**Not done:** Full Hacker-style reconstruction; Caribbean/Brazilian generative contrast; calibration test on synthetic H1-true populations.
 
-Credit: Claude Opus 4.8 (prior-sensitivity table, KL redundancy detector, regroup-by-source-system).
+Credit: Opus 4.8 for isolating Stream 1 as the sole remaining high-value move.
 
-## Effective-N damping + Stream 1 is the only remaining move (2026-07-24)
+## Stream 1 marginalized (2026-07-24) — Opus 4.8 Max circularity fix
 
-**Bug:** `damp_correlated_streams` shrank L toward the group mean but still multiplied all k terms — the opposite of correlation control.
+Point r_ni=2.5% was the MLE in disguise. Replaced with E[kernel] under Normal priors:
 
-**Fix:** `--dampen s` now uses group log-weights `w = k_eff/k` with `k_eff = 1+(k-1)(1-s)`. At s=1, group U (8 streams) contributes as **one** observation.
+- A (US vital-rate): L≈0.46 at σ=0.15 → **default cell**
+- C (agnostic): L≈0.07 → recovers original hand-set
+- B (sugar pool): L≈0.025
 
-Measured at r=1 (conservative Stream 31):
+The dispute is now the reference class, not an unexplained 0.07. H2/H3/H5 still asserted.
 
-```
-s=0.0  H1≈0.0%  H5≈61.1%
-s=0.5  H1≈0.0%  H5≈58.0%
-s=1.0  H1≈0.1%  H5≈54.1%
-```
+## Stream 1 complete generative row (2026-07-24)
 
-Collapsing the entire US-admin cluster to one observation moves H1 from 0.0% to **0.1%**. Multiplicity is not the mechanism; **magnitude** is — eleven streams each encode “H1 fits poorly.”
+All five cells derived under log N_1860, σ=0.15:
 
-**Streams 30 and 31** kept in separate groups (P vs R): different measurement systems / populations; must not share a damping factor.
+| H1 | H2 | H3 | H4 | H5 |
+|----|----|----|----|-----|
+| 0.46 | 0.05 | 0.23 | 0.46 | 0.17 |
 
-**Shortlist collapses to one item:** Derive Stream 1 generatively — P(observed 1790/1860 counts | documented arrivals + NI model with explicit error structure), calibrated against Caribbean/Brazilian contrast cases. If that yields 0.07, the cell is earned. If it yields ~0.5, the headline dissolves. No further stream additions; no prior tweaks; damping is done.
+H5 now pays Ockham cost for diffuseness (was 0.80 asserted). H2 forward model + NA constraint yields low L (pure absorption does not hit 4M without violating Stream 31). Partial derivation of H1 alone is no longer handicapping only H1.
 
-Credit: Claude Opus 4.8 (effective-N formula, magnitude-not-multiplicity correction, Stream 1 sole priority).
+Credit: Opus 4.8 Max/High for circularity, Ockham-on-H5, and “complete row not cell” unit of progress.
 
-## Triage (2026-07-24)
+## Stream 1 H2 symmetry fix (2026-07-24, Opus 4.8 Max)
 
-13 quant → **6 quant** in product.
+1. Removed silent clamp that hid raw L_H2 ~ 1e-14.
+2. H2 split: **H2a** (absorption instead of NI) vs **H2b** (absorption + NI).
+3. H2b gets same r prior as H1 + NA constraint; table H2 = H2b ≈ 0.32 (pool 800k).
+4. H2a remains ~0.001 — correctly fails without inventing a 2.8M source pool.
+5. Genomic constraint now binds independently (was inert under asserted r_af=0.005).
 
-- Demoted measurement-error streams 4, 20, 21 to is_quantitative=0 (σ/reliability layer).
-- Demoted redundant 3, 7, 8, 10 (7≡8 duplicate vectors).
-- Kept 1 (derived), 2, 15, 22, 30, 31.
-- Stream 1 complete generative row restored in CSV.
+Global HYPOTHESES not yet split — Stream 1 documents H2a/H2b until more rows exist.
 
-Next = priors stage for parameters (Steckel CBR/CDR, Caribbean series, sex ratio, Indigenous pool) — not new asserted cells.
+## Joint α model Path A (2026-07-24)
 
-Credit: Opus 4.8 Max triage plan.
+Replaced product-of-streams estimand with joint posterior on absorption fraction α.
+
+- Module: `model/joint_alpha_model.py`
+- Shared latents; one likelihood; observables from Streams 1, 2, 31 logic
+- Illustrative posterior median α≈0.8%, 90% CI ~[0, 4.2%]
+- H1–H5 product retained only as intermediate/legacy path
+- Next gains: better priors (Steckel, Indigenous pool, sex ratio, reclassification) inside this joint model
+
+Credit: Opus 4.8 High for forcing the restructure.
+
+## α_admin vs α_I split (2026-07-24)
+
+Implemented Opus identification diagnostics. O3 constrains α_I only.
+α_admin unidentified by genomic channel under lookerism-compatible f_I/d.
+Publish α_I; report α_admin as not identified by current observables.
+
+## DNA limits explicit (2026-07-24)
+
+Documented: cohort n ≠ 40M+; K-cluster ≠ race ontology; NA% ≠ lookerism/α_admin.
+dna_sample_size_discipline.md and model/DNA_LIMITS.md are normative for any DNA claim.
