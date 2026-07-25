@@ -32,3 +32,14 @@
 
 - **α_I**: constrained by modern cohort NA-component under stated model — publishable narrow claim.
 - **α_admin**: administrative category motion under lookerism — **not** identified by NA%.
+
+## Category exit (2026-07-24)
+
+Observed cohort NA mean is a **lower bound** on historical retained Indigenous-associated
+ancestry among lineages that remained in the self-ID sample. Symmetric SE-of-mean does
+not model directional exit of high-NA tails. Joint model uses floor + exit_bias latent.
+
+## Panel relativity of f_I
+
+f_I is “fraction projecting onto NA component under reference panel P,” not “fraction
+Indigenous in an 1800 ethnohistorical census.” Priors on f_I must respect that.

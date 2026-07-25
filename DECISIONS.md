@@ -168,7 +168,15 @@ Implemented Opus identification diagnostics. O3 constrains α_I only.
 α_admin unidentified by genomic channel under lookerism-compatible f_I/d.
 Publish α_I; report α_admin as not identified by current observables.
 
-## DNA limits explicit (2026-07-24)
+## Category-exit O3 + guardrail (2026-07-24)
 
-Documented: cohort n ≠ 40M+; K-cluster ≠ race ontology; NA% ≠ lookerism/α_admin.
-dna_sample_size_discipline.md and model/DNA_LIMITS.md are normative for any DNA claim.
+- O3: 0.8% as floor; exit_bias latent; wide upper penalty — α_I p99 widens (~0.037).
+- f_I documented panel-relative.
+- Guardrail: O3 on/off must not shift α_admin median >0.05 under vague f_I/d.
+Credit: Opus 4.8 High.
+
+## Final α_I polish (2026-07-24)
+
+- Guardrail tests illegal re-coupling (vague diffuse vs f_I≈d≈1 pins to floor) — PASS
+- α_I reported as exit_bias_scale sensitivity table, not single p99
+- Opus: no further identification objection to narrow α_I claim
