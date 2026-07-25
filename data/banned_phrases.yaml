@@ -1,0 +1,34 @@
+# TAST banned phrases — fact-conversion and identity-proxy language that the
+# project forbids in its own prose and in any output converting administrative
+# estimates into facts. Source of truth for both bayesian_core.py (runtime
+# --strict guard) and scripts/check_banned_phrases.py (repo-wide lint).
+#
+# Phrases are matched case-insensitively as substrings. Legitimate meta-use
+# (quoting a phrase in order to forbid it) is escaped in prose with:
+#     <!-- allow-banned: meta-use -->
+# applied to the line or its enclosing block.
+
+# Fact-conversion language
+fact_conversion:
+  - "least-bad"
+  - "least bad"
+  - "best available"
+  - "best-available"
+  - "robust after correction"
+  - "robust after adjustment"
+  - "the historical consensus"
+  - "accepted fact"
+  - "established fact"
+  - "known fact"
+  - "as a fact"
+  - "is a fact"
+
+# Identity-proxy / continental collapse language (when used as unmarked label
+# for multi-generational U.S. lineages)
+identity_proxy:
+  - "the african american population as africans"
+  - "black americans as africans"
+  - "african stock in america"
+  - "african stock in the united states"
+  - "perpetual african origin"
+  - "continental african identity for fba"

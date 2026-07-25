@@ -1,5 +1,7 @@
 # Contributing to TAST Skepticism-First Edition
 
+<!-- allow-banned: meta-use (file: contributor guide quotes forbidden phrases verbatim to define the discipline) -->
+
 ## Core principles
 
 1. **Reliability is explicit.** Any numerical claim must be conditioned on a stated `victors_reliability` value.

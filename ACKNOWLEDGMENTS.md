@@ -41,3 +41,86 @@ These reviews are recorded so that LLM critique is neither invisible nor treated
 - **Claude Opus 4.8 (fourth pass, 2026-07-24)**: Confirmed continuous collapse closed; leave-one-out showed H1 exclusion is the full quantitative table not one cell; noted `--dampen` only shrinks to group mean (not ESS); identified the 55 likelihood cells as the unmarked interpretation layer symmetric to the project's own critique of unmarked trust decisions; recommended wiring hierarchical Beta means so posteriors carry credible intervals under likelihood uncertainty.
 
 - **GPT 5.6 Sol & Kat Coder Pro 2.5 (Agent A) & Minimax M3 (Agent B) (2026-07-24)**: Scored project on stated terms (not viewpoint neutrality). Diagnosed r=0 CLI/prior mismatch with floor-quant active; path disagreement (collapse vs MC vs uncertainty); stale physical defaults; fabricated Anson claim; wrong framing vs Hacker. Fixes in v5.9.11. Fair conclusion adopted: coherent epistemic rule + standard math; executable floor not yet fully primary-derived for calibrated rankings.
+- **Claude Opus 5 (2026-07-24)**: Clone-and-run audit against the README's own four evaluation questions. Confirmed the collapse arithmetic, the absence of a cliff at r=0.05, and that the standard-mathematics claim in `METHODS.md` holds line by line. Found that the `monte_carlo_posteriors` path never received the non-quantitative exclusion applied to `collapse_posterior`, leaving the H5≈88%-at-r=0 behaviour of v5.2 reachable from the CLI; that `README.md` / `METHODS.md` still describe the pre-Stream-31 r=0 output; that the documented `--streams` flag does not exist and Streams 28/29 are absent from every CSV, making `adversarial_H1_likelihoods.md` unreproducible; that the genealogical term is 86% of the physical floor and rests on a stipulated fraction `quantitative_floor.md` explicitly disclaims; that the erasure and regime terms evaluate each observation against itself; that `n_burial_sites` counts YAML rows rather than distinct sites; and that the `0.5` flat target in `apply_reliability` is a live modeling choice at intermediate r. Credit also for confirming that `sensitivity_map.py` was already correct — the drift was in the prose, not the engine.
+
+## Finding-level attribution log
+
+Who spotted what, and where the response landed. Kept at finding granularity so credit is
+checkable rather than a name-drop, and so a reader can tell which failures were found by
+reading the repo and which required running it. "Open" means the finding is logged and the
+response is not yet implemented.
+
+| # | Finding | Spotted by | Response / status |
+|---|---------|-----------|-------------------|
+| 1 | Zero-weight collapse was a print short-circuit, not a mathematical return to a non-informative state | Claude Opus 4.8 (1st) | `collapse_posterior()` — closed |
+| 2 | Non-quantitative streams dominate and settle mechanism at every r | Claude Opus 4.8 (1st) | Quant-only mechanism ranking — closed |
+| 3 | `physical_loglik` not wired into `bayesian_core` | Claude Opus 4.8 (1st) | Wired at r≈0 — closed |
+| 4 | "Helper = r=1.0 boundary" falsified by H1≈0 at all r | Claude Opus 4.8 (1st) | Retracted in README + `DECISIONS.md` — closed |
+| 5 | Independence across streams inflates H5 | Claude Opus 4.8 (1st) | Documented as valid axis; **not modeled away — open** |
+| 6 | v5.2 "return to prior" still a CLI print substitution (engine gave H5≈80% at r=0) | Claude Opus 4.8 (2nd) | Single shared collapse path + self-test — closed |
+| 7 | `sensitivity_map` and `bayesian_core` contradicted each other on the headline claim | Claude Opus 4.8 (2nd) | Aligned — closed |
+| 8 | `@dataclass` misplaced above a function → `AttributeError` at r=0 | Claude Opus 4.8 (2nd) | Fixed — closed |
+| 9 | Sibling imports fail under `python -m model.bayesian_core` | Claude Opus 4.8 (2nd) | Fallback import — closed |
+| 10 | Step-function cliff at r=0.05 | Claude Opus 4.8 (3rd) | Continuous collapse by arithmetic (L→0.5) — closed |
+| 11 | H1 annihilation is the whole quantitative table, not one cell; stream 1 is the worst offender | Claude Opus 4.8 (3rd/4th) | `DECISIONS.md` §Stream 1; `stream1_generative.py` — partial |
+| 12 | `--dampen` shrinks to group mean, is not effective-N | Claude Opus 4.8 (4th) | Flag relabeled honestly; **ESS fix open** |
+| 13 | The 55 likelihood cells are an unmarked interpretation layer, symmetric to the project's own critique of unmarked trust decisions | Claude Opus 4.8 (4th) | Beta-mean layer wired; **generative derivation open** |
+| 14 | Beta layer tests precision around the analyst's means, never their direction | Claude Opus 4.8 | `DECISIONS.md` §"The one finding this pass"; adversarial table — partial |
+| 15 | Autosomal Native American ancestry is a falsification test that survives r=0 | Claude Opus 4.8 | Stream 31 + `floor-09` — closed |
+| 16 | DNA claims must carry n, reference population, and selection mechanism | Claude Opus 4.8 | `dna_sample_size_discipline.md` — closed |
+| 17 | Single scalar reliability treats 13 record-producing regimes as maximally correlated | Claude Opus 4.8 | `DEFAULT_REGIME_PRIORS` primitives added; **adoption open** |
+| 18 | H5 absorbs residual mass because it is unfalsifiable | Claude Opus 4.8 | `h5_subclaims.md` v6.0 numerical predictions; **not in `HYPOTHESES` — open** |
+| 19 | Stream 29 in group N let `--dampen` flip the only pro-H1 stream | Claude Opus 4.8 | Moved to group R — closed |
+| 20 | Neutrality / selective-framing / advocacy pressure against peer-review benchmarks | Gemini | Drove `METHODS.md` math-vs-rule separation and the README evaluation criteria — closed |
+| 21 | r=0 CLI claimed exact prior while floor-quant was active | GPT 5.6 Sol & Kat / Minimax M3 | Mode-aware CLI (PRIOR/UPDATED) in v5.9.11 — closed |
+| 22 | Path disagreement: collapse vs Monte Carlo vs likelihood-uncertainty | GPT 5.6 Sol & Kat / Minimax M3 | v5.9.11 claimed end-to-end; **2 of 3 paths — see #24** |
+| 23 | Stale physical defaults; fabricated Anson "29 of 36"; wrong framing vs Hacker | GPT 5.6 Sol & Kat / Minimax M3 | n_adna=66, n_regime=5, claim removed, framing corrected — closed |
+| 24 | `monte_carlo_posteriors` never got the non-quant exclusion, so the H5≈88%-at-r=0 regression is still reachable via `--monte-carlo`; its 5–95% band excludes the point estimate printed above it | Claude Opus 5 | Extends #22. One-line quant filter applied: max\|MC median − collapse\| 0.147→0.0008 at r=1, 0.449→0.020 at r=0. Regression fixture `tests/golden/regression_mc_r0.json`. **Closed in add-tast-integrity-gates (BREAKING `--monte-carlo` change).** |
+| 25 | README/METHODS "r=0 is the prior with a small offset" is falsified: max\|Δ\|=0.106, H2 ×0.22, KL=0.111 nats; the printed example is the stale drop-Stream-31 output | Claude Opus 5 | README/METHODS now generate the r=0 example + divergence measurements from live output via `regen_docs.py`; "small offset"/"prior, displayed" removed. **Closed in add-tast-integrity-gates.** |
+| 26 | Documented `--streams` flag absent from argparse; Streams 28/29 absent from all four CSVs | Claude Opus 5 | `--streams` flag added; Streams 28/29 marked `UNREPRODUCIBLE as of 2026-07-24` (non-fabricating path). `check_documented_commands.py` enforces. **Closed in add-tast-integrity-gates.** |
+| 27 | Genealogical term is 86% of `physical_loglik` and asserts k=170/200 from a stipulated 0.85, contradicting `quantitative_floor.md` §2 "No measured national fraction is asserted"; `floor-04` has `value: None` | Claude Opus 5 | Declared in `stipulated_constants.yaml`; term EXCLUDED from the floor total (valueless-backed) and reported as such. **Declared-in-manifest + excluded in add-tast-integrity-gates; measurement deferred.** |
+| 28 | Erasure and regime terms evaluate each observation against itself → parameter-independent constants carrying zero information; `erasure_log_ratio = 4.5` unsourced | Claude Opus 5 | Both flagged `informative: false` in manifest and detected by `check_constants.py --detect-noninformative` (variance ~2e-31); separated from the evidential total. **Declared-in-manifest + acknowledged in add-tast-integrity-gates.** |
+| 29 | `n_burial_sites` counts YAML rows, not distinct sites (ABG NYC ×5, Harlem ×2, Catoctin ×2, Anson ×2, plus St. Croix USVI outside the stated territory) | Claude Opus 5 | Documentation density inflates a Poisson count — **open (out of scope: floor rebuild, future change)** |
+| 30 | `physical_loglik` printed as a bare log-likelihood at one hardcoded parameter point, with no null to difference against | Claude Opus 5 | Floor now reported as `log BF(floor \| presence) vs (floor \| named null)` + per-term contributions via `physical_floor_report`. **Closed in add-tast-integrity-gates.** |
+| 31 | The `0.5` flat target in `apply_reliability` is not inert at intermediate r (max\|Δ\|=0.053 at r=0.1) — another unmarked interpretation constant | Claude Opus 5 | Declared as `collapse_flat_target` (sweep [0.3,0.8]); sweep reproduces 0.0532, marked HIGH INFLUENCE with `pending_derivation`; loaded fail-closed from manifest. **Declared-in-manifest in add-tast-integrity-gates; derivation deferred.** |
+| 32 | `--strict` is wired only to five static `H_LABELS`, so it cannot fire on variable text; an external lint of the 213 strings the CLI actually prints found zero violations | Claude Opus 5 | `BANNED_PHRASES` moved to `data/banned_phrases.yaml`; repo-wide `check_banned_phrases.py` lint with counted meta-use escape (6 file-level allowances, 0 violations). **Closed in add-tast-integrity-gates.** |
+| 33 | r=0 is the most H1/H4-favorable configuration in the model (both monotone decreasing in r), inviting exactly the misreading README §"Reading the r=0 output correctly" warns against | Claude Opus 5 | Consequence of #11; README r=0 characterization now emits the measured divergence so the misreading is harder to fall into. **Partially addressed via #25 fix; root cause #11 open (generative likelihoods, future change).** |
+| 34 | Every documented command crashes on a cp1252 Windows console (U+2248, U+2192, U+2588) | Claude Opus 5 | `configure_utf8_console()` in-process + `_ascii()`/`_bar()` fallbacks; all six documented commands exit 0 on cp1252. **Closed in add-tast-integrity-gates.** |
+| 35 | The #34 fix was applied per-entry-point, not systemically: `model/joint_alpha_model.py` never calls `configure_utf8_console()`, so its documented command still crashes on `\u03b1` under cp1252. `check_documented_commands.py` was failing (16 passed / 1 failed) | Claude Opus 5 (2nd pass) | `configure_utf8_console()` added to `joint_alpha_model.main()`. Gate now 17 passed / 0 failed. **Closed.** |
+| 36 | `data/verified_isotope_adna.yaml` — the verify-before-encode source — was read by NO Python file. `n_adna_individuals` was the hardcoded literal `66` ("Harney27+Fleskes36+Schroeder3"), contradicting the replacement path declared inside that same file ("Harney 27 + Fleskes 18 genomes"). It counted Fleskes' 36 *excavated* rather than 18 *recovered genomes*, and included Schroeder n=3 from Saint Martin — never U.S. territory, against a floor statement reading "interred on American soil" | Claude Opus 5 (2nd pass) | File now wired into `load_observations_from_yaml` via `_n_adna_from_verified_studies()`. Per-study `us_territory` + `adna_count_field` fields added; policy declared as `adna_require_us_territory` / `adna_prefer_genome_counts`. n_adna 66 -> 45. **Closed.** |
+| 37 | Quantification of #29: `n_burial_sites` = 16 counted YAML *rows* (ABG NYC x4 via floor-02/23/33/67, Harlem x2, two generic non-site statements, one St. Croix). Distinct U.S. sites = 9. Combined with #36 the floor's headline log BF falls 41.44 -> 3.52, i.e. ~38 nats of the reported evidential support was documentation density — the exact defect the project attributes to administrative records, reproduced inside the floor | Claude Opus 5 (2nd pass) | Dedup made data-driven via a `site_key` field on all 27 burial/aDNA fact rows, with `site_role: aggregate_statement` and `site_scope: comparative_control` markers. `burial_site_confidence_floor` declared (sweep [0.75, 0.95]). **Closed.** |
+| 38 | `check_documented_commands.py:114` called `subprocess.run(..., text=True)` with no `encoding=`, so the gate itself raised `UnicodeDecodeError` (cp1252) on the 23 markdown files containing byte 0x9d | Claude Opus 5 (2nd pass) | `encoding="utf-8", errors="replace"` added. **Closed.** |
+| 39 | `n_individuals_lower` — the 15,000-20,000 African Burial Ground interment estimate, the best-sourced quantity in the floor (federal GSA/NPS reports) — was parsed at `physical_likelihoods.py:101` and consumed by NO likelihood term. The floor computed its evidence from its two weakest observables while its strongest was dead code | Claude Opus 5 (2nd pass) | Reported via `physical_floor_report()["unused_observables"]` and printed by the CLI, rather than silently dropped OR naively wired in: 15,000-20,000 is an archaeological extrapolation with an interval, not a count, so a Poisson `k` would be a category error. Consequence recorded explicitly (the BF *understates* presence support). **Surfaced; interval/lognormal encoding deferred — open.** |
+
+## Verification note (2026-07-25)
+
+The #29/#36/#37 repair is **calibration-only**: `tests/golden/posteriors_r*.json`
+match live output to 6 dp after the change, and the r=0 mechanism posterior is
+unchanged (H1 13.5%, H2 3.1%, H3 12.7%, H4 27.6%, H5 43.2%). No H1-H5 claim
+moved, because the floor is mechanism-silent by construction. What changed is
+that the two counts carrying the entire floor Bayes factor are now *derived from
+primary sources* instead of asserted, and the derivation is printed rather than
+trusted.
+
+## v5.12 — BF demotion resolved via reductio (2026-07-25)
+
+The question of whether to encode the interment estimate (audit #39) and whether
+to keep the straw-null Bayes factor collapsed into a single calculation.
+Correctly encoding the ABG interment estimate (15,000-20,000) as a lognormal
+measurement-error term — the proper form for an interval — moves the floor BF
+from **3.52 to ~3,190 nats**: the tightly-measured midpoint (~17,500) is an
+~80-sigma mismatch against the straw null's expected ~50 scattered burials. That
+number is not information; it is the null being a straw. The strongest observable
+in the floor is the one that makes the BF's nature unmistakable.
+
+Resolution (Claude Opus 5, 2nd pass): the interment estimate is promoted to the
+lead item of a new `observables` list (the primary content of the floor), parsed
+as a full interval. It is deliberately **not** encoded as a likelihood term —
+encoding it would re-inflate the straw-null BF with a decisive-looking artifact.
+The BF stays computed but is relabeled everywhere as "upper bound vs straw null;
+absolute value not load-bearing," with the reductio attached as a `bf_caveat` on
+`physical_floor_report()`. A substantive null that would make the BF informative
+(e.g., "presence was small-scale, <= some threshold") is deferred as a research
+task. Calibration-only: golden fixtures unmoved, r=0 posterior unchanged.
+
+

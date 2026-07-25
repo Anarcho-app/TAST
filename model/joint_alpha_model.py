@@ -288,6 +288,19 @@ def alpha_I_exit_sensitivity(seed=42) -> None:
 
 
 def main():
+    # Audit #35: this was the one CLI entry point that never called
+    # configure_utf8_console(), so every documented invocation crashed with
+    # UnicodeEncodeError on the alpha glyph under a cp1252 console. The #34 fix
+    # had been applied per-entry-point rather than systemically.
+    try:
+        from __init__ import configure_utf8_console  # type: ignore
+    except Exception:
+        try:
+            from model import configure_utf8_console  # type: ignore
+        except Exception:
+            configure_utf8_console = None  # type: ignore
+    if configure_utf8_console is not None:
+        configure_utf8_console()
     print("Joint model — category-exit O3 + α_admin/α_I split\n")
     p = PriorSpec()
     print("--- Full model, vague f_I/d ---")
