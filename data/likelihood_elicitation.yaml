@@ -1,0 +1,657 @@
+schema_version: 1
+protocol_ref: METHODS.md#likelihood-elicitation-protocol
+description: 'Every quantitative likelihood cell (stream x hypothesis) in evidence_streams.csv, documented
+  with a plausible range and derivation status. Audit #42 / change add-prior-sensitivity-gate. Values
+  MUST match the CSV to 1e-6 (enforced by check_likelihoods.py). All cells ship as pending_derivation;
+  the priors-work follow-on re-elicits each from cited evidence per the protocol.'
+cells:
+- stream_id: '1'
+  stream_name: Demographic Growth Rates
+  hypothesis: H1
+  value: 0.07
+  plausible_range:
+  - 0.01
+  - 0.27
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '1'
+  stream_name: Demographic Growth Rates
+  hypothesis: H2
+  value: 0.65
+  plausible_range:
+  - 0.45
+  - 0.85
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '1'
+  stream_name: Demographic Growth Rates
+  hypothesis: H3
+  value: 0.7
+  plausible_range:
+  - 0.5
+  - 0.9
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '1'
+  stream_name: Demographic Growth Rates
+  hypothesis: H4
+  value: 0.5
+  plausible_range:
+  - 0.3
+  - 0.7
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '1'
+  stream_name: Demographic Growth Rates
+  hypothesis: H5
+  value: 0.8
+  plausible_range:
+  - 0.6
+  - 0.99
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '2'
+  stream_name: Spanish America Comparison
+  hypothesis: H1
+  value: 0.3
+  plausible_range:
+  - 0.1
+  - 0.5
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '2'
+  stream_name: Spanish America Comparison
+  hypothesis: H2
+  value: 0.85
+  plausible_range:
+  - 0.65
+  - 0.99
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '2'
+  stream_name: Spanish America Comparison
+  hypothesis: H3
+  value: 0.7
+  plausible_range:
+  - 0.5
+  - 0.9
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '2'
+  stream_name: Spanish America Comparison
+  hypothesis: H4
+  value: 0.4
+  plausible_range:
+  - 0.2
+  - 0.6
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '2'
+  stream_name: Spanish America Comparison
+  hypothesis: H5
+  value: 0.6
+  plausible_range:
+  - 0.4
+  - 0.8
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '3'
+  stream_name: Spatial-Temporal Correlation
+  hypothesis: H1
+  value: 0.2
+  plausible_range:
+  - 0.01
+  - 0.4
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '3'
+  stream_name: Spatial-Temporal Correlation
+  hypothesis: H2
+  value: 0.8
+  plausible_range:
+  - 0.6
+  - 0.99
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '3'
+  stream_name: Spatial-Temporal Correlation
+  hypothesis: H3
+  value: 0.75
+  plausible_range:
+  - 0.55
+  - 0.95
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '3'
+  stream_name: Spatial-Temporal Correlation
+  hypothesis: H4
+  value: 0.3
+  plausible_range:
+  - 0.1
+  - 0.5
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '3'
+  stream_name: Spatial-Temporal Correlation
+  hypothesis: H5
+  value: 0.65
+  plausible_range:
+  - 0.45
+  - 0.85
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '4'
+  stream_name: Plantation Ledger Renaming
+  hypothesis: H1
+  value: 0.1
+  plausible_range:
+  - 0.01
+  - 0.3
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '4'
+  stream_name: Plantation Ledger Renaming
+  hypothesis: H2
+  value: 0.8
+  plausible_range:
+  - 0.6
+  - 0.99
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '4'
+  stream_name: Plantation Ledger Renaming
+  hypothesis: H3
+  value: 0.6
+  plausible_range:
+  - 0.4
+  - 0.8
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '4'
+  stream_name: Plantation Ledger Renaming
+  hypothesis: H4
+  value: 0.2
+  plausible_range:
+  - 0.01
+  - 0.4
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '4'
+  stream_name: Plantation Ledger Renaming
+  hypothesis: H5
+  value: 0.55
+  plausible_range:
+  - 0.35
+  - 0.75
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '7'
+  stream_name: American Genealogical Record
+  hypothesis: H1
+  value: 0.45
+  plausible_range:
+  - 0.25
+  - 0.65
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '7'
+  stream_name: American Genealogical Record
+  hypothesis: H2
+  value: 0.85
+  plausible_range:
+  - 0.65
+  - 0.99
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '7'
+  stream_name: American Genealogical Record
+  hypothesis: H3
+  value: 0.85
+  plausible_range:
+  - 0.65
+  - 0.99
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '7'
+  stream_name: American Genealogical Record
+  hypothesis: H4
+  value: 0.75
+  plausible_range:
+  - 0.55
+  - 0.95
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '7'
+  stream_name: American Genealogical Record
+  hypothesis: H5
+  value: 0.85
+  plausible_range:
+  - 0.65
+  - 0.99
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '8'
+  stream_name: Burial & Birth Records
+  hypothesis: H1
+  value: 0.45
+  plausible_range:
+  - 0.25
+  - 0.65
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '8'
+  stream_name: Burial & Birth Records
+  hypothesis: H2
+  value: 0.85
+  plausible_range:
+  - 0.65
+  - 0.99
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '8'
+  stream_name: Burial & Birth Records
+  hypothesis: H3
+  value: 0.85
+  plausible_range:
+  - 0.65
+  - 0.99
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '8'
+  stream_name: Burial & Birth Records
+  hypothesis: H4
+  value: 0.75
+  plausible_range:
+  - 0.55
+  - 0.95
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '8'
+  stream_name: Burial & Birth Records
+  hypothesis: H5
+  value: 0.85
+  plausible_range:
+  - 0.65
+  - 0.99
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '10'
+  stream_name: Multi-Gen Birth/Genealogy
+  hypothesis: H1
+  value: 0.2
+  plausible_range:
+  - 0.01
+  - 0.4
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '10'
+  stream_name: Multi-Gen Birth/Genealogy
+  hypothesis: H2
+  value: 0.85
+  plausible_range:
+  - 0.65
+  - 0.99
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '10'
+  stream_name: Multi-Gen Birth/Genealogy
+  hypothesis: H3
+  value: 0.85
+  plausible_range:
+  - 0.65
+  - 0.99
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '10'
+  stream_name: Multi-Gen Birth/Genealogy
+  hypothesis: H4
+  value: 0.75
+  plausible_range:
+  - 0.55
+  - 0.95
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '10'
+  stream_name: Multi-Gen Birth/Genealogy
+  hypothesis: H5
+  value: 0.85
+  plausible_range:
+  - 0.65
+  - 0.99
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '15'
+  stream_name: Sex Ratio Skew & Fertility Strain
+  hypothesis: H1
+  value: 0.15
+  plausible_range:
+  - 0.01
+  - 0.35
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '15'
+  stream_name: Sex Ratio Skew & Fertility Strain
+  hypothesis: H2
+  value: 0.7
+  plausible_range:
+  - 0.5
+  - 0.9
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '15'
+  stream_name: Sex Ratio Skew & Fertility Strain
+  hypothesis: H3
+  value: 0.65
+  plausible_range:
+  - 0.45
+  - 0.85
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '15'
+  stream_name: Sex Ratio Skew & Fertility Strain
+  hypothesis: H4
+  value: 0.4
+  plausible_range:
+  - 0.2
+  - 0.6
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '15'
+  stream_name: Sex Ratio Skew & Fertility Strain
+  hypothesis: H5
+  value: 0.75
+  plausible_range:
+  - 0.55
+  - 0.95
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '20'
+  stream_name: Anthropometric Selection Bias (Steckel Heights)
+  hypothesis: H1
+  value: 0.15
+  plausible_range:
+  - 0.01
+  - 0.35
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '20'
+  stream_name: Anthropometric Selection Bias (Steckel Heights)
+  hypothesis: H2
+  value: 0.65
+  plausible_range:
+  - 0.45
+  - 0.85
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '20'
+  stream_name: Anthropometric Selection Bias (Steckel Heights)
+  hypothesis: H3
+  value: 0.75
+  plausible_range:
+  - 0.55
+  - 0.95
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '20'
+  stream_name: Anthropometric Selection Bias (Steckel Heights)
+  hypothesis: H4
+  value: 0.25
+  plausible_range:
+  - 0.05
+  - 0.45
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '20'
+  stream_name: Anthropometric Selection Bias (Steckel Heights)
+  hypothesis: H5
+  value: 0.8
+  plausible_range:
+  - 0.6
+  - 0.99
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '21'
+  stream_name: Database Imputation Limits (SlaveVoyages)
+  hypothesis: H1
+  value: 0.2
+  plausible_range:
+  - 0.01
+  - 0.4
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '21'
+  stream_name: Database Imputation Limits (SlaveVoyages)
+  hypothesis: H2
+  value: 0.7
+  plausible_range:
+  - 0.5
+  - 0.9
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '21'
+  stream_name: Database Imputation Limits (SlaveVoyages)
+  hypothesis: H3
+  value: 0.75
+  plausible_range:
+  - 0.55
+  - 0.95
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '21'
+  stream_name: Database Imputation Limits (SlaveVoyages)
+  hypothesis: H4
+  value: 0.3
+  plausible_range:
+  - 0.1
+  - 0.5
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '21'
+  stream_name: Database Imputation Limits (SlaveVoyages)
+  hypothesis: H5
+  value: 0.85
+  plausible_range:
+  - 0.65
+  - 0.99
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '22'
+  stream_name: Census Schedule Reclassification Patterns
+  hypothesis: H1
+  value: 0.15
+  plausible_range:
+  - 0.01
+  - 0.35
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '22'
+  stream_name: Census Schedule Reclassification Patterns
+  hypothesis: H2
+  value: 0.75
+  plausible_range:
+  - 0.55
+  - 0.95
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '22'
+  stream_name: Census Schedule Reclassification Patterns
+  hypothesis: H3
+  value: 0.8
+  plausible_range:
+  - 0.6
+  - 0.99
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '22'
+  stream_name: Census Schedule Reclassification Patterns
+  hypothesis: H4
+  value: 0.25
+  plausible_range:
+  - 0.05
+  - 0.45
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '22'
+  stream_name: Census Schedule Reclassification Patterns
+  hypothesis: H5
+  value: 0.85
+  plausible_range:
+  - 0.65
+  - 0.99
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '30'
+  stream_name: NYABG isotope+modification birthplace proxy (Goodman Ch.6)
+  hypothesis: H1
+  value: 0.55
+  plausible_range:
+  - 0.35
+  - 0.75
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '30'
+  stream_name: NYABG isotope+modification birthplace proxy (Goodman Ch.6)
+  hypothesis: H2
+  value: 0.5
+  plausible_range:
+  - 0.3
+  - 0.7
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '30'
+  stream_name: NYABG isotope+modification birthplace proxy (Goodman Ch.6)
+  hypothesis: H3
+  value: 0.52
+  plausible_range:
+  - 0.32
+  - 0.72
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '30'
+  stream_name: NYABG isotope+modification birthplace proxy (Goodman Ch.6)
+  hypothesis: H4
+  value: 0.52
+  plausible_range:
+  - 0.32
+  - 0.72
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '30'
+  stream_name: NYABG isotope+modification birthplace proxy (Goodman Ch.6)
+  hypothesis: H5
+  value: 0.5
+  plausible_range:
+  - 0.3
+  - 0.7
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '31'
+  stream_name: Autosomal Native American ancestry ceiling (Bryc et al 2015)
+  hypothesis: H1
+  value: 0.75
+  plausible_range:
+  - 0.55
+  - 0.95
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '31'
+  stream_name: Autosomal Native American ancestry ceiling (Bryc et al 2015)
+  hypothesis: H2
+  value: 0.1
+  plausible_range:
+  - 0.01
+  - 0.3
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '31'
+  stream_name: Autosomal Native American ancestry ceiling (Bryc et al 2015)
+  hypothesis: H3
+  value: 0.3
+  plausible_range:
+  - 0.1
+  - 0.5
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '31'
+  stream_name: Autosomal Native American ancestry ceiling (Bryc et al 2015)
+  hypothesis: H4
+  value: 0.65
+  plausible_range:
+  - 0.45
+  - 0.85
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol
+- stream_id: '31'
+  stream_name: Autosomal Native American ancestry ceiling (Bryc et al 2015)
+  hypothesis: H5
+  value: 0.45
+  plausible_range:
+  - 0.25
+  - 0.65
+  basis: hand-elicited; pending re-derivation from cited evidence
+  derivation_status: pending_derivation
+  protocol_ref: METHODS.md#likelihood-elicitation-protocol

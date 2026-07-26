@@ -62,14 +62,27 @@ import re as _re
 
 def derive_source_class(source_archive: str, spec: dict | None = None) -> str:
     """Map a factual source-archive string to a source_class via the declared
-    keyword table (first match wins). Returns 'unknown' if no rule matches."""
+    keyword table (first match wins). Returns 'unknown' if no rule matches.
+
+    Audit #42 (review Opus 4.8 High): matching anchors each alternative with a
+    leading word boundary (\\b), NOT raw substring search. Without it the table
+    silently mis-derives: 'registration' contains 'ration' (-> self_presentation);
+    'website' contains 'site' (-> physical). A silent mis-derive in a mechanism
+    whose whole purpose is "no glancing" is the one defect this module must not
+    ship. Only a LEADING \\b is used (no trailing boundary) so legitimate stems
+    still match their inflections ('genom' -> 'genomic'; 'self-present' ->
+    'self-presentation'; 'ration' -> 'rations'). Where a bare keyword is itself
+    ambiguous ('import' vs 'important'; 'law' vs 'lawyer') the table uses the
+    specific form rather than the bare word.
+    """
     if not source_archive:
         return "unknown"
     if spec is None:
         spec = _load_spec()
     s = str(source_archive).lower()
     for row in spec.get("source_class_table", []):
-        if _re.search(row["keyword"], s):
+        pattern = r"\b(?:%s)" % row["keyword"]   # leading \b only; stems match inflections
+        if _re.search(pattern, s):
             return row["class"]
     return "unknown"
 

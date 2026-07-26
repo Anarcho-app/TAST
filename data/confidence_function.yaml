@@ -93,13 +93,13 @@ type_defaults:
 # 0.560 because its tags differed). The table below is the single attackable
 # surface for source_class; first match wins, order is declared.
 
-source_class_table:          # ordered; first match wins. regex via re.search on lowercased archive string
+source_class_table:          # ordered; first match wins. leading \b anchors each alt (audit #42); stems match inflections
   - {keyword: "burial|remains|adna|genom|genotyp|autosom|lab-derived|skeletal|site|archaeolog|interment|excavat|physical|cemete", class: physical}
   - {keyword: "muster|enlist|ration|bureau|freedmen|genealog|documentary|community|self-present|self_present|participant|opt-in", class: self_presentation}
-  - {keyword: "customs|manifest|slavevoyages|slave_voyages|voyage|import|slave trade", class: trader_manifest}
+  - {keyword: "customs|manifest|slavevoyages|slave_voyages|voyage|slave trade|imported|imports", class: trader_manifest}
   - {keyword: "owner|plantation|bill of sale|enslaver|slaveholder", class: owner_mediated}
   - {keyword: "census|enumerator|vital|schedule|registration|administrative|methodolog|federal", class: federal_enumerator}
-  - {keyword: "legal|statut|law|session|structural|archival|asymmetry|silence|regime|^state|state session", class: state_enumerator}
+  - {keyword: "legal|statut|session law|structural|archival|asymmetry|silence|regime|state session", class: state_enumerator}
 
 artifact_status_map:
   survives_direct: high         # the artifact itself is extant and re-examinable (remains, muster rolls, NARA schedules)

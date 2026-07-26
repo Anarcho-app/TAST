@@ -136,6 +136,14 @@ def _sweep_all() -> List[Tuple[str, float, float, float, bool, str]]:
         if not sr or len(sr) != 2:
             continue
         cid, lo, hi = c["id"], float(sr[0]), float(sr[1])
+        # raw_prior_* are prior components, not floor constants. They have their
+        # own dedicated sweep (_prior_sweep_token) that perturbs the prior dict
+        # directly; set_constant_override cannot move them because RAW_PRIORS is
+        # a module global loaded once at import. Excluding them here avoids a
+        # spurious "0.0000 / mechanism-silent" row contradicting the real sweep.
+        # sensitivity_reference_r is sweep config, not a model constant.
+        if cid.startswith("raw_prior_") or cid == "sensitivity_reference_r":
+            continue
         max_delta = 0.0
         for v in np.linspace(lo, hi, 5):
             set_constant_override(cid, float(v))
@@ -167,6 +175,92 @@ def _sweep_table_token() -> str:
     for cid, lo, hi, md, high, note in rows:
         flag = "**HIGH INFLUENCE**" if high else "low"
         out.append(f"| `{cid}` | [{lo}, {hi}] | {md:.4f} | {flag} | {note} |")
+    return "\n".join(out)
+
+
+def _prior_sweep_token() -> str:
+    """Sweep the 5 H1-H5 prior components; return the markdown table (audit #42)."""
+    import sys as _sys, numpy as _np, yaml as _yaml
+    _sys.path.insert(0, str(MODEL_DIR))
+    import bayesian_core as _bc
+    try:
+        r = float(_bc._const("sensitivity_reference_r", 0.3)) if hasattr(_bc, "_const") else 0.3
+    except Exception:
+        r = 0.3
+    # Read the sweep_range for each prior component directly from the manifest
+    # (load_constant returns only the scalar value, not the entry dict, so it
+    # cannot supply the range — an earlier version of this function defaulted
+    # every component to [0.05, 0.30] and produced a spurious 0.48 swing on H5).
+    man = _yaml.safe_load((TAST_ROOT / "data" / "stipulated_constants.yaml").read_text(encoding="utf-8"))
+    ranges = {}
+    for entry in man.get("constants", []):
+        if str(entry.get("id", "")).startswith("raw_prior_"):
+            ranges[entry["id"][-2:]] = entry.get("sweep_range", [0.05, 0.30])
+    streams = _bc.load_streams()
+    base = _bc.RAW_PRIORS
+    base_post = _bc.collapse_posterior(streams, base, r)[0]
+    out = ["| prior component | sweep range | max |Δposterior| | influence |",
+           "|---|---|---|---|"]
+    rows = []
+    for h in ("H1", "H2", "H3", "H4", "H5"):
+        lo, hi = ranges.get(h, [0.05, 0.30])
+        worst = 0.0
+        for v in _np.linspace(lo, hi, 7):
+            raw = dict(base); raw[h] = float(v); s = sum(raw.values())
+            pert = {k: vv / s for k, vv in raw.items()}
+            post = _bc.collapse_posterior(streams, pert, r)[0]
+            d = max(abs(post[k] - base_post[k]) for k in base)
+            if d > worst: worst = d
+        rows.append((h, lo, hi, worst))
+    rows.sort(key=lambda x: -x[3])
+    for h, lo, hi, d in rows:
+        flag = "**HIGH INFLUENCE**" if d > 0.05 else "low"
+        out.append(f"| `raw_prior_{h}` | [{lo:.3f}, {hi:.3f}] | {d:.4f} | {flag} |")
+    out.append(f"\n_Measured at sensitivity_reference_r = {r}._")
+    return "\n".join(out)
+
+
+def _likelihood_sweep_token() -> str:
+    """Sweep the 65 likelihood cells; return the markdown table (audit #42).
+    Only cells with delta >= 0.01 are listed; ordered by descending delta."""
+    import sys as _sys, csv as _csv, numpy as _np
+    _sys.path.insert(0, str(MODEL_DIR))
+    import bayesian_core as _bc
+    try:
+        r = float(_bc._const("sensitivity_reference_r", 0.3)) if hasattr(_bc, "_const") else 0.3
+    except Exception:
+        r = 0.3
+    streams = _bc.load_streams()
+    prior = _bc.RAW_PRIORS
+    base = _bc.collapse_posterior(streams, prior, r)[0]
+    with open(MODEL_DIR / "evidence_streams.csv", encoding="utf-8") as f:
+        rows = [row for row in _csv.DictReader(f) if row.get("is_quantitative") == "1"]
+    results = []
+    for row in rows:
+        sid = row["stream_id"]
+        for h in ("H1", "H2", "H3", "H4", "H5"):
+            v = float(row[h])
+            lo, hi = max(0.01, v - 0.20), min(0.99, v + 0.20)
+            worst = 0.0
+            for vv in _np.linspace(lo, hi, 7):
+                patched = []
+                for s in streams:
+                    sd = dict(s)
+                    if str(sd.get("stream_id")) == str(sid):
+                        sd[h] = float(vv)
+                    patched.append(sd)
+                post = _bc.collapse_posterior(patched, prior, r)[0]
+                d = max(abs(post[k] - base[k]) for k in prior)
+                if d > worst: worst = d
+            if worst >= 0.01:
+                results.append((sid, h, worst))
+    results.sort(key=lambda x: -x[2])
+    out = ["| stream | hypothesis | max |Δposterior| | influence |",
+           "|---|---|---|---|"]
+    for sid, h, d in results:
+        flag = "**HIGH INFLUENCE**" if d > 0.05 else "low"
+        out.append(f"| {sid} | {h} | {d:.4f} | {flag} |")
+    out.append(f"\n_{len(results)} cells with delta >= 0.01 of 65 total; measured at r = {r}._")
     return "\n".join(out)
 
 
@@ -209,6 +303,9 @@ def load_tokens() -> Dict[str, str]:
     tokens["PRIOR_RATIO_STR"] = ":".join(parts) + " / 110"
     # sensitivity sweep table for PRIOR_SENSITIVITY.md (group 9)
     tokens["SWEEP_TABLE"] = _sweep_table_token()
+    # prior-component + likelihood-cell sweeps (audit #42, change add-prior-sensitivity-gate)
+    tokens["PRIOR_SWEEP_TABLE"] = _prior_sweep_token()
+    tokens["LIKELIHOOD_SWEEP_TABLE"] = _likelihood_sweep_token()
     # floor report tokens for surviving/quantitative_floor.md (group 10)
     try:
         sys.path.insert(0, str(MODEL_DIR))

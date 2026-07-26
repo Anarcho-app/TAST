@@ -56,15 +56,28 @@ H_LABELS = {
     "H5": "Mixed / undocumented mechanisms (honest uncertainty; residual includes possibility that administrative categories obscure distinct American trajectories)",
 }
 
-# RAW_PRIORS derivation (v5.3): uncertainty-favoring 8:15:20:20:47 / 110 parts.
-# H1=8/110 … H5=47/110. Not fitted to data. At r≈0 posterior returns here.
-RAW_PRIORS = {
-    "H1": 0.0727,
-    "H2": 0.1364,
-    "H3": 0.1818,
-    "H4": 0.1818,
-    "H5": 0.4273,
-}
+# RAW_PRIORS (audit #42, change add-prior-sensitivity-gate): loaded fail-closed
+# from stipulated_constants.yaml as raw_prior_H1..H5, then renormalized to sum
+# to 1. The values match the v5.3 uncertainty-favoring 8:15:20:20:47 / 110 parts
+# ("not fitted to data; at r->0 posterior returns here"). They are now declared,
+# swept, and gated rather than living as a code comment. derivation_status is
+# pending_derivation on all five — the priors-work follow-on re-elicits each
+# from cited evidence.
+def _load_raw_priors():
+    try:
+        try:
+            from __init__ import load_constant  # type: ignore
+        except Exception:
+            from model import load_constant  # type: ignore
+        raw = {h: float(load_constant(f"raw_prior_{h}")) for h in ("H1", "H2", "H3", "H4", "H5")}
+    except Exception:
+        # lenient fallback (tests / standalone): keep the v5.3 values
+        raw = {"H1": 0.0727, "H2": 0.1364, "H3": 0.1818, "H4": 0.1818, "H5": 0.4273}
+    s = sum(raw.values())
+    return {h: v / s for h, v in raw.items()} if s > 0 else raw
+
+
+RAW_PRIORS = _load_raw_priors()
 
 REQUIRED_COLUMNS = {"stream_id", "name", "H1", "H2", "H3", "H4", "H5", "group", "is_quantitative"}
 

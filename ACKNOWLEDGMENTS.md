@@ -102,6 +102,30 @@ that the two counts carrying the entire floor Bayes factor are now *derived from
 primary sources* instead of asserted, and the derivation is printed rather than
 trusted.
 
+## v5.15 — Prior + likelihood sensitivity gate (audit #42, 2026-07-25)
+
+The evidence layer (v5.13–v5.14) was clean; the inference layer above it was not.
+This change discharges the precondition the review set on priors work.
+
+| # | Finding | Reviewer | Resolution |
+|---|---------|----------|------------|
+| 42 | The conclusion was decided almost entirely by hand-specified likelihoods (65 cells in evidence_streams.csv) and the H1–H5 prior (RAW_PRIORS) — "the last place a thumb can rest." Both were outside the manifest, unswept, and ungated. The existing PRIOR_SENSITIVITY.md sweep reported every floor/confidence weight as mechanism-silent (0.0000) but was silent on the surface that actually moves the posterior. Priors work on top of unaudited likelihoods would be motivated marshaling for values already chosen | Opus 4.8 High (review of v5.14; precondition for priors work) | `RAW_PRIORS` declared in stipulated_constants.yaml (fail-closed, renormalized, swept). `data/likelihood_elicitation.yaml` documents all 65 cells with range/basis/status. New `scripts/check_likelihoods.py` gate (parity + coverage + high-influence escalation) wired as the seventh gate. Elicitation protocol pre-registered in METHODS. The sweep names the load-bearing surface: 5 likelihood cells on streams 30–31 + the H5 prior component. **Closed (the gate lands; re-elicitation is the priors-work follow-on).** |
+
+**The prior is not inert — a correction.** The repo's own prior-sensitivity note had
+long read "the likelihood product has already decided." The prior sweep shows this
+is only partly right: at intermediate reliability, perturbing `raw_prior_H5` (the
+"mixed/undocumented" residual mass) moves the posterior by ~0.12. The conclusion
+rests on how the residual mass is distributed, which is a prior elicitation
+question. This is exactly what the gate was built to surface — a long-standing
+diagnosis that was wrong in one direction, now visible and named.
+
+**Priors work can now proceed honestly.** Every number that moves the posterior is
+declared, swept, and gated. The 5 high-influence likelihood cells (streams 30–31)
+and the H5 prior component are the named frontier: re-eliciting those from cited
+evidence, following the pre-registered protocol, is the substantive follow-on. The
+asymmetry that began this arc (v5.10) is closed at every layer — evidence,
+confidence, tags, and now the inference surface above them.
+
 ## v5.14 — Derived tags (audit #41, 2026-07-25)
 
 `add-derived-confidence` (v5.13) made confidence a function of three tags. This

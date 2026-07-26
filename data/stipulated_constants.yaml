@@ -300,6 +300,86 @@ constants:
     informative: true
     sweep_range: [0.15, 0.40]
 
+  # --- H1-H5 prior (audit #42, change add-prior-sensitivity-gate) ------------
+  # RAW_PRIORS was a code comment ("uncertainty-favoring 8:15:20:20:47 / 110
+  # parts; not fitted to data") sitting outside the manifest. It is the single
+  # most load-bearing prior on the posterior and it was unswept. Now declared,
+  # fail-closed loaded, renormalized to sum to 1 at load, and swept.
+  # derivation_status: pending_derivation on all five — the prior is not fitted
+  # to data; the priors-work follow-on re-elicits each from cited evidence.
+
+  - id: raw_prior_H1
+    value: 0.0727
+    used_by: [bayesian_core.RAW_PRIORS, bayesian_core.bayes_update, bayesian_core.collapse_posterior]
+    justification: >
+      H1 (documented arrivals + natural increase). 8/110 parts in the
+      uncertainty-favoring prior. Not fitted to data; at r->0 the posterior
+      returns here. Swept; high-influence escalation applies.
+    owner: Anarcho-app
+    date_declared: 2026-07-25
+    derivation_status: pending_derivation
+    informative: true
+    sweep_range: [0.03, 0.15]
+
+  - id: raw_prior_H2
+    value: 0.1364
+    used_by: [bayesian_core.RAW_PRIORS]
+    justification: >
+      H2 (classification/absorption on American soil). 15/110 parts. Falsified
+      by stream31's aDNA evidence (~0.8% Native vs predicted 5-30%); the low
+      prior is consistent with that, but it is still hand-set, not derived.
+    owner: Anarcho-app
+    date_declared: 2026-07-25
+    derivation_status: pending_derivation
+    informative: true
+    sweep_range: [0.05, 0.25]
+
+  - id: raw_prior_H3
+    value: 0.1818
+    used_by: [bayesian_core.RAW_PRIORS]
+    justification: H3 (hybrid). 20/110 parts. Hand-set, not fitted.
+    owner: Anarcho-app
+    date_declared: 2026-07-25
+    derivation_status: pending_derivation
+    informative: true
+    sweep_range: [0.10, 0.30]
+
+  - id: raw_prior_H4
+    value: 0.1818
+    used_by: [bayesian_core.RAW_PRIORS]
+    justification: H4 (US-specific structural conditions). 20/110 parts. Hand-set.
+    owner: Anarcho-app
+    date_declared: 2026-07-25
+    derivation_status: pending_derivation
+    informative: true
+    sweep_range: [0.10, 0.30]
+
+  - id: raw_prior_H5
+    value: 0.4273
+    used_by: [bayesian_core.RAW_PRIORS]
+    justification: >
+      H5 (mixed/undocumented). 47/110 parts — the uncertainty-favoring bulk.
+      Hand-set; carries the model's residual mass. Swept to measure how much
+      of the posterior rests on this single component.
+    owner: Anarcho-app
+    date_declared: 2026-07-25
+    derivation_status: pending_derivation
+    informative: true
+    sweep_range: [0.25, 0.55]
+
+  - id: sensitivity_reference_r
+    value: 0.3
+    used_by: [sensitivity_map.sweep_likelihoods, check_likelihoods]
+    justification: >
+      Reference reliability at which the prior + likelihood sweep measures
+      posterior delta. Intermediate (0.3) so both the prior and the likelihood
+      product bear weight; the golden fixtures pin the posterior at
+      r in {0, 0.25, 0.5, 0.75, 1} for regression.
+    owner: Anarcho-app
+    date_declared: 2026-07-25
+    derivation_status: stipulated
+    informative: false
+
   - id: regime_intensity_expectation
     value: 5
     used_by: [physical_likelihoods.loglik_regime_intensity]
