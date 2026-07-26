@@ -1,5 +1,7 @@
 # Acknowledgments & Development Credit
 
+<!-- allow-banned: meta-use (file: changelog quotes retired banned phrases verbatim to record what was retired and why) -->
+
 ## Primary author and repository owner
 
 **Anarcho-app** (GitHub: [Anarcho-app/TAST](https://github.com/Anarcho-app/TAST))  
@@ -101,6 +103,32 @@ moved, because the floor is mechanism-silent by construction. What changed is
 that the two counts carrying the entire floor Bayes factor are now *derived from
 primary sources* instead of asserted, and the derivation is printed rather than
 trusted.
+
+## v5.16 — Engine/floor parity + sweep-as-gate (audit #43, 2026-07-26)
+
+Two blockers stood between v5.15 and honest priors work. The review caught them
+by verifying the build rather than trusting my "ready" summary — and both reproduced
+exactly. This change resolves them.
+
+| # | Finding | Reviewer | Resolution |
+|---|---------|----------|------------|
+| 43a | The floor classified agg-usct/agg-bureau as self_presentation surviving r→0 at 0.96; the engine still printed that all quantitative head-counts become UNDEFINED and that no administrative total is usable as a fact. Same number, opposite claims — the engine's framing contradicted the floor's classification. The stated reason for omitting the ~4M from the H1–H5 BF ("undefined unless you trust enumerators") was wrong: the correct reason is common ground (LR≈1 across H1–H4; composition discriminates) | Opus 4.8 High (final pass) | Four meta-claim strings retired; common-ground framing replaces them. DISCLAIMER keeps NOT A FACT + biased AND adds the common-ground clause (self-test enforces all three). H-space anchored with ~4M as common ground. The engine no longer contradicts the floor. **Closed.** |
+| 43b | --prior-sensitivity was not implemented; PRIOR_SENSITIVITY.md was a regenerated doc, not a test; collapse_flat_target (the single knob moving the posterior, 0.053 HIGH INFLUENCE) was pending_derivation with no follow-up and nothing failed the build | Opus 4.8 High (final pass) | --prior-sensitivity implemented as a command. New check_prior_sensitivity.py (eighth gate) enforces the escalation ladder: HIGH-INFLUENCE + stipulated → FAIL; HIGH-INFLUENCE + pending_derivation + no follow_up → FAIL; derived or pending+follow_up → OK. collapse_flat_target carries follow_up: audit #31; priors-work. **Closed.** |
+
+**The correction I owe.** I called v5.15 "ready for priors work" and that was wrong.
+The review verified the build and found the engine still contradicted the floor about
+the same number, and the sweep was a doc not a gate. Both were the inference-layer
+version of asymmetries the floor work had closed below — exactly the class of error
+the project objects to in administrative records, reproduced in the project's own
+machinery. The honest response was to land both fixes before priors work, not to
+proceed on top of them. This change does that.
+
+**The honest-middle design.** The prior-sensitivity gate requires `follow_up`, not
+`derived`, for HIGH-INFLUENCE constants. Requiring derivation of collapse_flat_target
+would block all work indefinitely on a genuine research question and would motivate
+a fake derivation to turn the build green. Requiring tracked ownership (a follow-up
+reference) forces active ownership without demanding the impossible — the same
+discipline applied to every other audited surface in the project.
 
 ## v5.15 — Prior + likelihood sensitivity gate (audit #42, 2026-07-25)
 

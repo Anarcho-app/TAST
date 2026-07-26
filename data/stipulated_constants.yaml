@@ -1,395 +1,367 @@
-# TAST Stipulated Constants Manifest (audit findings #27, #28, #31).
-#
-# Every scalar that steers a posterior or a floor log-likelihood and is NOT
-# computed from a cited source is declared here. This applies the project's own
-# epistemic rule (mark unmarked trust decisions) to the project's own machinery.
-#
-# `check_constants.py` verifies that every posterior-steering literal in the
-# designated scoring functions is present here, and fail-closed loading
-# (group 9) makes an undeclared constant a hard error rather than a silent default.
-#
-# Schema per entry:
-#   id, value, used_by, justification, owner, date_declared,
-#   derivation_status (stipulated | derived | pending_derivation),
-#   informative (true | false),
-#   sweep_range (optional [lo, hi] for sensitivity sweep),
-#   backing_fact (optional observable_facts.yaml id; if valueless the term is excluded)
-
 constants:
-  - id: collapse_flat_target
-    value: 0.5
-    used_by:
-      - bayesian_core.apply_reliability
-      - bayesian_core.monte_carlo_posteriors
-    justification: >
-      Flat (non-informative) likelihood value that administrative quantitative
-      streams are blended toward as victors_reliability -> 0 (r*L + (1-r)*c).
-      Treated as non-informative but is NOT inert at intermediate r (audit #31):
-      perturbing c moves the posterior by up to ~0.053 at r=0.1. Declared so the
-      choice is marked rather than smuggled.
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: pending_derivation
-    informative: true
-    sweep_range: [0.3, 0.8]   # adopted default (design.md open question); reversible pending maintainer confirmation
+- id: collapse_flat_target
+  value: 0.5
+  used_by:
+  - bayesian_core.apply_reliability
+  - bayesian_core.monte_carlo_posteriors
+  justification: 'Flat (non-informative) likelihood value that administrative quantitative streams are
+    blended toward as victors_reliability -> 0 (r*L + (1-r)*c). Treated as non-informative but is NOT
+    inert at intermediate r (audit #31): perturbing c moves the posterior by up to ~0.053 at r=0.1. Declared
+    so the choice is marked rather than smuggled.
 
-  - id: beta_kappa_default
-    value: 10
-    used_by:
-      - bayesian_core.posterior_under_likelihood_uncertainty
-    justification: >
-      Concentration parameter for Beta(mean*kappa, (1-mean)*kappa) treating each
-      hand-set likelihood cell as a Beta mean rather than a false-precision point.
-      Tests precision around the analyst's means; does not test their direction.
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: stipulated
-    informative: true
-    sweep_range: [3, 30]
+    '
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: pending_derivation
+  informative: true
+  sweep_range:
+  - 0.3
+  - 0.8
+  follow_up: 'audit #31 (identified as load-bearing); priors-work follow-on (re-derive the contamination-model
+    target from cited evidence)'
+- id: beta_kappa_default
+  value: 10
+  used_by:
+  - bayesian_core.posterior_under_likelihood_uncertainty
+  justification: 'Concentration parameter for Beta(mean*kappa, (1-mean)*kappa) treating each hand-set
+    likelihood cell as a Beta mean rather than a false-precision point. Tests precision around the analyst''s
+    means; does not test their direction.
 
-  - id: erasure_log_ratio
-    value: 4.5
-    used_by:
-      - physical_likelihoods.loglik_erasure
-      - physical_likelihoods.physical_loglik
-    justification: >
-      Observed log-ratio of owner/enumerator record volume to enslaved-authored
-      quantitative record volume. Currently UNSOURCED and, because the term
-      evaluates the observation against itself (asymmetry = obs.erasure_log_ratio),
-      the term is parameter-independent (audit #28). Marked non-informative until
-      sourced and given an independent expectation.
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: pending_derivation
-    informative: false
+    '
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: stipulated
+  informative: true
+  sweep_range:
+  - 3
+  - 30
+- id: erasure_log_ratio
+  value: 4.5
+  used_by:
+  - physical_likelihoods.loglik_erasure
+  - physical_likelihoods.physical_loglik
+  justification: 'Observed log-ratio of owner/enumerator record volume to enslaved-authored quantitative
+    record volume. Currently UNSOURCED and, because the term evaluates the observation against itself
+    (asymmetry = obs.erasure_log_ratio), the term is parameter-independent (audit #28). Marked non-informative
+    until sourced and given an independent expectation.
 
-  - id: erasure_sigma
-    value: 1.2
-    used_by:
-      - physical_likelihoods.loglik_erasure
-    justification: >
-      Standard deviation of the erasure Normal term. Moot while erasure is
-      non-informative (self-matched), but declared for completeness.
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: stipulated
-    informative: false
+    '
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: pending_derivation
+  informative: false
+- id: erasure_sigma
+  value: 1.2
+  used_by:
+  - physical_likelihoods.loglik_erasure
+  justification: 'Standard deviation of the erasure Normal term. Moot while erasure is non-informative
+    (self-matched), but declared for completeness.
 
-  - id: termin_in_us_frac
-    value: 0.85
-    used_by:
-      - physical_likelihoods.loglik_genealogical_termination
-    justification: >
-      Fraction of documented genealogical chains terminating in U.S. records.
-      STIPULATED: the backing fact floor-04 carries value: null, and
-      quantitative_floor.md section 2 states "No measured national fraction is
-      asserted." Asserting 170/200 from this fraction would contradict the floor
-      document (audit #27). The term is therefore excluded from the floor total
-      (group 10) rather than supplied from this default.
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: pending_derivation
-    informative: true
-    backing_fact: floor-04
+    '
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: stipulated
+  informative: false
+- id: termin_in_us_frac
+  value: 0.85
+  used_by:
+  - physical_likelihoods.loglik_genealogical_termination
+  justification: 'Fraction of documented genealogical chains terminating in U.S. records. STIPULATED:
+    the backing fact floor-04 carries value: null, and quantitative_floor.md section 2 states "No measured
+    national fraction is asserted." Asserting 170/200 from this fraction would contradict the floor document
+    (audit #27). The term is therefore excluded from the floor total (group 10) rather than supplied from
+    this default.
 
-  - id: genealogical_n_eff
-    value: 200
-    used_by:
-      - physical_likelihoods.loglik_genealogical_termination
-    justification: >
-      Effective sample size for the genealogical-termination binomial term.
-      INVENTED pseudo-N with no corpus measurement behind it. Declared so it is
-      visible; the term is excluded from the floor total (group 10) because its
-      companion fraction is valueless-backed.
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: pending_derivation
-    informative: false
+    '
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: pending_derivation
+  informative: true
+  backing_fact: floor-04
+- id: genealogical_n_eff
+  value: 200
+  used_by:
+  - physical_likelihoods.loglik_genealogical_termination
+  justification: 'Effective sample size for the genealogical-termination binomial term. INVENTED pseudo-N
+    with no corpus measurement behind it. Declared so it is visible; the term is excluded from the floor
+    total (group 10) because its companion fraction is valueless-backed.
 
-  # --- Floor shape constants (physical_loglik forward model) ---
-  # These map latent parameters to expected floor observations. They are the
-  # forward-model structure — declared here so the floor's assumptions are
-  # marked rather than buried. Full re-derivation is group 10 (floor rebuild).
+    '
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: pending_derivation
+  informative: false
+- id: presence_sigmoid_steepness
+  value: 20.0
+  used_by:
+  - physical_likelihoods.physical_loglik
+  justification: Steepness of the logistic mapping lambda_growth -> presence.
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: pending_derivation
+  informative: true
+- id: presence_growth_midpoint
+  value: 0.005
+  used_by:
+  - physical_likelihoods.physical_loglik
+  justification: lambda_growth midpoint of the presence logistic.
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: pending_derivation
+  informative: true
+- id: burial_sites_baseline
+  value: 3.0
+  used_by:
+  - physical_likelihoods.physical_loglik
+  justification: Baseline expected burial sites; n_sites_exp = 3 + 10*presence.
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: pending_derivation
+  informative: true
+- id: burial_sites_presence_scale
+  value: 10.0
+  used_by:
+  - physical_likelihoods.physical_loglik
+  justification: Presence-driven increment to expected burial sites.
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: pending_derivation
+  informative: true
+- id: adna_rate_baseline
+  value: 20.0
+  used_by:
+  - physical_likelihoods.physical_loglik
+  justification: Baseline expected aDNA rate; adna_rate = 20 + 120*presence.
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: pending_derivation
+  informative: true
+- id: adna_rate_presence_scale
+  value: 120.0
+  used_by:
+  - physical_likelihoods.physical_loglik
+  justification: Presence-driven increment to expected aDNA rate.
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: pending_derivation
+  informative: true
+- id: p_term_baseline
+  value: 0.55
+  used_by:
+  - physical_likelihoods.physical_loglik
+  justification: Baseline of p_term = 0.55 + 0.40*(1-rho_reclass).
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: pending_derivation
+  informative: true
+- id: p_term_reclass_scale
+  value: 0.4
+  used_by:
+  - physical_likelihoods.physical_loglik
+  justification: Reclassification-driven span of p_term.
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: pending_derivation
+  informative: true
+- id: rho_reclass_default
+  value: 0.3
+  used_by:
+  - physical_likelihoods.physical_loglik
+  justification: Defensive default for params.get("rho_reclass", 0.3) when callers omit it.
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: stipulated
+  informative: true
+- id: adna_require_us_territory
+  value: 1
+  used_by:
+  - physical_likelihoods._n_adna_from_verified_studies
+  justification: '1 = count only verified aDNA studies whose site carries us_territory: true. The floor
+    statement is "interred on American soil", so a site outside the territory that became the United States
+    cannot support it. Excludes Schroeder et al. 2015 (n=3, Saint Martin — never U.S.). Set to 0 to include
+    comparative non-U.S. sites, which changes what the floor asserts.
 
-  - id: presence_sigmoid_steepness
-    value: 20.0
-    used_by: [physical_likelihoods.physical_loglik]
-    justification: Steepness of the logistic mapping lambda_growth -> presence.
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: pending_derivation
-    informative: true
+    '
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: derived
+  informative: true
+- id: adna_prefer_genome_counts
+  value: 1
+  used_by:
+  - physical_likelihoods._n_adna_from_verified_studies
+  justification: '1 = use each study''s declared adna_count_field. Individuals *excavated* and individuals
+    with *recovered genomes* are different observables; loglik_adna_sample is about the latter, so Fleskes
+    et al. 2023 contributes 18 low-coverage genomes rather than 36 excavated individuals. This follows
+    the replacement_path already declared inside verified_isotope_adna.yaml ("Harney 27 + Fleskes 18 genomes"),
+    which the former hardcoded 66 contradicted. Set to 0 to count excavated individuals instead.
 
-  - id: presence_growth_midpoint
-    value: 0.005
-    used_by: [physical_likelihoods.physical_loglik]
-    justification: lambda_growth midpoint of the presence logistic.
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: pending_derivation
-    informative: true
+    '
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: derived
+  informative: true
+- id: burial_site_confidence_floor
+  value: 0.85
+  used_by:
+  - physical_likelihoods._n_distinct_burial_sites
+  - physical_likelihoods.load_observations_from_yaml
+  justification: 'Minimum observable_facts confidence for a burial site to enter the Poisson count. Sites
+    are now deduplicated by site_key, so this threshold selects DISTINCT sites (9 at 0.85, 12 at 0.82)
+    rather than documentation rows (16 at 0.85 before the fix). Previously an undeclared literal.
 
-  - id: burial_sites_baseline
-    value: 3.0
-    used_by: [physical_likelihoods.physical_loglik]
-    justification: Baseline expected burial sites; n_sites_exp = 3 + 10*presence.
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: pending_derivation
-    informative: true
+    '
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: stipulated
+  informative: true
+  sweep_range:
+  - 0.75
+  - 0.95
+- id: confidence_weight_source_class
+  value: 0.4
+  used_by:
+  - derive_confidence.score_fact
+  justification: 'Weight on the source_class feature (who produced the record — the anti-lookerism axis).
+    Largest of the three because provenance class is the project''s load-bearing epistemic distinction.
+    Categorical scores in confidence_function.yaml range 0.15 (trader_manifest) to 1.0 (physical).
 
-  - id: burial_sites_presence_scale
-    value: 10.0
-    used_by: [physical_likelihoods.physical_loglik]
-    justification: Presence-driven increment to expected burial sites.
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: pending_derivation
-    informative: true
+    '
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: pending_derivation
+  informative: true
+  sweep_range:
+  - 0.25
+  - 0.55
+- id: confidence_weight_re_verifiability
+  value: 0.35
+  used_by:
+  - derive_confidence.score_fact
+  justification: 'Weight on the re_verifiability feature (can the evidence be re-checked). physical remains
+    and muster rolls score high; one-shot testimony of a vanished event scores low.
 
-  - id: adna_rate_baseline
-    value: 20.0
-    used_by: [physical_likelihoods.physical_loglik]
-    justification: Baseline expected aDNA rate; adna_rate = 20 + 120*presence.
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: pending_derivation
-    informative: true
+    '
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: pending_derivation
+  informative: true
+  sweep_range:
+  - 0.2
+  - 0.5
+- id: confidence_weight_sampled_fraction
+  value: 0.25
+  used_by:
+  - derive_confidence.score_fact
+  justification: 'Weight on sampled_fraction (what fraction of the reference the observation covers).
+    Near-complete enumerations score high; aDNA samples (45 of millions) score low. The sample-size discipline
+    the project already enforces for DNA, generalized.
 
-  - id: adna_rate_presence_scale
-    value: 120.0
-    used_by: [physical_likelihoods.physical_loglik]
-    justification: Presence-driven increment to expected aDNA rate.
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: pending_derivation
-    informative: true
+    '
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: pending_derivation
+  informative: true
+  sweep_range:
+  - 0.15
+  - 0.4
+- id: raw_prior_H1
+  value: 0.0727
+  used_by:
+  - bayesian_core.RAW_PRIORS
+  - bayesian_core.bayes_update
+  - bayesian_core.collapse_posterior
+  justification: 'H1 (documented arrivals + natural increase). 8/110 parts in the uncertainty-favoring
+    prior. Not fitted to data; at r->0 the posterior returns here. Swept; high-influence escalation applies.
 
-  - id: p_term_baseline
-    value: 0.55
-    used_by: [physical_likelihoods.physical_loglik]
-    justification: Baseline of p_term = 0.55 + 0.40*(1-rho_reclass).
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: pending_derivation
-    informative: true
+    '
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: pending_derivation
+  informative: true
+  sweep_range:
+  - 0.03
+  - 0.15
+- id: raw_prior_H2
+  value: 0.1364
+  used_by:
+  - bayesian_core.RAW_PRIORS
+  justification: 'H2 (classification/absorption on American soil). 15/110 parts. Falsified by stream31''s
+    aDNA evidence (~0.8% Native vs predicted 5-30%); the low prior is consistent with that, but it is
+    still hand-set, not derived.
 
-  - id: p_term_reclass_scale
-    value: 0.4
-    used_by: [physical_likelihoods.physical_loglik]
-    justification: Reclassification-driven span of p_term.
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: pending_derivation
-    informative: true
+    '
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: pending_derivation
+  informative: true
+  sweep_range:
+  - 0.05
+  - 0.25
+- id: raw_prior_H3
+  value: 0.1818
+  used_by:
+  - bayesian_core.RAW_PRIORS
+  justification: H3 (hybrid). 20/110 parts. Hand-set, not fitted.
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: pending_derivation
+  informative: true
+  sweep_range:
+  - 0.1
+  - 0.3
+- id: raw_prior_H4
+  value: 0.1818
+  used_by:
+  - bayesian_core.RAW_PRIORS
+  justification: H4 (US-specific structural conditions). 20/110 parts. Hand-set.
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: pending_derivation
+  informative: true
+  sweep_range:
+  - 0.1
+  - 0.3
+- id: raw_prior_H5
+  value: 0.4273
+  used_by:
+  - bayesian_core.RAW_PRIORS
+  justification: 'H5 (mixed/undocumented). 47/110 parts — the uncertainty-favoring bulk. Hand-set; carries
+    the model''s residual mass. Swept to measure how much of the posterior rests on this single component.
 
-  - id: rho_reclass_default
-    value: 0.3
-    used_by: [physical_likelihoods.physical_loglik]
-    justification: Defensive default for params.get("rho_reclass", 0.3) when callers omit it.
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: stipulated
-    informative: true
+    '
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: pending_derivation
+  informative: true
+  sweep_range:
+  - 0.25
+  - 0.55
+- id: sensitivity_reference_r
+  value: 0.3
+  used_by:
+  - sensitivity_map.sweep_likelihoods
+  - check_likelihoods
+  justification: 'Reference reliability at which the prior + likelihood sweep measures posterior delta.
+    Intermediate (0.3) so both the prior and the likelihood product bear weight; the golden fixtures pin
+    the posterior at r in {0, 0.25, 0.5, 0.75, 1} for regression.
 
-  # --- Floor observation-derivation policy (audit #29, #36, #37) -------------
-  # These three flags govern how the two counts that carry the ENTIRE floor
-  # Bayes factor are derived from primary sources. Before 2026-07-25 both counts
-  # were effectively stipulated: n_adna_individuals was a hardcoded 66 and
-  # n_burial_sites counted YAML rows. Declaring the policy makes the derivation
-  # auditable and sweepable rather than buried in a loader.
+    '
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: stipulated
+  informative: false
+- id: regime_intensity_expectation
+  value: 5
+  used_by:
+  - physical_likelihoods.loglik_regime_intensity
+  justification: 'Expected regime-jurisdiction count for the regime Poisson term. The term is non-informative
+    by construction because physical_loglik sets the expectation equal to the observation (lam = n_regime_jurisdictions),
+    so the log-likelihood is constant across all parameters (audit #28). Marked informative: false until
+    given an independent expectation.
 
-  - id: adna_require_us_territory
-    value: 1
-    used_by:
-      - physical_likelihoods._n_adna_from_verified_studies
-    justification: >
-      1 = count only verified aDNA studies whose site carries us_territory: true.
-      The floor statement is "interred on American soil", so a site outside the
-      territory that became the United States cannot support it. Excludes
-      Schroeder et al. 2015 (n=3, Saint Martin — never U.S.). Set to 0 to include
-      comparative non-U.S. sites, which changes what the floor asserts.
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: derived
-    informative: true
-
-  - id: adna_prefer_genome_counts
-    value: 1
-    used_by:
-      - physical_likelihoods._n_adna_from_verified_studies
-    justification: >
-      1 = use each study's declared adna_count_field. Individuals *excavated*
-      and individuals with *recovered genomes* are different observables;
-      loglik_adna_sample is about the latter, so Fleskes et al. 2023 contributes
-      18 low-coverage genomes rather than 36 excavated individuals. This follows
-      the replacement_path already declared inside verified_isotope_adna.yaml
-      ("Harney 27 + Fleskes 18 genomes"), which the former hardcoded 66
-      contradicted. Set to 0 to count excavated individuals instead.
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: derived
-    informative: true
-
-  - id: burial_site_confidence_floor
-    value: 0.85
-    used_by:
-      - physical_likelihoods._n_distinct_burial_sites
-      - physical_likelihoods.load_observations_from_yaml
-    justification: >
-      Minimum observable_facts confidence for a burial site to enter the Poisson
-      count. Sites are now deduplicated by site_key, so this threshold selects
-      DISTINCT sites (9 at 0.85, 12 at 0.82) rather than documentation rows (16
-      at 0.85 before the fix). Previously an undeclared literal.
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: stipulated
-    informative: true
-    sweep_range: [0.75, 0.95]
-
-  # --- Derived-confidence function weights (audit #40, change add-derived-confidence) ---
-  # The three feature weights of the linear confidence function in
-  # model/derive_confidence.py. Replacing hand-assigned `confidence: 0.82`
-  # with a function of measurable properties concentrates the project's
-  # interpretive choice into one published, sweepable, attackable place.
-  # Categorical score tables (1.0/0.9/0.6/...) live in confidence_function.yaml
-  # and are consumed via _feature_score; they are not posterior-steering on
-  # their own (only via these weights).
-
-  - id: confidence_weight_source_class
-    value: 0.40
-    used_by:
-      - derive_confidence.score_fact
-    justification: >
-      Weight on the source_class feature (who produced the record — the
-      anti-lookerism axis). Largest of the three because provenance class is the
-      project's load-bearing epistemic distinction. Categorical scores in
-      confidence_function.yaml range 0.15 (trader_manifest) to 1.0 (physical).
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: pending_derivation
-    informative: true
-    sweep_range: [0.25, 0.55]
-
-  - id: confidence_weight_re_verifiability
-    value: 0.35
-    used_by:
-      - derive_confidence.score_fact
-    justification: >
-      Weight on the re_verifiability feature (can the evidence be re-checked).
-      physical remains and muster rolls score high; one-shot testimony of a
-      vanished event scores low.
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: pending_derivation
-    informative: true
-    sweep_range: [0.20, 0.50]
-
-  - id: confidence_weight_sampled_fraction
-    value: 0.25
-    used_by:
-      - derive_confidence.score_fact
-    justification: >
-      Weight on sampled_fraction (what fraction of the reference the observation
-      covers). Near-complete enumerations score high; aDNA samples (45 of
-      millions) score low. The sample-size discipline the project already
-      enforces for DNA, generalized.
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: pending_derivation
-    informative: true
-    sweep_range: [0.15, 0.40]
-
-  # --- H1-H5 prior (audit #42, change add-prior-sensitivity-gate) ------------
-  # RAW_PRIORS was a code comment ("uncertainty-favoring 8:15:20:20:47 / 110
-  # parts; not fitted to data") sitting outside the manifest. It is the single
-  # most load-bearing prior on the posterior and it was unswept. Now declared,
-  # fail-closed loaded, renormalized to sum to 1 at load, and swept.
-  # derivation_status: pending_derivation on all five — the prior is not fitted
-  # to data; the priors-work follow-on re-elicits each from cited evidence.
-
-  - id: raw_prior_H1
-    value: 0.0727
-    used_by: [bayesian_core.RAW_PRIORS, bayesian_core.bayes_update, bayesian_core.collapse_posterior]
-    justification: >
-      H1 (documented arrivals + natural increase). 8/110 parts in the
-      uncertainty-favoring prior. Not fitted to data; at r->0 the posterior
-      returns here. Swept; high-influence escalation applies.
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: pending_derivation
-    informative: true
-    sweep_range: [0.03, 0.15]
-
-  - id: raw_prior_H2
-    value: 0.1364
-    used_by: [bayesian_core.RAW_PRIORS]
-    justification: >
-      H2 (classification/absorption on American soil). 15/110 parts. Falsified
-      by stream31's aDNA evidence (~0.8% Native vs predicted 5-30%); the low
-      prior is consistent with that, but it is still hand-set, not derived.
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: pending_derivation
-    informative: true
-    sweep_range: [0.05, 0.25]
-
-  - id: raw_prior_H3
-    value: 0.1818
-    used_by: [bayesian_core.RAW_PRIORS]
-    justification: H3 (hybrid). 20/110 parts. Hand-set, not fitted.
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: pending_derivation
-    informative: true
-    sweep_range: [0.10, 0.30]
-
-  - id: raw_prior_H4
-    value: 0.1818
-    used_by: [bayesian_core.RAW_PRIORS]
-    justification: H4 (US-specific structural conditions). 20/110 parts. Hand-set.
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: pending_derivation
-    informative: true
-    sweep_range: [0.10, 0.30]
-
-  - id: raw_prior_H5
-    value: 0.4273
-    used_by: [bayesian_core.RAW_PRIORS]
-    justification: >
-      H5 (mixed/undocumented). 47/110 parts — the uncertainty-favoring bulk.
-      Hand-set; carries the model's residual mass. Swept to measure how much
-      of the posterior rests on this single component.
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: pending_derivation
-    informative: true
-    sweep_range: [0.25, 0.55]
-
-  - id: sensitivity_reference_r
-    value: 0.3
-    used_by: [sensitivity_map.sweep_likelihoods, check_likelihoods]
-    justification: >
-      Reference reliability at which the prior + likelihood sweep measures
-      posterior delta. Intermediate (0.3) so both the prior and the likelihood
-      product bear weight; the golden fixtures pin the posterior at
-      r in {0, 0.25, 0.5, 0.75, 1} for regression.
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: stipulated
-    informative: false
-
-  - id: regime_intensity_expectation
-    value: 5
-    used_by: [physical_likelihoods.loglik_regime_intensity]
-    justification: >
-      Expected regime-jurisdiction count for the regime Poisson term. The term
-      is non-informative by construction because physical_loglik sets the
-      expectation equal to the observation (lam = n_regime_jurisdictions), so
-      the log-likelihood is constant across all parameters (audit #28). Marked
-      informative: false until given an independent expectation.
-    owner: Anarcho-app
-    date_declared: 2026-07-25
-    derivation_status: pending_derivation
-    informative: false
+    '
+  owner: Anarcho-app
+  date_declared: 2026-07-25
+  derivation_status: pending_derivation
+  informative: false

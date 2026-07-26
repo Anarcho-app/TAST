@@ -4,8 +4,10 @@ TAST Bayesian Core — Skepticism-First Edition (v5.1)
 
 Single parameter: victors_reliability ∈ [0.0, 1.0]
   1.0 = treat census / manifest / ledger counts as approximately accurate
-  0.0 = maximal skepticism: all quantitative head-counts become UNDEFINED;
-        only qualitative / physical / meta patterns survive.
+  0.0 = maximal skepticism: enumerator/trader-derived quantitative streams
+        attenuate to non-informative; self-presentation evidence (USCT musters,
+        Bureau rations — bodies physically present) and physical/structural
+        evidence survive at derived confidence (audit #40–#43).
 
 Core epistemic rules (v5.1):
   See also model/inference_extensions.py for functional dependence,
@@ -134,7 +136,10 @@ BANNED_PHRASES = _resolve_banned_phrases()
 
 DISCLAIMER = (
     "CONDITIONAL ESTIMATE derived from biased administrative records "
-    "(victors' paperwork). This is NOT A FACT."
+    "(victors' paperwork). This is NOT A FACT. The ~4M 1860 total is common "
+    "ground across H1-H4 (every mechanism predicts it; LR approx 1) and does "
+    "not discriminate mechanisms; composition (autosomal aDNA) discriminates. "
+    "Self-presentation evidence (USCT/Bureau) survives r->0 at derived confidence."
 )
 
 # ASCII fallback rendering for non-ASCII glyphs used in CLI output, active when
@@ -579,11 +584,17 @@ def run_self_test() -> bool:
         ok = False
 
     # Ensure quantitative output path would include the disclaimer
+    # (audit #43): retain NOT A FACT + biased; ADD common-ground framing so the
+    # engine agrees with the floor's classification rather than calling the
+    # self-presentation aggregate undefined.
     if "NOT A FACT" not in DISCLAIMER or "biased" not in DISCLAIMER.lower():
-        print("  [FAIL] DISCLAIMER constant missing required language")
+        print("  [FAIL] DISCLAIMER constant missing required 'NOT A FACT' / 'biased' language")
+        ok = False
+    elif "common ground" not in DISCLAIMER.lower():
+        print("  [FAIL] DISCLAIMER missing common-ground framing (audit #43)")
         ok = False
     else:
-        print("  [PASS] DISCLAIMER constant contains required 'NOT A FACT' language")
+        print("  [PASS] DISCLAIMER contains 'NOT A FACT', 'biased', and common-ground framing")
 
     # Claim confidence file
     claims = load_claim_confidences()
@@ -667,6 +678,109 @@ def run_self_test() -> bool:
     return ok
 
 
+def run_prior_sensitivity() -> bool:
+    """Run the constants + prior + likelihood sensitivity sweep and print tables.
+
+    Audit #42/#43: --prior-sensitivity is now implemented (the doc header's old
+    "not implemented" note is retired). Prints the same three blocks that
+    regen_docs emits into PRIOR_SENSITIVITY.md, so the command and the doc agree.
+    """
+    import yaml as _yaml
+    import numpy as _np
+    try:
+        from __init__ import load_constant, set_constant_override, clear_constant_overrides  # type: ignore
+    except Exception:
+        from model import load_constant, set_constant_override, clear_constant_overrides  # type: ignore
+    try:
+        r = float(_const("sensitivity_reference_r", 0.3))
+    except Exception:
+        r = 0.3
+    streams = load_streams()
+    prior = RAW_PRIORS
+    base_post = collapse_posterior(streams, prior, r)[0]
+    man = _yaml.safe_load((HERE.parent / "data" / "stipulated_constants.yaml").read_text(encoding="utf-8"))
+
+    # --- constants sweep (those with sweep_range, excluding prior components) ---
+    # Swept over r in {0.05, 0.1, 0.3, 0.5} for consistency with regen_docs._sweep_all.
+    print(f"=== Constants sensitivity sweep (r in {{0.05,0.1,0.3,0.5}}) ===")
+    print(f"{'constant':<36} {'range':<18} {'max|dPost|':>12} {'influence':>12}")
+    crows = []
+    r_values = [0.05, 0.1, 0.3, 0.5]
+    baselines = {rv: collapse_posterior(streams, prior, rv)[0] for rv in r_values}
+    for c in man.get("constants", []):
+        sr = c.get("sweep_range")
+        if not sr or c["id"].startswith("raw_prior_") or c["id"] == "sensitivity_reference_r":
+            continue
+        lo, hi = float(sr[0]), float(sr[1])
+        worst = 0.0
+        for v in _np.linspace(lo, hi, 5):
+            set_constant_override(c["id"], float(v))
+            for rv in r_values:
+                try:
+                    post, _ = collapse_posterior(streams, prior, rv)
+                    d = max(abs(post[h] - baselines[rv][h]) for h in HYPOTHESES)
+                    if d > worst: worst = d
+                except Exception:
+                    pass
+        clear_constant_overrides()
+        crows.append((c["id"], lo, hi, worst))
+    crows.sort(key=lambda x: -x[3])
+    for cid, lo, hi, d in crows:
+        print(f"{cid:<36} [{lo:.3f},{hi:.3f}] {d:>12.4f} {'HIGH' if d>0.05 else 'low':>12}")
+
+    # --- prior-component sweep ---
+    print(f"\n=== Prior-component sensitivity sweep (r={r}) ===")
+    print(f"{'component':<36} {'range':<18} {'max|dPost|':>12} {'influence':>12}")
+    prows = []
+    for c in man.get("constants", []):
+        if not c["id"].startswith("raw_prior_"):
+            continue
+        h = c["id"][-2:]
+        lo, hi = c.get("sweep_range", [0.05, 0.30])
+        worst = 0.0
+        for v in _np.linspace(lo, hi, 7):
+            raw = dict(prior); raw[h] = float(v); s = sum(raw.values())
+            pert = {k: vv / s for k, vv in raw.items()}
+            post = collapse_posterior(streams, pert, r)[0]
+            d = max(abs(post[k] - base_post[k]) for k in prior)
+            if d > worst: worst = d
+        prows.append((c["id"], lo, hi, worst))
+    prows.sort(key=lambda x: -x[3])
+    for pid, lo, hi, d in prows:
+        print(f"{pid:<36} [{lo:.3f},{hi:.3f}] {d:>12.4f} {'HIGH' if d>0.05 else 'low':>12}")
+
+    # --- likelihood-cell sweep (cells with delta >= 0.01) ---
+    import csv as _csv
+    print(f"\n=== Likelihood-cell sensitivity sweep (r={r}, delta >= 0.01) ===")
+    print(f"{'stream':<8} {'H':<4} {'max|dPost|':>12} {'influence':>12}")
+    with open(STREAMS_CSV, encoding="utf-8") as f:
+        qrows = [row for row in _csv.DictReader(f) if row.get("is_quantitative") == "1"]
+    lrows = []
+    for row in qrows:
+        sid = row["stream_id"]
+        for h in ("H1", "H2", "H3", "H4", "H5"):
+            v = float(row[h])
+            lo, hi = max(0.01, v - 0.20), min(0.99, v + 0.20)
+            worst = 0.0
+            for vv in _np.linspace(lo, hi, 7):
+                patched = []
+                for s in streams:
+                    sd = dict(s)
+                    if str(sd.get("stream_id")) == str(sid):
+                        sd[h] = float(vv)
+                    patched.append(sd)
+                post = collapse_posterior(patched, prior, r)[0]
+                d = max(abs(post[k] - base_post[k]) for k in prior)
+                if d > worst: worst = d
+            if worst >= 0.01:
+                lrows.append((sid, h, worst))
+    lrows.sort(key=lambda x: -x[2])
+    for sid, h, d in lrows:
+        print(f"{sid:<8} {h:<4} {d:>12.4f} {'HIGH' if d>0.05 else 'low':>12}")
+    print(f"\n{len(lrows)} cells with delta >= 0.01 of {len(qrows)*5} total.")
+    return True
+
+
 def main():
     try:
         from __init__ import configure_utf8_console
@@ -703,12 +817,17 @@ def main():
                         help="Monte Carlo N draws treating quant L as Beta means (0=off)")
     parser.add_argument("--kappa", type=float, default=10.0,
                         help="Beta concentration for likelihood uncertainty (default 10)")
+    parser.add_argument("--prior-sensitivity", action="store_true",
+                        help="Run the prior + likelihood + constants sensitivity sweep and exit")
     args = parser.parse_args()
 
     strict = not args.no_strict
 
     if args.self_test:
         sys.exit(0 if run_self_test() else 1)
+
+    if getattr(args, "prior_sensitivity", False):
+        sys.exit(0 if run_prior_sensitivity() else 1)
 
     streams_path = Path(args.streams) if args.streams else STREAMS_CSV
     try:
@@ -760,9 +879,11 @@ def main():
 
     if r < 0.05:
         print("\n*** MAXIMAL SKEPTICISM MODE ***")
-        print("Administrative head-counts, growth rates, and import totals")
-        print("derived from owner/trader/enumerator records: UNDEFINED as estimands.")
-        print("(Mechanism ranking can still exist; it is prior or floor-updated, not a national total.)")
+        print("Enumerator/trader-derived quantitative streams attenuate to non-informative.")
+        print("Self-presentation evidence (USCT musters, Bureau rations — bodies physically")
+        print("present) and physical/structural evidence survive r->0 at derived confidence.")
+        print("(The ~4M 1860 total is common ground across H1-H4 (LR approx 1); it does not")
+        print("enter the mechanism BF. Composition (autosomal aDNA) discriminates mechanisms.)")
         print("Physical and structural floor remains (see surviving/quantitative_floor.md).")
         print_surviving()
         post, mode = collapse_posterior(streams, RAW_PRIORS, r)
@@ -839,7 +960,8 @@ def main():
         except Exception as e:
             print(f"\nPhysical-floor report unavailable: {e}")
         print(f"\n  {DISCLAIMER}")
-        print("Meta-claim: No national-scale administrative total is a fact.")
+        print("Meta-claim: No administrative total is a fact; the ~4M is a bounded estimate")
+        print("at derived confidence, common ground across H1-H4, not a mechanism discriminator.")
         return
 
 
@@ -858,8 +980,10 @@ def main():
 
     print("\nConditioning statement:")
     print(f'  "If we treat the recorded population totals as approximately accurate')
-    print(_ascii(f'   (victors_reliability ≈ {r:.2f}), then the above posteriors obtain;'))
-    print(f'   if we do not, the quantitative claims are undefined."')
+    print(_ascii(f'   (victors_reliability ≈ {r:.2f}), then the above posteriors obtain.'))
+    print(f'   At lower reliability, enumerator/trader aggregates attenuate;')
+    print(f'   self-presentation evidence survives; the ~4M total is common ground')
+    print(f'   (LR approx 1 across H1-H4) and does not discriminate mechanisms."')
     print(f"\n  {DISCLAIMER}")
 
     if getattr(args, "lik_uncertainty", 0) and args.lik_uncertainty > 0:
