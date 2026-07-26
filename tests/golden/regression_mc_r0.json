@@ -1,0 +1,15 @@
+{
+  "finding": "#24",
+  "description": "pre-fix monte_carlo_posteriors r=0 H5 ~0.88 (non-quant included)",
+  "forbidden": {
+    "r": 0.0,
+    "H5_ceiling": 0.6,
+    "reason": "H5~=0.88 was the v5.2 print-substitution artifact; no path may report H5 above 0.60 at r=0"
+  },
+  "pre_fix_measured": {
+    "MC_r0_H5_pre_fix": 0.8802
+  },
+  "post_fix_measured": {
+    "MC_r0_H5_post_fix": 0.45120535887762103
+  }
+}

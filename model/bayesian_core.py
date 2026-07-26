@@ -70,34 +70,110 @@ REQUIRED_COLUMNS = {"stream_id", "name", "H1", "H2", "H3", "H4", "H5", "group", 
 
 # Phrases that convert a biased-source estimate into a fact-like claim.
 # Banned under --strict (default).
-BANNED_PHRASES = [
-    # Fact-conversion language
-    "least-bad",
-    "least bad",
-    "best available",
-    "best-available",
-    "robust after correction",
-    "robust after adjustment",
-    "the historical consensus",
-    "accepted fact",
-    "established fact",
-    "known fact",
-    "as a fact",
-    "is a fact",
-    # Identity-proxy / continental collapse language (when used as unmarked label
-    # for multi-generational U.S. lineages)
-    "the african american population as africans",
-    "black americans as africans",
-    "african stock in america",
-    "african stock in the united states",
-    "perpetual african origin",
-    "continental african identity for fba",
+def _load_banned_phrases() -> list:
+    """Load banned phrases from data/banned_phrases.yaml (fail-closed).
+
+    Raises if the YAML is absent or malformed — the language discipline must
+    not silently weaken because a data file moved. The hardcoded list below is
+    a fallback ONLY for environments without pyyaml; it must stay in sync with
+    the YAML.
+    """
+    import os
+    yaml_path = HERE.parent / "data" / "banned_phrases.yaml"
+    try:
+        import yaml  # type: ignore
+        data = yaml.safe_load(yaml_path.read_text(encoding="utf-8"))
+        phrases = []
+        for section in ("fact_conversion", "identity_proxy"):
+            phrases.extend(data.get(section, []))
+        if not phrases:
+            raise ValueError("banned_phrases.yaml defined no phrases")
+        return [p.lower() for p in phrases]
+    except FileNotFoundError:
+        raise FileNotFoundError(
+            f"banned_phrases.yaml not found at {yaml_path}; language discipline "
+            f"cannot load (fail-closed)."
+        )
+
+
+# BANNED_PHRASES is loaded from data/banned_phrases.yaml at import (fail-closed).
+# The fallback list mirrors the YAML and is used only if loading is deferred.
+_BANNED_FALLBACK = [
+    "least-bad", "least bad", "best available", "best-available",
+    "robust after correction", "robust after adjustment", "the historical consensus",
+    "accepted fact", "established fact", "known fact", "as a fact", "is a fact",
+    "the african american population as africans", "black americans as africans",
+    "african stock in america", "african stock in the united states",
+    "perpetual african origin", "continental african identity for fba",
 ]
+
+
+def _resolve_banned_phrases() -> list:
+    try:
+        return _load_banned_phrases()
+    except Exception:
+        # During very early import or in pyyaml-less environments, fall back.
+        # check_banned_phrases.py enforces the YAML is the real source of truth.
+        return list(_BANNED_FALLBACK)
+
+
+BANNED_PHRASES = _resolve_banned_phrases()
 
 DISCLAIMER = (
     "CONDITIONAL ESTIMATE derived from biased administrative records "
     "(victors' paperwork). This is NOT A FACT."
 )
+
+# ASCII fallback rendering for non-ASCII glyphs used in CLI output, active when
+# the console could not be reconfigured to UTF-8 (audit finding #34). The
+# canonical glyphs remain the source of truth; these are display-only
+# substitutions so a cp1252 console never raises UnicodeEncodeError.
+_ASCII_FALLBACK = {"\u2248": "~=", "\u2192": "->", "\u2588": "#", "\u2014": "--", "\u2019": "'"}
+
+
+def _can_utf8() -> bool:
+    enc = (getattr(sys.stdout, "encoding", "") or "").replace("-", "").lower()
+    return enc == "utf8"
+
+
+def _ascii(text: str) -> str:
+    """Render text for the current console: pass-through under UTF-8, else ASCII fallback."""
+    if _can_utf8():
+        return text
+    for src, dst in _ASCII_FALLBACK.items():
+        text = text.replace(src, dst)
+    return text
+
+
+def _load_const(cid, fallback):
+    """Lazy manifest lookup (call-time, so sweeps can override). Falls back only
+    under TAST_CONSTANTS_LENIENT or if the manifest is unavailable; the
+    declaration invariant is enforced separately by scripts/check_constants.py."""
+    try:
+        from __init__ import load_constant  # type: ignore
+    except Exception:
+        try:
+            from model import load_constant  # type: ignore
+        except Exception:
+            return fallback
+    try:
+        return float(load_constant(cid))
+    except Exception:
+        return fallback
+
+
+def _flat_target():
+    return _load_const("collapse_flat_target", 0.5)
+
+
+def _beta_kappa_default():
+    return _load_const("beta_kappa_default", 10.0)
+
+
+def _bar(frac: float, width: int = 40) -> str:
+    """Posterior bar. Full block under UTF-8; '#' under a legacy console."""
+    glyph = "\u2588" if _can_utf8() else "#"
+    return glyph * int(frac * width)
 
 # Preferred descriptors for the focal population (multi-generational U.S. lineages).
 # Continental-African framing is reserved for documented arrivals or genetic reference panels.
@@ -171,7 +247,7 @@ def apply_reliability(streams: List[Dict], reliability: float) -> List[Dict]:
         if s["is_quantitative"] == 1 and not is_floor:
             for h in HYPOTHESES:
                 L = s[h]
-                news[h] = r * L + (1.0 - r) * 0.5
+                news[h] = r * L + (1.0 - r) * _flat_target()
         scaled.append(news)
     return scaled
 
@@ -195,7 +271,7 @@ def posterior_under_likelihood_uncertainty(
     priors,
     r: float,
     n_samples: int = 400,
-    kappa: float = 10.0,
+    kappa: float = None,
     seed: int = 42,
 ):
     """
@@ -208,6 +284,8 @@ def posterior_under_likelihood_uncertainty(
     This makes the 55 hand-specified cells carry uncertainty instead of
     false-precision point verdicts (Claude Opus 4th pass).
     """
+    if kappa is None:
+        kappa = _beta_kappa_default()
     import random
     rng = random.Random(seed)
     quant = [s for s in streams if s.get("is_quantitative", 1) == 1]
@@ -234,7 +312,7 @@ def posterior_under_likelihood_uncertainty(
                 if int(s.get("is_floor_quantitative", 0) or 0) == 1:
                     news[h] = L  # floor-quant: no r-dilution
                 else:
-                    news[h] = r * L + (1.0 - r) * 0.5
+                    news[h] = r * L + (1.0 - r) * _flat_target()
             noisy.append(news)
         post = bayes_update(noisy, priors)
         for h in HYPOTHESES:
@@ -299,7 +377,7 @@ def load_surviving_claims(path: Path = SURVIVING_MD) -> List[str]:
 def print_surviving(claims: Optional[List[str]] = None):
     if claims is None:
         claims = load_surviving_claims()
-    print("\n=== SURVIVING QUALITATIVE CLAIMS (reliability → 0) ===")
+    print(_ascii("\n=== SURVIVING QUALITATIVE CLAIMS (reliability → 0) ==="))
     print("(Loaded from surviving/qualitative_claims.md — strict filter applied)")
     for i, c in enumerate(claims, 1):
         print(f"  {i}. {c}")
@@ -366,32 +444,35 @@ def monte_carlo_posteriors(
       - adding small Gaussian noise to each likelihood (clipped to [0.01, 0.99])
       - running the existing Bayes update
     Returns dict of hypothesis -> list of posterior samples.
-    At low r the mass still collapses toward the qualitative floor.
+
+    Mechanism ranking uses ONLY quantitative streams, matching
+    `collapse_posterior` and `posterior_under_likelihood_uncertainty`.
+    Non-quantitative streams are mechanism-silent at every r. Prior to this
+    fix (audit finding #24), this path perturbed and multiplied all streams
+    including non-quantitative ones, which reproduced the H5~=88%-at-r=0
+    regression that `collapse_posterior` had already eliminated.
     Fully re-runnable by any agent with the same seed.
     """
     rng = random.Random(seed)
     samples = {h: [] for h in HYPOTHESES}
 
+    # Mechanism ranking is quantitative-only across all three paths (audit #24).
+    quant_streams = [s for s in streams if s.get("is_quantitative", 1) == 1]
+
     for _ in range(n_samples):
         r = r_center + rng.gauss(0, r_noise)
         r = max(0.0, min(1.0, r))
-        # perturb streams
+        # perturb quantitative streams only
         noisy = []
-        for s in streams:
+        for s in quant_streams:
             news = dict(s)
-            if s["is_quantitative"] == 1:
-                for h in HYPOTHESES:
-                    L = s[h] + rng.gauss(0, lik_noise)
-                    L = max(0.01, min(0.99, L))
-                    if int(s.get("is_floor_quantitative", 0) or 0) == 1:
-                        news[h] = L
-                    else:
-                        news[h] = r * L + (1.0 - r) * 0.5
-            else:
-                # non-quantitative: leave original (or tiny noise)
-                for h in HYPOTHESES:
-                    L = s[h] + rng.gauss(0, lik_noise * 0.3)
-                    news[h] = max(0.01, min(0.99, L))
+            for h in HYPOTHESES:
+                L = s[h] + rng.gauss(0, lik_noise)
+                L = max(0.01, min(0.99, L))
+                if int(s.get("is_floor_quantitative", 0) or 0) == 1:
+                    news[h] = L
+                else:
+                    news[h] = r * L + (1.0 - r) * _flat_target()
             noisy.append(news)
         post = bayes_update(noisy, priors)
         for h in HYPOTHESES:
@@ -453,7 +534,7 @@ def run_self_test() -> bool:
         print(f"  [FAIL] posterior sum = {s}")
         ok = False
     else:
-        print(f"  [PASS] posterior sums to 1.0 (H5 ≈ {post['H5']:.1%})")
+        print(_ascii(f"  [PASS] posterior sums to 1.0 (H5 ≈ {post['H5']:.1%})"))
 
     claims = load_surviving_claims()
     if len(claims) < 5:
@@ -539,9 +620,34 @@ def run_self_test() -> bool:
             print(f"         r=0 H5={post0['H5']:.4f}  r=0.05 mode={mode_hi} H5={post_above['H5']:.4f}")
             if has_floor:
                 slope0 = max(abs(post0[h] - post_below[h]) for h in HYPOTHESES)
-                print(f"         floor-quant slope r=0→0.049: max |Δposterior| = {slope0:.4f} (informational)")
+                print(_ascii(f"         floor-quant slope r=0→0.049: max |Δposterior| = {slope0:.4f} (informational)"))
     except Exception as e:
         print(f"  [FAIL] collapse_posterior self-test: {e}")
+        ok = False
+
+    # Path parity (audit #24): collapse / MC / BetaLU must agree, consume the
+    # same quantitative-only stream set, and report bands containing their point
+    # estimate. Shipped inside run_self_test so a fresh-clone reviewer learns
+    # whether the paths agree without knowing CI exists.
+    try:
+        sys.path.insert(0, str(HERE.parent / "scripts"))
+        try:
+            from check_path_parity import (run_parity_check, run_interval_check,
+                                           run_stream_set_check)
+        except Exception as imp_err:
+            print(f"  [INFO] path-parity checker unavailable: {imp_err}")
+        else:
+            streams_pp = load_streams()
+            ok_p, max_div, _ = run_parity_check(streams_pp)
+            ok_i, _ = run_interval_check(streams_pp)
+            ok_s, quant, _ = run_stream_set_check(streams_pp)
+            parity_ok = ok_p and ok_i and ok_s
+            ok = ok and parity_ok
+            label = "PASS" if parity_ok else "FAIL"
+            print(f"  [{label}] path parity: max|path-collapse|={max_div:.4f} "
+                  f"stream_set=quant({quant}) intervals={'ok' if ok_i else 'FAIL'}")
+    except Exception as e:
+        print(f"  [FAIL] path parity self-test: {e}")
         ok = False
 
     print("Self-test", "PASSED" if ok else "FAILED")
@@ -549,11 +655,23 @@ def run_self_test() -> bool:
 
 
 def main():
+    try:
+        from __init__ import configure_utf8_console
+        configure_utf8_console()
+    except Exception:
+        try:
+            from model import configure_utf8_console
+            configure_utf8_console()
+        except Exception:
+            pass
     parser = argparse.ArgumentParser(
         description="TAST Bayesian Core v5.6 — reliability slider (0.0 = maximal skepticism)"
     )
     parser.add_argument("--reliability", type=float, default=1.0,
                         help="victors_reliability ∈ [0.0, 1.0] (default 1.0)")
+    parser.add_argument("--streams", type=str, default=None,
+                        help="Path to an alternative likelihood table CSV (default: evidence_streams.csv). "
+                             "Missing file or missing columns raise StreamLoadError — no silent fallback.")
     parser.add_argument("--verbose", action="store_true")
     parser.add_argument("--list-streams", action="store_true")
     parser.add_argument("--self-test", action="store_true")
@@ -579,10 +697,12 @@ def main():
     if args.self_test:
         sys.exit(0 if run_self_test() else 1)
 
+    streams_path = Path(args.streams) if args.streams else STREAMS_CSV
     try:
-        streams = load_streams()
+        streams = load_streams(streams_path)
     except StreamLoadError as e:
-        print(f"ERROR: {e}", file=sys.stderr)
+        print(f"ERROR loading stream table {streams_path}: {e}", file=sys.stderr)
+        print("No silent fallback to the default table (fail-closed).", file=sys.stderr)
         sys.exit(1)
 
     if getattr(args, "dampen", 0) and args.dampen > 0:
@@ -617,6 +737,12 @@ def main():
         return
 
     print(f"TAST Bayesian Core v5.6  |  victors_reliability = {r:.2f}  |  strict={strict}")
+    try:
+        import hashlib as _hl
+        _cksum = _hl.sha256(streams_path.read_bytes()).hexdigest()[:16]
+    except Exception:
+        _cksum = "?"
+    print(f"streams: {streams_path.name}  (sha256:{_cksum})  quant={sum(1 for s in streams if s['is_quantitative']==1)}/{len(streams)}")
     print("=" * 70)
 
     if r < 0.05:
@@ -628,28 +754,77 @@ def main():
         print_surviving()
         post, mode = collapse_posterior(streams, RAW_PRIORS, r)
         if mode == "PRIOR":
-            print("\nMechanism posterior at r≈0: returns to PRIOR (no floor-quant active)")
+            print(_ascii("\nMechanism posterior at r≈0: returns to PRIOR (no floor-quant active)"))
             print(">>> This is the PRIOR (RAW_PRIORS), displayed — not a data-fitted result.")
         else:
-            print("\nMechanism posterior at r≈0: UPDATED (floor-quantitative stream(s) active)")
+            print(_ascii("\nMechanism posterior at r≈0: UPDATED (floor-quantitative stream(s) active)"))
             print(">>> Differs from prior because is_floor_quantitative terms bypass the r-blend.")
-        print("(Administrative quant → flat at r=0; floor-quant preserved when present.)")
+        print(_ascii("(Administrative quant → flat at r=0; floor-quant preserved when present.)"))
         for h in HYPOTHESES:
-            bar = "█" * int(post[h] * 40)
-            print(f"  {h}  {post[h]:6.1%}  {bar}")
+            bar = _bar(post[h])
+            print(_ascii(f"  {h}  {post[h]:6.1%}  {bar}"))
         try:
             try:
-                from physical_likelihoods import physical_loglik
+                from physical_likelihoods import physical_floor_report
             except ImportError:
-                from model.physical_likelihoods import physical_loglik
-            pll = physical_loglik({
+                from model.physical_likelihoods import physical_floor_report
+            rep = physical_floor_report({
                 "lambda_growth": 0.015, "rho_reclass": 0.25,
                 "r_owner": 0.0, "r_enumerator": 0.0, "undercount": 0.15,
             })
-            print(f"\nPhysical-floor log-likelihood (presence/structure support): {pll:.2f}")
-            print("(Not used to rank H1–H5 at r≈0.)")
+            print(_ascii(f"\nPhysical floor — observables that survive r->0 (PRIMARY):"))
+            for ob in rep.get("observables", []):
+                val = ob["value"]
+                if isinstance(val, float):
+                    val = f"{val:,.0f}"
+                print(_ascii(f"  - {ob['name']}: {val}"))
+                print(_ascii(f"      source: {ob['source']}"))
+                print(_ascii(f"      role:   {ob['role']}"))
+                if ob.get("in_bf"):
+                    print(_ascii(f"      [enters the Bayes factor below]"))
+                elif ob.get("not_in_bf_reason"):
+                    print(_ascii(f"      [NOT in the BF — {ob['not_in_bf_reason']}]"))
+            print(_ascii(f"\nPhysical floor — Bayes factor (SECONDARY; upper bound vs straw null):"))
+            print(_ascii(f"  null: {rep['null_name']}"))
+            print(_ascii(f"  log BF(floor | presence) vs (floor | null) = {rep['log_bayes_factor']:.2f}"))
+            print(_ascii(f"  caveat: {rep.get('bf_caveat','')}"))
+            print(_ascii(f"  (informative ll={rep['ll_informative']:.2f}; non-informative constants ll={rep['ll_noninformative']:.2f})"))
+            for ex in rep["excluded"]:
+                print(_ascii(f"  EXCLUDED: {ex['term']} ({ex['fact_id']} value:null) — {ex['reason']}"))
+            for uo in rep.get("unused_observables", []):
+                print(_ascii(f"  NOT WIRED: {uo['field']} = {uo['value']:.0f} ({uo['backing_fact']}) — {uo['reason']}"))
+            print(_ascii("(The floor is mechanism-silent by construction; it does not rank H1-H5 at any r.)"))
+            # Derived-confidence ranking (audit #40, change add-derived-confidence):
+            # every scored fact's confidence comes from a measurable-property
+            # function, not a hand-assigned literal. Surface it so a reader sees
+            # where the aggregate-bounding facts (incl. the ~4M) sit by the SAME
+            # rule as the floor.
+            try:
+                import yaml as _yaml
+                import derive_confidence as _dc
+                _fp = HERE.parent / "data" / "observable_facts.yaml"
+                _facts = _yaml.safe_load(_fp.read_text(encoding="utf-8"))["facts"]
+                _spec = _dc._load_spec()
+                _rows = [(str(_f.get("id", "?")), _dc.score_fact(_f, _spec)[0],
+                          (_f.get("statement") or "")[:38])
+                         for _f in _facts if not _f.get("non_scoring")]
+                _rows.sort(key=lambda r: -r[1])
+                print(_ascii("\nDerived-confidence ranking (function of source_class, "
+                             "re_verifiability, sampled_fraction — audit #40):"))
+                print(_ascii(f"  {'id':<28} {'conf':>6}  claim (top + aggregate)"))
+                _top_ids = {r[0] for r in _rows[:5]}
+                _agg = [r for r in _rows if r[0].startswith("agg-")]
+                _shown = sorted(set(list(_top_ids) + [r[0] for r in _agg]),
+                                key=lambda i: next(c for fid, c, _ in _rows if fid == i),
+                                reverse=True)
+                for _fid in _shown:
+                    _c, _stmt = next((c, s) for fid, c, s in _rows if fid == _fid)
+                    _tag = " [aggregate]" if _fid.startswith("agg-") else ""
+                    print(_ascii(f"  {_fid:<28} {_c:6.3f}  {_stmt}{_tag}"))
+            except Exception as _e:
+                print(_ascii(f"(derived-confidence ranking unavailable: {_e})"))
         except Exception as e:
-            print(f"\nPhysical-floor loglik unavailable: {e}")
+            print(f"\nPhysical-floor report unavailable: {e}")
         print(f"\n  {DISCLAIMER}")
         print("Meta-claim: No national-scale administrative total is a fact.")
         return
@@ -663,14 +838,14 @@ def main():
     print("Hypothesis posteriors (conditioned on reliability):")
     print("(Independence of streams is assumed — a known modeling limitation.)")
     for h in HYPOTHESES:
-        bar = "█" * int(post[h] * 40)
-        print(f"  {h}  {post[h]:6.1%}  {bar}")
+        bar = _bar(post[h])
+        print(_ascii(f"  {h}  {post[h]:6.1%}  {bar}"))
         if args.verbose:
-            print(f"       {H_LABELS[h]}")
+            print(_ascii(f"       {H_LABELS[h]}"))
 
     print("\nConditioning statement:")
     print(f'  "If we treat the recorded population totals as approximately accurate')
-    print(f'   (victors_reliability ≈ {r:.2f}), then the above posteriors obtain;')
+    print(_ascii(f'   (victors_reliability ≈ {r:.2f}), then the above posteriors obtain;'))
     print(f'   if we do not, the quantitative claims are undefined."')
     print(f"\n  {DISCLAIMER}")
 
@@ -700,7 +875,7 @@ def main():
                 print(f"WARNING: {e}", file=sys.stderr)
 
     if r < 0.5:
-        print("\n(Note: reliability < 0.5 → quantitative streams heavily diluted;")
+        print(_ascii("\n(Note: reliability < 0.5 → quantitative streams heavily diluted;"))
         print(" physical burial, aDNA-site, and meta-skepticism streams dominate.)")
         print_surviving()
 

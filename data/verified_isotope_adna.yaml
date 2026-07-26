@@ -1,11 +1,41 @@
-schema_version: 1
+schema_version: 2
 discipline: verify-before-encode
 last_audit: '2026-07-24'
+
+# --- Floor derivation policy (audit #36) -------------------------------------
+# Until 2026-07-25 this file was read by NO code: `n_adna_individuals` was the
+# hardcoded literal 66 in physical_likelihoods.py with the comment
+# "Harney27+Fleskes36+Schroeder3". That contradicted this file's own
+# `stipulated_constants_flagged` entry, which already declared the intended
+# replacement path as "Harney 27 + Fleskes 18 genomes". The floor's aDNA count
+# is now DERIVED here rather than asserted in code.
+#
+# Two judgment calls are made explicit per study rather than folded into a
+# single global number:
+#   us_territory      — is the site inside the territory that became the United
+#                       States? The floor statement is "interred on American
+#                       soil"; a site outside that scope cannot support it.
+#   adna_count_field  — which field is the aDNA-bearing count. Individuals
+#                       *excavated* and individuals *with recovered genomes* are
+#                       different observables; `loglik_adna_sample` is about the
+#                       latter. `null` means the study is not an aDNA
+#                       individual-recovery study at all (e.g. isotope chemistry).
+#
+# Policy flags are declared numerically in data/stipulated_constants.yaml
+# (adna_require_us_territory, adna_prefer_genome_counts) so check_constants.py
+# enforces them and the sweep can perturb them.
+floor_derivation_policy:
+  n_adna_individuals: sum of study[adna_count_field] over studies where us_territory is true
+  rationale_source: this file's own stipulated_constants_flagged.n_adna_individuals.replacement_path
+  superseded_literal: 66  # was hardcoded in physical_likelihoods.py:49
+
 verified_studies:
 - id: harney_2023_catoctin
   citation: Harney et al. (2023), Science 381(6657):eade4995
   site: Catoctin Furnace, Maryland
   n_individuals: 27
+  us_territory: true
+  adna_count_field: n_individuals   # no separate genome subset reported in the paper
   notes:
   - 41,799 23andMe genetic relatives reported
   - 5 genetic families
@@ -23,6 +53,8 @@ verified_studies:
   citation: Schroeder et al. (2015), PNAS 112(12):3669-3673
   site: Saint Martin
   n_individuals: 3
+  us_territory: false   # Caribbean; never U.S. territory. Cannot support "interred on American soil".
+  adna_count_field: n_individuals
   notes:
   - Three 17th-century African-born individuals
   - 'Proof of concept: African-born status recoverable from remains'
@@ -40,6 +72,8 @@ verified_studies:
   n_individuals: 36
   n_low_coverage_genomes: 18
   n_uniparental_haplotypes: 31
+  us_territory: true
+  adna_count_field: n_low_coverage_genomes   # 18 genomes recovered of 36 excavated
   notes:
   - Predominantly West/West-Central African genomic ancestry
   - One individual with Americas affiliation
@@ -61,6 +95,8 @@ verified_studies:
     6 in Skeletal Biology of the New York African Burial Ground, Vol. 1 (GSA/NPS Final
     Report).
   site: New York African Burial Ground (NYABG)
+  us_territory: true
+  adna_count_field: null   # isotope + dental-modification chemistry, not aDNA individual recovery
   stable_url: https://sites.hampshire.edu/agoodman/files/2019/03/Chapter_6_Isotopic_and_Elemental_Chemistry_of_Teet.pdf
   official_report: https://www.gsa.gov/system/files/Vol1-Part1-TheSkeletalBiologyOfTheNYAGB_Chapters1-6.pdf
   sample:
@@ -125,10 +161,14 @@ verified_studies:
     verified_at: '2026-07-24'
 stipulated_constants_flagged:
 - name: n_adna_individuals
-  current_default: 80
-  status: stipulated
-  replacement_path: sum of verified per-study counts (Harney 27 + Fleskes 18 genomes
-    + …)
+  current_default: 45
+  status: derived   # closed 2026-07-25 (audit #36): now computed from verified_studies above
+  replacement_path: sum of verified per-study counts (Harney 27 + Fleskes 18 genomes)
+  derivation_note: >
+    Schroeder n=3 (Saint Martin) is excluded by us_territory: false. Fleskes
+    contributes 18 recovered genomes, not 36 excavated individuals. The previous
+    hardcoded literal 66 used Fleskes 36 + Schroeder 3 and contradicted the
+    replacement_path declared in this very file.
 - name: termin_in_us_frac
   current_default: 0.85
   status: stipulated

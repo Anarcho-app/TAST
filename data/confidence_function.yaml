@@ -1,0 +1,86 @@
+schema_version: 1
+
+# Derived confidence (audit #40). Replaces hand-assigned `confidence: 0.82` with a
+# function of three measurable properties. See model/derive_confidence.py.
+#
+# The function is LINEAR and the features are MEASURABLE — no vibes, no glancing.
+# This is "interpretation frozen into a reproducible function": the residual
+# authored choice is the feature transforms and weights below, both declared here
+# and sweepable. The hand-assigned confidence column is preserved in
+# observable_facts.yaml for comparison; this rule does not overwrite it.
+#
+# Why three features and not five: source_class and re_verifiability together
+# capture the anti-lookerism axis (who classified, can you re-check). sampled_fraction
+# captures the sample-size discipline the project already enforces for DNA.
+# Independence-count and provenance-depth are real but are properties of claim SETS
+# and reconstructions respectively; deferred to v2 to keep v1 auditable in one glance.
+
+features:
+
+  - id: source_class
+    weight: 0.40
+    description: >
+      Who produced the record? The anti-lookerism axis. Owner/enumerator/trader
+      records are adversarial classifications of people by an observer serving
+      power; physical and self-presentation records are not. This is the same
+      distinction stream31 uses to justify is_floor_quantitative, generalized to
+      every fact.
+    scores:
+      physical: 1.00          # remains, aDNA, the burial ground itself
+      self_presentation: 0.90 # USCT enlistment, Freedmen's rations (bodies mustered / present)
+      federal_enumerator: 0.60
+      state_enumerator: 0.50
+      owner_mediated: 0.20
+      trader_manifest: 0.15
+      unknown: 0.40
+
+  - id: re_verifiability
+    weight: 0.35
+    description: >
+      Can you return to the evidence and re-check it? Physical remains can be
+      re-exhumed and re-sequenced; enlistment rolls can be re-checked against
+      descendants; a ship's manifest of a vanished event cannot. This is what
+      separates "evidence" from "testimony" in the project's own framing.
+    scores:
+      high: 1.00    # re-examine the thing itself
+      medium: 0.60  # check descendants / derivatives
+      low: 0.20     # one-shot testimony of a vanished event
+      unknown: 0.50
+
+  - id: sampled_fraction
+    weight: 0.25
+    description: >
+      What fraction of the relevant reference does the observation cover?
+      Near-complete enumerations (muster rolls, statute inventories) score high;
+      aDNA samples (45 of millions) score low. This is the sample-size discipline
+      the project already enforces for DNA, generalized.
+    transform: log10     # score = clip( log10(max(coverage,1e-6) * 1000) / 3, 0, 1 )
+    default_by_type:
+      physical_presence: 0.90        # specific identified site/remain, not a sample
+      structural_silence: 0.95       # statute inventory is near-complete
+      genealogical_structure: 0.70
+      administrative_process: 0.90    # musters/rations near-complete enumeration of processed pop
+      observable_candidate: 0.50
+      unknown: 0.50
+
+# Inference defaults when a fact doesn't tag a feature explicitly.
+# This is the ONE place interpretation lives; declared and attackable.
+type_defaults:
+  physical_presence:
+    source_class: physical
+    re_verifiability: high
+  structural_silence:
+    source_class: state_enumerator
+    re_verifiability: high
+  genealogical_structure:
+    source_class: self_presentation
+    re_verifiability: medium
+  administrative_process:
+    source_class: federal_enumerator
+    re_verifiability: medium
+  observable_candidate:
+    source_class: unknown
+    re_verifiability: unknown
+  unknown:
+    source_class: unknown
+    re_verifiability: unknown

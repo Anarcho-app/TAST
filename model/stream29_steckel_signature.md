@@ -1,5 +1,7 @@
 # Stream 29 — Steckel Anthropometric Signature (discriminating)
 
+UNREPRODUCIBLE as of 2026-07-24: this rationale documents a stream whose identifier (29) is absent from every committed CSV (`evidence_streams.csv` and variants carry ids 1–27, 30, 31). The narrative is retained for provenance; it cannot be run or reproduced until a Stream 29 row is added to the tables. Tracked by `scripts/check_documented_commands.py --check-streams`.
+
 **Producer**: Shipper-mediated coastwise manifests (post-1808). Incentive is to prove *domestic* origin — opposite undercount pressure to census/owner records.
 
 **Why it can break the H5 deadlock**  
