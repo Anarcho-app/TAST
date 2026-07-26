@@ -1,5 +1,7 @@
 # Surviving Claims (Zero-Weight / Maximal-Skepticism Mode)
 
+<!-- allow-banned: meta-use (file: claim 11 quotes "least-bad" verbatim to refuse it as a fact-conversion device) -->
+
 These statements remain after every census total, shipping manifest, plantation ledger, and administrative head-count is set to reliability ≈ 0. 
 
 They are supported by physical remains, structural features of the record itself, genealogical termination patterns, and the documented existence of legal and labor regimes. They do **not** underwrite any cumulative population total, precise annual growth rate, import volume, or comparative natural-increase differential.

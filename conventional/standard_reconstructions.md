@@ -1,5 +1,7 @@
 # Standard Numerical Reconstructions (with assumptions)
 
+<!-- allow-banned: meta-use (file: quotes "as a fact" verbatim in "not as a fact about biological demography" — refusing fact-conversion) -->
+
 ## 1. Transatlantic + Intra-American Arrivals (SlaveVoyages)
 
 - **Figure commonly cited**: ~388,000–400,000 Africans disembarked in mainland North America (legal trade).

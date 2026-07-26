@@ -136,6 +136,11 @@ def print_sensitivity_table(results: List[Dict]) -> None:
 
 
 def main():
+    try:
+        from __init__ import configure_utf8_console
+    except Exception:
+        from model import configure_utf8_console
+    configure_utf8_console()
     import argparse
     parser = argparse.ArgumentParser(description="TAST sensitivity map v5.0")
     parser.add_argument(

@@ -320,6 +320,11 @@ def demonstrate_hierarchical_reliability(
 
 
 def main():
+    try:
+        from __init__ import configure_utf8_console
+    except Exception:
+        from model import configure_utf8_console
+    configure_utf8_console()
     import argparse
     parser = argparse.ArgumentParser(description="TAST inference extensions (v4.8)")
     parser.add_argument("--demo-functional", action="store_true")
