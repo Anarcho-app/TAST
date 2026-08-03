@@ -19,6 +19,15 @@ Bryc, K., Durand, E. Y., Macpherson, J. M., Reich, D., & Mountain, J. L. (2015).
 the United States." *American Journal of Human Genetics*, 96(1), 37–53.
 DOI: 10.1016/j.ajhg.2014.11.010
 
+## Reference-panel guardrail
+
+Commercial ancestry documentation is relevant to interpretation, not independent confirmation of this stream:
+
+- [AncestryDNA, Ethnicity Estimate White Paper](https://www.ancestry.com/cs/dna-help/ethnicity/whitepaper) describes an older V2 reference-panel method and explicitly treats living samples and geographic or pedigree proxies as substitutes for unavailable historical populations.
+- [23andMe, Ancestry Composition Guide](https://www.23andme.org/ancestry/ancestry-composition-guide/) describes a V5 pipeline using more than 21,000 reference individuals and 78 vendor-defined populations, with phasing, segment classification, thresholds, and internal holdout tests.
+
+Both sources reinforce that a reported ancestry percentage is panel-relative and model-dependent. Neither validates the Bryc estimate, makes the cohort nationally representative, identifies birthplace or cultural identity, or supplies a likelihood for H1-H5. The commercial-platform match count in the Catoctin study is a database-matching observation, not a descendant-population estimate.
+
 ## Sample-size discipline (mandatory)
 
 | Quantity | Value | % of reference population |
@@ -42,8 +51,9 @@ Cross-checks (independent samples):
 | All of Us / AJHG Jun 2025 | ~1,000,000 total, AA subset in Table S2 | ~2.5% of AA | 82.72% African (SD 10.87%); low Native (1–2%) consistent |
 | gnomAD v4 LAI 2025 (Kore et al., Nature Comms) | 20,805 AA | 0.052% | ≥2-fold ancestry-specific frequency difference confirms two-way AFR-EUR admixture; low Native |
 
-All three independent cohorts converge on autosomal Native American ancestry
-in African-Americans within the ~0.5–2% band.
+The listed cohorts broadly report autosomal Native American ancestry
+in African-Americans within the ~0.5–2% band, subject to their different
+cohorts, panels, methods, and reporting limitations.
 
 ## Discrimination between hypotheses
 
@@ -106,4 +116,7 @@ This stream can be revised or retired if:
 - A specific reclassification model is presented that predicts the observed
   ~0.8% mean *and* the observed African / European ratios simultaneously.
 
-Until then, the ~0.8% ceiling holds and H2 pays a likelihood penalty.
+Until then, the ~0.8% observed cohort mean remains a provisional constraint.
+Any H2 likelihood penalty is likewise provisional and must be re-elicited after
+reference-panel sensitivity, unassigned ancestry, selection, and category-exit
+assumptions are modeled.

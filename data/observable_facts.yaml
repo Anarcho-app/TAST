@@ -205,13 +205,13 @@ facts:
   artifact_status: survives_direct
 - id: '51'
   statement: Genetic legacy of African Americans from Catoctin Furnace
-  value: aDNA from 27 individuals at late 18th/early 19th c. ironworks burial site; 41,000+ living genetic
-    relatives identified via 23andMe
+  value: aDNA from 27 individuals at late 18th/early 19th c. ironworks burial site; the study reported
+    41,000+ database matches to living 23andMe participants
   confidence: 0.95
   source: Harney et al. (2023), *Science* 381(6657):eade4995
   provenance: Lab-derived aDNA; community-engaged; linked to modern ancestry database
   enslaved_source: '**YES** — physical remains of enslaved/free African Americans; aDNA restores ancestry
-    knowledge'
+    knowledge. The database-match count is contextual, not a descendant-population estimate.'
   url_or_archive: '[pmc.ncbi.nlm.nih.gov/articles/PMC10958645](https://pmc.ncbi.nlm.nih.gov/articles/PMC10958645/)'
   type: observable_candidate
   non_scoring: context_candidate (no scoring path; retained for provenance)
@@ -270,12 +270,13 @@ facts:
   artifact_status: survives_direct
 - id: '56'
   site_key: catoctin_furnace
-  statement: 'Catoctin Furnace expanded: first study linking historical aDNA to modern commercial ancestry
-    platform; demonstrates multi-generational U.S. rootedness via 41,000+ living genetic relatives'
-  value: 27 individuals; 41,000+ living relatives via 23andMe
+  statement: 'Catoctin Furnace expanded: study linking historical aDNA to a modern commercial ancestry
+    platform; reports 41,000+ database matches to living 23andMe participants'
+  value: 27 individuals; 41,000+ reported database matches via 23andMe
   source: Harney et al. (2023), Science 381(6657)
   provenance: Lab-derived aDNA; community-engaged; linked to modern platform
-  enslaved_source: '**YES** — physical remains + modern descendant linkage = American roots proof'
+  enslaved_source: '**YES** — physical remains + contextual modern database matching; the match count is not
+    proof of a national descendant population or exclusive U.S. rootedness'
   url_or_archive: '[pmc.ncbi.nlm.nih.gov/articles/PMC10958645](https://pmc.ncbi.nlm.nih.gov/articles/PMC10958645/)'
   type: observable_candidate
   sampled_fraction: 0.001

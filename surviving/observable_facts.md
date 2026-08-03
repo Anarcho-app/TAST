@@ -58,7 +58,7 @@ Total entries: 68 · High confidence (≥ 0.85): 26
   - Source: NYCEDC/AKRF (2025 report)
   - Type: `observable_candidate` · Provenance: Archaeological excavation
 
-- **[0.95]** Genetic legacy of African Americans from Catoctin Furnace — `aDNA from 27 individuals at late 18th/early 19th c. ironworks burial site; 41,000+ living genetic relatives identified via 23andMe`
+- **[0.95]** Genetic legacy of African Americans from Catoctin Furnace — `aDNA from 27 individuals at a late 18th/early 19th c. ironworks burial site; the study reported 41,000+ database matches to living 23andMe participants`
   - Source: Harney et al. (2023), *Science* 381(6657):eade4995
   - Type: `observable_candidate` · Provenance: Lab-derived aDNA; community-engaged; linked to modern ancestry database
 
@@ -78,7 +78,7 @@ Total entries: 68 · High confidence (≥ 0.85): 26
   - Source: Current Biology 33(13), 2023
   - Type: `observable_candidate` · Provenance: Lab-derived aDNA; archaeological context
 
-- **[0.95]** Catoctin Furnace expanded: first study linking historical aDNA to modern commercial ancestry platform; demonstrates multi-generational U.S. rootedness via 41,000+ living genetic relatives — `27 individuals; 41,000+ living relatives via 23andMe`
+- **[0.95]** Catoctin Furnace expanded: study linking historical aDNA to a modern commercial ancestry platform; reports 41,000+ database matches to living 23andMe participants — `27 individuals; 41,000+ reported database matches via 23andMe`
   - Source: Harney et al. (2023), Science 381(6657)
   - Type: `observable_candidate` · Provenance: Lab-derived aDNA; community-engaged; linked to modern platform
 

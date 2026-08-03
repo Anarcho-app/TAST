@@ -37,7 +37,7 @@ verified_studies:
   us_territory: true
   adna_count_field: n_individuals   # no separate genome subset reported in the paper
   notes:
-  - 41,799 23andMe genetic relatives reported
+  - 41,799 23andMe database matches reported; this is not a descendant-population estimate
   - 5 genetic families
   - Wolof/Kongo sharing noted
   - Skeletal analysis by Owsley preceded genetics

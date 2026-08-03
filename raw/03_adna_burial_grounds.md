@@ -1,7 +1,7 @@
 # aDNA + Physical Burial Ground Studies (2023–2026)
 
 **Sources** (peer-reviewed):
-- Harney et al., *Science* 2023 — Catoctin Furnace (Maryland)
+- [Harney et al., *Science* 2023](https://doi.org/10.1126/science.ade4995) — Catoctin Furnace (Maryland)
 - Fleskes et al., *PNAS* 2023 — Anson Street African Burial Ground (Charleston)
 - *Current Biology* 2023 — Chesapeake Bay 17th-century settlement
 - Expanded fieldwork 2024–2026: Harlem African Burial Ground, Charleston GIS mapping, Philadelphia, Colonial Williamsburg, etc.
@@ -14,5 +14,5 @@
 
 **Surviving qualitative signals**:
 - Multiple 17th–19th century burial sites across the eastern U.S. contain individuals of African and mixed ancestry whose remains were interred on American soil.
-- Some individuals show genetic links to living descendants documented via commercial databases (e.g., Catoctin Furnace → 41k+ living relatives via 23andMe matching).
+- Some individuals show reported database matches to living people (e.g., Catoctin Furnace → 41k+ 23andMe matches). This is evidence of a matching exercise, not a descendant-population estimate or proof of exclusive U.S. rootedness.
 - Cultural assemblages at maroon and early colonial sites frequently mix African, Native American, and European elements (classification fluidity on the ground).

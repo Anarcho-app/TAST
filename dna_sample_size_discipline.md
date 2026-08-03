@@ -8,6 +8,17 @@
 4. **Cluster % ≠ lookerism.** Enumerator race, statute, and reputation are not autosomal components. Do not identify administrative absorption (α_admin) with a “Native American” component (α_I channel).
 5. **Extrapolating cohort mean → national essence is inference.** Label it as such or do not do it.
 
+
+## Consumer ancestry method anchors
+
+These first-party documents are useful as disclosures of how commercial ancestry estimates are constructed:
+
+- [AncestryDNA, Ethnicity Estimate White Paper](https://www.ancestry.com/cs/dna-help/ethnicity/whitepaper) — marked “Last updated October 30, 2013”; its V2 description says that reference panels are necessary, that living samples are used as proxies when historical populations cannot be sampled, and that admixture and panel quality affect the estimate.
+- [23andMe, Ancestry Composition Guide](https://www.23andme.org/ancestry/ancestry-composition-guide/) — marked “Updated September, 2025”; it reports more than 21,000 reference individuals and 78 populations, and describes phasing, segment-level classification, thresholds, and internal holdout testing.
+
+Use these links to support the method-level claim that an ancestry percentage is conditional on a reference panel, population labels, algorithm, and uncertainty procedure. Do **not** use them as independent validation of Bryc et al., as evidence of birthplace or historical identity, or as support for national representativeness, population counts, or any TAST H1–H5 likelihood. The 23andMe holdout results are agreement with the vendor’s reference labels; the AncestryDNA page describes an older V2 system and should not be treated as a current product specification.
+
+
 ## Bryc-class figures (example)
 
 | Item | Status |
