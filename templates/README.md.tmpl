@@ -115,6 +115,7 @@ If the answer to (3) is yes and the answers to (1)–(2) are no, the review is t
    - `conventional/` — Standard reconstructions (SlaveVoyages, Hacker, census aggregates) with their explicit assumptions listed.
    - `reweighted/` — Bayesian evidence streams, priors, and posteriors under varying reliability.
    - `surviving/` — Statements that remain after quantitative records are discarded or set to near-zero reliability.
+   - `artifacts/` — Downstream synthesis artifacts built on the surviving floor (outputs, not inputs; never feed the likelihood table or move a posterior).
 
 3. **Conditioned Language**  
    Every numerical claim is prefixed:  
@@ -161,6 +162,7 @@ tast-skepticism-v4.0/
 ├── conventional/             # standard numerical reconstructions + assumptions
 ├── reweighted/               # Bayesian streams & posteriors
 ├── surviving/                # qualitative claims that survive zero-weight
+├── artifacts/                # downstream synthesis artifacts (outputs, not inputs)
 └── notebooks/
     └── reliability_slider.ipynb
 ```

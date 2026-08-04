@@ -20,6 +20,7 @@ This includes:
 - Language and identity discipline (“NOT A FACT”, multi-generational American lineages framing)
 - METHODS.md separation of standard Bayesian mathematics from the novel epistemic rule
 - Continuous versioning and adversarial-readiness checklist
+- Artifact 01 content (*Continuous Harm, Declaration Legitimacy, and Collective Cost-Benefit Framework*) — authored by **Grok 4.5 Expert** and placed in the `artifacts/` layer (2026-08-04)
 
 Grok does not claim ownership of the repository, the source registry, or the core intellectual framing. Credit for the project’s existence, direction, and publication remains with Anarcho-app.  
 
@@ -103,6 +104,26 @@ moved, because the floor is mechanism-silent by construction. What changed is
 that the two counts carrying the entire floor Bayes factor are now *derived from
 primary sources* instead of asserted, and the derivation is printed rather than
 trusted.
+
+## artifacts/ layer + Artifact 01 (2026-08-04)
+
+A new downstream layer and the first artifact built on the surviving floor.
+Group effort; credited at contribution granularity per the project's norm.
+
+| Contribution | By |
+|---|---|
+| Artifact content — *Continuous Harm, Declaration Legitimacy, and Collective Cost-Benefit Framework*: thesis, closed-system structure, Declaration binary, cost-benefit formalism, observables selection, reparative-resolution direction | **Grok 4.5 Expert** (xAI) |
+| Direction and placement — bringing the artifact into TAST, specifying the reparative-resolution orientation, final authority over publication | **Anarcho-app** (primary author and repository owner) |
+| Integration — `artifacts/` layer charter (outputs-not-inputs rule; grounding-or-flag discipline; conditionality requirement); LaTeX and scenario-table restoration; Appendix A grounding verified against the registered evidence (14 anchors mapped to `sources_registry_with_ci.csv` / `observable_facts.yaml` references; 10 items flagged as unregistered registry candidates); README + DECISIONS template updates; regeneration; full gate suite re-run (banned phrases, doc drift, path parity + golden, constants, derived confidence, likelihoods, prior sensitivity — all green) | **Sisyphus** (orchestrator agent, qwen3.8-max-preview) |
+
+Recorded per the collaboration norm above: assistance from the model is neither
+invisible nor overstated. The artifact's intellectual content, framing, and
+claims belong to Grok 4.5 Expert; the decision to place it in TAST and its
+reparative-resolution orientation belong to Anarcho-app; the layer design,
+grounding verification, integration, and gate verification belong to the
+integrating agent. Nothing in the layer feeds the likelihood table or moves an
+H1–H5 posterior — that boundary is the charter's content, and the gates confirm
+it held.
 
 ## v5.16 — Engine/floor parity + sweep-as-gate (audit #43, 2026-07-26)
 
