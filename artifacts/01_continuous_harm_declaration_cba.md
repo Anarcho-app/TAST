@@ -180,6 +180,8 @@ Government implements differentiated program tracking intensity of exposure to t
 
 On Declaration standard, legitimacy with respect to the most intensively affected population is placed in question. People retain the right to alter or abolish. Theoretical result: return of control over institutions and resources to the public.
 
+*Path B is presented only as the logical residual if sustained non-redress continues; it is not a recommendation.*
+
 ### Win-win inside the closed system
 
 Either path improves the position of the general public relative to perpetual unredressed harm + continued classification.
@@ -222,6 +224,13 @@ Opportunity-cost benchmark: existing large claims (net interest, post-9/11 war l
 | Optimistic human-capital | $500 B | $750 B (1.5×) | +$250 B | +$6.4 T | +$4.6 T | Strong education/health/productivity multipliers + Social Security base expansion |
 | Inaction (status quo) | $0 | –$600 B (continuing drag) | –$600 B | –$15.4 T | –$11.0 T | Pure continuation of measured costs |
 
+**Assumption check, one line per scenario** (all figures model-dependent; sweep bands in Appendix B):
+
+- *Conservative* assumes a 0.6× multiplier — returns cover only 60% of investment; if returns reach 1.0× instead, the net becomes $0 (break-even).
+- *Baseline reciprocal* assumes a 1.3× multiplier, mid-range of the 1.2–2.0 band cited above; if returns are only 1.0× instead, the net becomes $0, and at 0.6× it becomes the conservative row (–$120 B/yr).
+- *Optimistic human-capital* assumes a 1.5× multiplier with strong education/health/payroll-base multipliers; if returns are only 1.3× instead, the net becomes the baseline row (+$120 B/yr).
+- *Inaction* assumes the continuing drag holds near $600 B/yr; if the drag is only $200 B/yr (the low end of the cited band), the net becomes –$200 B/yr — still negative, still compounding.
+
 ### Sensitivity and formal relations
 
 - Break-even requires $R(I)/I \ge 1$. External literature on racial-equity investments frequently cites multipliers in the 1.2–2.0 range when human-capital and health channels are included.
@@ -254,12 +263,47 @@ These lower the cost of Path A and raise the visibility of continued harm under 
 
 ### Implementation levers (modular menu)
 
-Each lever stands alone; adopting any subset does not require adopting the whole framework. Modularity is the legislative affordance — members can carry one lever without owning the entire analysis.
+Each lever stands alone; adopting any subset does not require adopting the whole framework. Modularity is the legislative affordance — members can carry one lever without owning the entire analysis. Operational notes are design specifications, not assertions about existing statutory authority.
 
-1. **Classification opt-out / "human" default** on federal forms, with no service penalty for taking it.
-2. **Time-limited pilot investments** tied to measurable disparity reduction, each carrying an explicit **sunset clause** — continuation requires re-authorization against measured outcomes.
-3. **State and local experiments** that suspend or replace federal categories while measuring outcomes, reported through transparent, open-source dashboards.
-4. **Human-capital investments scored against reciprocal fiscal returns** (education, health, payroll-base channels), with scoring published alongside outlays.
+**1. Classification opt-out / "human" default on federal forms, with no service penalty.**
+- *Administers:* OMB (SPD 15 authority) plus each collecting agency; no new agency required.
+- *Scale / phase-in:* pilot on two or three voluntary forms in one agency → independent service-parity review → government-wide rulemaking if clean.
+- *Sunset / evaluation trigger:* three-year pilot; continuation requires an independent finding of zero service penalty for opt-out respondents.
+- *Success metrics:* opt-out uptake with no measurable service disparity; civil-rights enforcement data preserved via documented imputation or alternative indicators (the OMB non-response practice already flagged in Section 2).
+- *Funding character:* administrative / discretionary — rulemaking and systems costs only; no program outlays.
+
+**2. Time-limited pilot investments tied to measurable disparity reduction, each with an explicit sunset clause.**
+- *Administers:* an existing federal grantmaking agency by domain (HHS / DOE / HUD / DOL) with state and local applicants; independent evaluator designated at authorization, not after.
+- *Scale / phase-in:* pilot cohort of 5–10 jurisdictions → year-five independent metric review → optional expansion only by reauthorization.
+- *Sunset / evaluation trigger:* five-year statutory sunset; pre-registered metrics and targets filed at authorization; continuation requires a positive independent finding.
+- *Success metrics:* pre-registered disparity-reduction targets on channels already measurable in TAST terms — earnings/covered-payroll growth, educational attainment, health utilization — scored against the open cost-of-disparity dashboard.
+- *Funding character:* discretionary appropriations, time-limited; scores inside the 10-year window with reauthorization scored as new business.
+
+**3. State and local experiments that suspend or replace federal categories while measuring outcomes, on transparent open-source dashboards.**
+- *Administers:* states and municipalities, with federal waiver authority where federal categories attach to funding; dashboard standards and crosswalks maintained by the federal statistical system.
+- *Scale / phase-in:* jurisdiction opts in; federal categories run in parallel during transition so national series stay continuous; results published in open formats.
+- *Sunset / evaluation trigger:* each experiment carries its own legislative sunset; cross-jurisdiction comparison review at year five.
+- *Success metrics:* service-delivery and disparity indicators published quarterly; federal statistical continuity verified via the published crosswalk.
+- *Funding character:* state/local funds, plus optional federal technical-assistance grants (discretionary, small relative to program outlays).
+
+**4. Human-capital investments scored against reciprocal fiscal returns (education, health, payroll-base channels).**
+- *Administers:* existing program agencies; CBO/JCT score the outlays and revenue effects; Treasury and SSA track the payroll-feedback channel.
+- *Scale / phase-in:* cohort-based (early-childhood, working-age health, credential completion), phased across budget windows so each cohort scores on its own horizon.
+- *Sunset / evaluation trigger:* each program carries its scored horizon; continuation requires re-scoring against the inaction baseline, not against zero.
+- *Success metrics:* covered-earnings growth ($\Delta W$, feeding OASDI contributions $\approx 0.124 \times \Delta W$), reduced disability/SSI outlays, attainment and health-utilization metrics.
+- *Funding character:* mixed — discretionary for new program outlays, mandatory effects where existing entitlement channels carry the feedback; feedback booked as revenue/savings effects, never netted silently against outlays.
+
+### Implementation & evaluation
+
+**Scoring pilots against the inaction baseline.** The comparator is the current-law baseline — the continuing disparity drag, illustrative $200 B–$1 T/yr (model-dependent; see Appendix B) — not a zero-cost status quo. A pilot's net value is its measured outcomes minus outlays, *relative to that baseline*. Scoring against zero systematically understates programs whose value is avoiding costs that otherwise continue.
+
+**Tracking reciprocal returns without double-counting.** Each channel is scored on its own line and reconciled by an independent auditor:
+- *Revenue effects:* payroll-tax feedback on uplifted covered earnings ($0.124 \times \Delta W$ OASDI share, plus income-tax receipts).
+- *Mandatory savings:* reduced disability/SSI and health-program outlays.
+- *Outlays:* the program investment itself.
+- GDP uplift is a context metric, **not** a scored line — counting it alongside the fiscal channels it generates would double-count the same earnings twice.
+
+**What happens if a pilot under-performs.** Pre-registered triggers fire automatically: missed targets at the interim review put the pilot on a redesign path — one re-entry with an amended design, independently reviewed. Missed targets at the terminal review end the pilot at its sunset; continuation requires fresh reauthorization. No pilot converts to permanent spending without a positive independent finding against the inaction baseline.
 
 ---
 
@@ -299,9 +343,9 @@ Per the artifacts-layer charter, observables above are mapped to registered TAST
 | $16 T cumulative GDP loss estimate | registry claim 121 (Citigroup GPS 2020) |
 | Multi-generational presence pre-1865 | `observable_facts.yaml` physical-presence fact (derived confidence 0.97); `surviving/qualitative_claims.md` claim 1 |
 
-### Unregistered items (candidates for registry expansion)
+### Candidates for future registry (explicitly unregistered)
 
-The following artifact observables are **not yet registered** in `data/sources_registry_with_ci.csv` and are flagged per charter:
+The following artifact observables are **not yet registered** in `data/sources_registry_with_ci.csv` and are flagged per charter. This list is a deliberate state, not an omission: TAST registry entries require verified sources with checkable references, and this project's history (the fabricated Anson claim removed in v5.9.11) is why unverified items are flagged rather than registered. Unregistered here does not mean unsupported; it means registration is a named follow-on change, and until then these items carry no registry claim ID and no derived confidence:
 
 - OMB Statistical Policy Directive No. 15 (2024 revision) — seven minimum socio-political categories; OMB non-biological-definition statement; mandatory collection and imputation practice.
 - 1890 Census fractional "blood" categories (quadroon, octoroon).
@@ -326,12 +370,12 @@ Purpose: translate Section 4 into scorekeeping vocabulary. Nothing here is a CBO
 
 ### Baselines
 
-- **Current-law baseline (inaction).** Continuing disparity-linked drag on GDP, health, and fiscal outlays, plus the continuing administrative cost of the classification machinery itself. Illustrative annualization: –$600 B/yr (within the $200 B–$1 T range cited in Section 4 anchors). This is the baseline against which any Path A proposal should be scored — the question is never "what does the program cost?" but "what does the program cost relative to the drag that continues in its absence?"
-- **Alternative baseline (Path A).** Investment $I with reciprocal return $R(I)$: GDP uplift, payroll-tax feedback, reduced disability/SSI and health outlays. Scoring convention: outlays on the spending side; feedback on the revenue and mandatory-program side, scored separately rather than netted silently.
+- **Current-law baseline (inaction).** Continuing disparity-linked drag on GDP, health, and fiscal outlays, plus the continuing administrative cost of the classification machinery itself. Illustrative annualization: –$600 B/yr — **MODEL-DEPENDENT**, sweep band $200 B–$1 T (Section 4 anchors). This is the baseline against which any Path A proposal should be scored — the question is never "what does the program cost?" but "what does the program cost relative to the drag that continues in its absence?"
+- **Alternative baseline (Path A).** Investment $I with reciprocal return $R(I)$: GDP uplift, payroll-tax feedback, reduced disability/SSI and health outlays. The return multiplier $R(I)/I$ is **MODEL-DEPENDENT**, sweep band 0.6–2.0 (scenario table rows sample that band). Scoring convention: outlays on the spending side; feedback on the revenue and mandatory-program side, scored separately rather than netted silently.
 
 ### Illustrative 10-year budget window (the horizon Congress actually uses)
 
-Constant annual net flows from the Section 4 scenario table, no ramp or lag; annuity factors 8.530 (3% real) and 7.722 (5% real) over 10 years. **Illustrative — not a score.**
+Constant annual net flows from the Section 4 scenario table, no ramp or lag; annuity factors 8.530 (3% real) and 7.722 (5% real) over 10 years. **Illustrative — not a score.** Every net-annual input is model-dependent (drag sweep $200 B–$1 T; multiplier sweep 0.6–2.0); the arithmetic converting those inputs to NPV is exact and gated by `scripts/check_npv_arithmetic.py`.
 
 | Scenario | Net annual | 10-yr cumulative (undiscounted) | 10-yr NPV @ 3% real | 10-yr NPV @ 5% real | 50-yr NPV @ 3% real (reference) |
 |---|---|---|---|---|---|

@@ -49,33 +49,44 @@ The framework's binary, stated without advocacy:
 - **Premise 1** — forced racial taxonomy plus its documented applications constitutes continuing government-caused harm. This premise is observationally grounded in Sections 1–2 above.
 - **Premise 2** — the alter-or-abolish clause is triggered by sustained failure to redress that harm. This premise is contestable: courts treat the Declaration as founding principle, not positive law that automatically voids authority upon non-redress.
 - **Path A** — structured restorative investment, differentiated by intensity of exposure, with reciprocal fiscal returns.
-- **Path B** — refusal while classification continues; legitimacy with respect to the most intensively affected population is placed in question; resource return, if it comes, arrives via rupture rather than ordinary politics, and its net outcome is uncertain.
+- **Path B** — refusal while classification continues; legitimacy with respect to the most intensively affected population is placed in question; resource return, if it comes, arrives via rupture rather than ordinary politics, and its net outcome is uncertain. *Path B is presented only as the logical residual if sustained non-redress continues; it is not a recommendation.*
 
 This brief does not ask you to accept Premise 2. It asks you to know where the logic leads if a critical mass does, and what the cheaper alternative (Path A) would cost and return.
 
-## 4. Two scenarios — ten-year and fifty-year
+## 4. Two scenarios — ten-year window first
 
-Only the two scenarios relevant to a legislative choice are shown. Constant annual net flows; annuity factors 8.530 (3% real, 10 yr), 7.722 (5% real, 10 yr), 25.73 (3% real, 50 yr), 18.26 (5% real, 50 yr). **Illustrative, not a score.**
+Only the two scenarios relevant to a legislative choice are shown. **Illustrative, not a score.** Model-dependent inputs carry their sweep bands inline; the NPV arithmetic converting them is exact and repo-gated.
 
-| Scenario | Net annual | 10-yr cumulative | 10-yr NPV @ 3% | 10-yr NPV @ 5% | 50-yr NPV @ 3% |
-|---|---|---|---|---|---|
-| Baseline reciprocal (Path A) | +$120 B | +$1.2 T | +$1.0 T | +$0.9 T | +$3.1 T |
-| Inaction (status quo) | –$600 B | –$6.0 T | –$5.1 T | –$4.6 T | –$15.4 T |
+### Primary: 10-year budget window (the one Congress scores)
 
-**What would have to be true — baseline scenario.** Annual reciprocal returns at 1.3× annual investment, sustained. External racial-equity literature cites multipliers of 1.2–2.0 when human-capital and health channels are included, so 1.3 is mid-range, not optimistic — but it requires functional delivery, measurable targets, and payroll-base feedback actually materializing (OASDI contributions ≈ 0.124 × covered-earnings growth).
+Constant annual net flows; annuity factors 8.530 (3% real) and 7.722 (5% real).
 
-**What would have to be true — inaction scenario.** The disparity drag persists at roughly $600 B/yr, within the $200 B–$1 T annualized range of cited estimates, and the administrative machinery keeps generating its own costs. If the drag is at the low end of that range, inaction is less costly than shown — the sweep band is the honest statement.
+| Scenario | Net annual (model-dependent) | 10-yr cumulative | 10-yr NPV @ 3% | 10-yr NPV @ 5% |
+|---|---|---|---|---|
+| Baseline reciprocal (Path A) | +$120 B (multiplier 1.3×; sweep 0.6–2.0) | +$1.2 T | +$1.0 T | +$0.9 T |
+| Inaction (status quo) | –$600 B (drag estimate; sweep $200 B–$1 T) | –$6.0 T | –$5.1 T | –$4.6 T |
 
-**Horizon note.** The 10-year window (the one Congress scores) captures under half the 50-year signal; returns that mature after year 10 (early-childhood and health cohorts) will systematically underscore inside it. Request scoring on both windows.
+**Plain English — baseline scenario.** This assumes each invested dollar returns $1.30, sustained across the window (mid-range of the 1.2–2.0 band cited in the literature); if returns are only 1.0× instead, the 10-year net is roughly $0, and if 0.6×, roughly –$1.0 T — still better than inaction.
+
+**Plain English — inaction scenario.** This assumes the disparity drag persists near $600 B/yr; if the drag is only $200 B/yr (the low end of the cited band), the 10-year cost is roughly –$1.7 T instead of –$5.1 T — still negative, still compounding.
+
+### Secondary: 50-year reference horizon
+
+| Scenario | 50-yr NPV @ 3% | 50-yr NPV @ 5% |
+|---|---|---|
+| Baseline reciprocal (Path A) | +$3.1 T | +$2.2 T |
+| Inaction (status quo) | –$15.4 T | –$11.0 T |
+
+**Horizon note.** The 10-year window captures under half the 50-year signal; returns that mature after year 10 (early-childhood and health cohorts) will systematically underscore inside it. Request scoring on both windows.
 
 ## 5. Modular levers (pick pieces, not the whole)
 
-1. **Classification opt-out / "human" default** on federal forms, no service penalty.
-2. **Time-limited pilot investments** tied to measurable disparity reduction, with sunset clauses.
-3. **State/local experiments** suspending or replacing federal categories while measuring outcomes, on transparent open-source dashboards.
-4. **Human-capital investments scored against reciprocal fiscal returns**, with scoring published alongside outlays.
+Each lever stands alone, with its operational shape in brief. Carrying one does not require owning the entire framework.
 
-Each lever stands alone. Carrying one does not require owning the entire framework.
+1. **Classification opt-out / "human" default** on federal forms, no service penalty. *OMB + collecting agencies; pilot two or three forms, then government-wide rulemaking; three-year review with a zero-service-penalty trigger; administrative/discretionary cost only.*
+2. **Time-limited pilot investments** tied to measurable disparity reduction, with sunset clauses. *Existing grantmaking agency by domain (HHS/DOE/HUD/DOL); 5–10 jurisdiction pilot cohort; five-year sunset with independent metric review pre-registered at authorization; discretionary, time-limited, scores inside the 10-year window.*
+3. **State/local experiments** suspending or replacing federal categories while measuring outcomes, on transparent open-source dashboards. *States/municipalities with federal waiver authority; federal categories run in parallel so national series stay continuous; each experiment carries its own sunset; state/local funds plus small federal technical assistance.*
+4. **Human-capital investments scored against reciprocal fiscal returns**, with scoring published alongside outlays. *Existing program agencies; CBO/JCT score outlays and revenue effects separately; Treasury/SSA track the payroll channel (0.124 × covered-earnings growth); cohort-phased; discretionary outlays with mandatory feedback booked as revenue/savings effects, never netted.*
 
 ## 6. Questions for legislative counsel / scorekeepers
 

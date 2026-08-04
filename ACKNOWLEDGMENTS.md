@@ -106,6 +106,17 @@ that the two counts carrying the entire floor Bayes factor are now *derived from
 primary sources* instead of asserted, and the derivation is printed rather than
 trusted.
 
+## Legislative readiness round 2 — operational concreteness (2026-08-04)
+
+The second-pass legislative upgrade, credited at contribution granularity per
+the project's norm.
+
+| Contribution | By |
+|---|---|
+| Round-2 spec: operational notes per lever (administrator, scale/phase-in, sunset triggers, TAST-tied success metrics, funding character); implementation & evaluation design (inaction-baseline scoring, no-double-count channel tracking, underperformance path); 10-year-primary cost-benefit packaging with inline sensitivity bands and per-scenario assumption sentences; Path B residual clarification; explicit candidates-for-future-registry labeling | **Grok 4.5 Expert** (xAI) |
+| Direction and placement — commissioning the round-2 pass and final authority over publication | **Anarcho-app** (primary author and repository owner) |
+| Implementation — spec applied to Artifact 01 and the staffer brief; Legislative Readiness Checklist bumped to v1.1; gate re-run (banned phrases, doc drift, NPV arithmetic unaffected — no claimed values changed) | **Sisyphus** (orchestrator agent, qwen3.8-max-preview) |
+
 ## Legislative readiness pass on Artifact 01 (2026-08-04)
 
 The legislative-usability upgrade of Artifact 01, credited at contribution
