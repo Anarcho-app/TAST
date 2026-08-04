@@ -105,6 +105,21 @@ that the two counts carrying the entire floor Bayes factor are now *derived from
 primary sources* instead of asserted, and the derivation is printed rather than
 trusted.
 
+## Legislative readiness pass on Artifact 01 (2026-08-04)
+
+The legislative-usability upgrade of Artifact 01, credited at contribution
+granularity per the project's norm.
+
+| Contribution | By |
+|---|---|
+| Legislative-readiness spec and content: executive summary + decision matrix structure, fiscal scorekeeping appendix design (CBO/JCT vocabulary, 10-year window requirement), modular implementation-lever menu, staffer-brief structure (physical floor first, neutral binary, baseline + inaction only, counsel questions), bipartisan framing language, photocopy-durable visual requirements, and the versioned checklist itself | **Grok 4.5 Expert** (xAI) |
+| Direction and placement — commissioning the upgrade and final authority over publication | **Anarcho-app** (primary author and repository owner) |
+| Implementation — spec applied to Artifact 01; 10-year NPV arithmetic derived and verified (annuity factors 8.530 / 7.722 at 3% / 5% real); staffer brief drafted to spec; Legislative Readiness Checklist v1.0 landed in `artifacts/README.md`; gate re-run (banned phrases, doc drift, documented commands — all green) | **Sisyphus** (orchestrator agent, qwen3.8-max-preview) |
+
+Recorded per the collaboration norm: the spec and its framing belong to
+Grok 4.5 Expert; the decision to commission it belongs to Anarcho-app; the
+implementation and its verification belong to the integrating agent.
+
 ## artifacts/ layer + Artifact 01 (2026-08-04)
 
 A new downstream layer and the first artifact built on the surviving floor.
