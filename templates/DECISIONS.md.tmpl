@@ -202,3 +202,12 @@ Credit: Grok 4.5 Expert / xAI (artifact content and thesis); Anarcho-app (direct
 - No model-path changes; banned-phrase lint + doc-drift + documented-commands gates re-run.
 
 Credit: Grok 4.5 Expert / xAI (spec, framing language, and briefing structure); Sisyphus / qwen3.8-max-preview (implementation, 10-year arithmetic, grounding, gate verification). Group effort — recorded in `ACKNOWLEDGMENTS.md`.
+
+## observable_facts.md drift repair + artifact-surface gates (2026-08-04)
+
+- Pan-thesis full audit (10 operators, trace f1ada0239ecf5b74) found `surviving/observable_facts.md` drifted from the derived-confidence rule: 21 of 26 values stale (pre-v5.13 hand-assigned), six ≥0.85-qualifying facts absent, and the legislative artifact + staffer brief citing the stale values as "derived confidence."
+- Repair: md rebuilt from `derive_confidence.py` output (values, membership, header counts); legislative anchor tables corrected to function output (three decimals); two 50-year NPV cells that failed recomputation corrected (optimistic +6.5 → +6.4 T; inaction −15.5 → −15.4 T at 3% real).
+- New gates: `check_observable_facts_parity.py` (two-way md↔function parity), `check_artifact_grounding.py` (phantom registry-citation check), `check_npv_arithmetic.py` (legislative NPV tables recomputed from `data/cba_scenarios.yaml`).
+- No model-path changes; no H1–H5 movement.
+
+Credit: Sisyphus / qwen3.8-max-preview (pan-thesis audit, discovery, repair, gates). Finding logged as #44 in `ACKNOWLEDGMENTS.md`.

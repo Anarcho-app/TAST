@@ -72,18 +72,18 @@
 
 ### Highest-confidence physical anchors (photocopiable)
 
-Derived confidence per `model/derive_confidence.py` (function of `source_class`, `re_verifiability`, `sampled_fraction`); full entries in `surviving/observable_facts.md`. These survive maximal skepticism of administrative records — they do not depend on any head-count.
+Derived confidence per `model/derive_confidence.py` — function output as of 2026-08-04, three decimals, not hand-assigned; full entries in `surviving/observable_facts.md`, parity enforced by `scripts/check_observable_facts_parity.py`. These survive maximal skepticism of administrative records — they do not depend on any head-count.
 
 | Anchor | Derived confidence |
 |---|---|
-| Multi-generational presence on the territory prior to 1865 | 0.97 |
-| Multiple burial grounds of African and mixed-ancestry individuals (17th–19th c.) | 0.95 |
-| Published aDNA recovered at U.S. sites (Catoctin Furnace, Anson Street, Chesapeake Bay) | 0.95 |
-| Colonial and state anti-literacy laws restricting self-authored records | 0.92 |
-| Pre-1865 quantitative testimony by the enslaved extremely scarce relative to owner/trader/enumerator material | 0.90 |
-| New York African Burial Ground: estimated 15,000–20,000 interments | 0.90 |
-| Genealogical chains for the focal population terminate in U.S. records | 0.88 |
-| Census/vital-record classification primarily enumerator-driven, not self-reported | 0.88 |
+| Multi-generational presence on the territory prior to 1865 (`floor-08`) | 0.996 |
+| Multiple burial grounds of African and mixed-ancestry individuals (17th–19th c.) (`floor-01`) | 0.996 |
+| Published aDNA recovered at U.S. sites (Catoctin Furnace, Anson Street, Chesapeake Bay) (`floor-03`) | 0.996 |
+| New York African Burial Ground: estimated 15,000–20,000 interments (`floor-02`) | 0.996 |
+| Census/vital-record classification primarily enumerator-driven, not self-reported (`floor-07`) | 0.836 |
+| Genealogical chains for the focal population terminate in U.S. records (`floor-04`) | 0.807 |
+| Colonial and state anti-literacy laws restricting self-authored records (`floor-05`) | 0.798 |
+| Pre-1865 quantitative testimony by the enslaved extremely scarce relative to owner/trader/enumerator material (`floor-06`) | 0.798 |
 
 ---
 
@@ -219,8 +219,8 @@ Opportunity-cost benchmark: existing large claims (net interest, post-9/11 war l
 |---|---|---|---|---|---|---|
 | Conservative | $300 B | $180 B (0.6×) | –$120 B | –$3.1 T | –$2.2 T | Partial gap closure only |
 | Baseline reciprocal | $400 B | $520 B (1.3×) | +$120 B | +$3.1 T | +$2.2 T | Matches mid-range external estimates of disparity costs recovered |
-| Optimistic human-capital | $500 B | $750 B (1.5×) | +$250 B | +$6.5 T | +$4.6 T | Strong education/health/productivity multipliers + Social Security base expansion |
-| Inaction (status quo) | $0 | –$600 B (continuing drag) | –$600 B | –$15.5 T | –$11.0 T | Pure continuation of measured costs |
+| Optimistic human-capital | $500 B | $750 B (1.5×) | +$250 B | +$6.4 T | +$4.6 T | Strong education/health/productivity multipliers + Social Security base expansion |
+| Inaction (status quo) | $0 | –$600 B (continuing drag) | –$600 B | –$15.4 T | –$11.0 T | Pure continuation of measured costs |
 
 ### Sensitivity and formal relations
 
@@ -322,7 +322,7 @@ All administrative magnitudes cited in this artifact are conditional estimates, 
 
 ## Appendix B — Fiscal Scorekeeping (CBO / JCT / Appropriations)
 
-Purpose: translate Section 4 into scorekeeping vocabulary. Nothing here is a CBO or JCT score; everything here is structured so that one can be requested against a specified baseline.
+Purpose: translate Section 4 into scorekeeping vocabulary. Nothing here is a CBO or JCT score; everything here is structured so that one can be requested against a specified baseline. Scenario parameters are declared in `data/cba_scenarios.yaml`; every NPV and cumulative value below is recomputed from that file by `scripts/check_npv_arithmetic.py` (drift beyond one rounding step is a build failure).
 
 ### Baselines
 
@@ -337,8 +337,8 @@ Constant annual net flows from the Section 4 scenario table, no ramp or lag; ann
 |---|---|---|---|---|---|
 | Conservative | –$120 B | –$1.2 T | –$1.0 T | –$0.9 T | –$3.1 T |
 | Baseline reciprocal | +$120 B | +$1.2 T | +$1.0 T | +$0.9 T | +$3.1 T |
-| Optimistic human-capital | +$250 B | +$2.5 T | +$2.1 T | +$1.9 T | +$6.5 T |
-| Inaction (status quo) | –$600 B | –$6.0 T | –$5.1 T | –$4.6 T | –$15.5 T |
+| Optimistic human-capital | +$250 B | +$2.5 T | +$2.1 T | +$1.9 T | +$6.4 T |
+| Inaction (status quo) | –$600 B | –$6.0 T | –$5.1 T | –$4.6 T | –$15.4 T |
 
 **Horizon note.** The 10-year window captures under half of the 50-year signal even at baseline (≈ $1.0 T of ≈ $3.1 T at 3% real). Proposals whose returns mature beyond year 10 (early-childhood, health cohorts) will systematically underscore inside a 10-year window; that is a window artifact, not an absence of returns. Scorekeeping requests should carry both windows.
 

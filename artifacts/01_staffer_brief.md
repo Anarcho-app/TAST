@@ -14,16 +14,16 @@
 
 ## 1. The hardest-to-dismiss evidence (physical floor)
 
-These observables do not depend on trusting any administrative record. They survive maximal skepticism of government head-counts, which is why they lead this brief. Confidence values are derived by the TAST confidence function (`model/derive_confidence.py`: source class × re-verifiability × sampled fraction), not hand-assigned.
+These observables do not depend on trusting any administrative record. They survive maximal skepticism of government head-counts, which is why they lead this brief. Confidence values are derived by the TAST confidence function (`model/derive_confidence.py`: source class × re-verifiability × sampled fraction) — function output as of 2026-08-04, not hand-assigned, parity-enforced by `scripts/check_observable_facts_parity.py`.
 
 | Anchor | Derived confidence |
 |---|---|
-| Multi-generational presence on the territory prior to 1865 | 0.97 |
-| Multiple burial grounds of African and mixed-ancestry individuals (17th–19th c.) | 0.95 |
-| Published aDNA at U.S. sites (Catoctin Furnace MD, Anson Street SC, Chesapeake Bay) documenting West/West-Central African ancestry, variable European admixture, and parent–child kinship | 0.95 |
-| Colonial and state anti-literacy laws restricting self-authored records | 0.92 |
-| New York African Burial Ground: estimated 15,000–20,000 interments; 419 excavated, analyzed, reinterred; National Monument | 0.90 |
-| Genealogical chains for the focal population terminate in U.S. records | 0.88 |
+| Multi-generational presence on the territory prior to 1865 (`floor-08`) | 0.996 |
+| Multiple burial grounds of African and mixed-ancestry individuals (17th–19th c.) (`floor-01`) | 0.996 |
+| Published aDNA at U.S. sites (Catoctin Furnace MD, Anson Street SC, Chesapeake Bay) documenting West/West-Central African ancestry, variable European admixture, and parent–child kinship (`floor-03`) | 0.996 |
+| New York African Burial Ground: estimated 15,000–20,000 interments; 419 excavated, analyzed, reinterred; National Monument (`floor-02`) | 0.996 |
+| Genealogical chains for the focal population terminate in U.S. records (`floor-04`) | 0.807 |
+| Colonial and state anti-literacy laws restricting self-authored records (`floor-05`) | 0.798 |
 
 Osteological and isotopic evidence from these sites records hard labor, nutritional stress, and elevated mortality. The bodies are the testimony that no administrative file can condition away.
 
@@ -60,7 +60,7 @@ Only the two scenarios relevant to a legislative choice are shown. Constant annu
 | Scenario | Net annual | 10-yr cumulative | 10-yr NPV @ 3% | 10-yr NPV @ 5% | 50-yr NPV @ 3% |
 |---|---|---|---|---|---|
 | Baseline reciprocal (Path A) | +$120 B | +$1.2 T | +$1.0 T | +$0.9 T | +$3.1 T |
-| Inaction (status quo) | –$600 B | –$6.0 T | –$5.1 T | –$4.6 T | –$15.5 T |
+| Inaction (status quo) | –$600 B | –$6.0 T | –$5.1 T | –$4.6 T | –$15.4 T |
 
 **What would have to be true — baseline scenario.** Annual reciprocal returns at 1.3× annual investment, sustained. External racial-equity literature cites multipliers of 1.2–2.0 when human-capital and health channels are included, so 1.3 is mid-range, not optimistic — but it requires functional delivery, measurable targets, and payroll-base feedback actually materializing (OASDI contributions ≈ 0.124 × covered-earnings growth).
 

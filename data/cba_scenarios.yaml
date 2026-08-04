@@ -1,0 +1,66 @@
+# Illustrative cost-benefit scenarios for Artifact 01 (artifacts layer).
+#
+# Declared parameters + claimed NPV/cumulative values as printed in
+# artifacts/01_continuous_harm_declaration_cba.md (Section 4 + Appendix B)
+# and artifacts/01_staffer_brief.md (Section 4).
+#
+# scripts/check_npv_arithmetic.py recomputes:
+#     NPV(net_annual, r, T) = net_annual * (1 - (1+r)^-T) / r
+#     cumulative(net_annual, T) = net_annual * T
+# and fails if any claimed value drifts from the recomputation by more than
+# tolerance_t (one rounding step at 1 decimal).
+#
+# These numbers are ILLUSTRATIVE, not scores: constant annual net flows,
+# no ramp, no lag, no delivery risk. CBO/JCT scoring would replace them.
+
+meta:
+  artifact: 01_continuous_harm_declaration_cba.md
+  basis: constant annual net flows from the Section 4 scenario table
+  note: annuity factors recomputed by the gate; claimed values rounded to 0.1 T
+
+tolerance_t: 0.051
+
+horizons_years:
+  short: 10
+  long: 50
+
+discount_rates_real:
+  r3: 0.03
+  r5: 0.05
+
+scenarios:
+  - id: conservative
+    net_annual_b: -120.0
+    claimed_t:
+      cum_10y: -1.2
+      npv_10y_r3: -1.0
+      npv_10y_r5: -0.9
+      npv_50y_r3: -3.1
+      npv_50y_r5: -2.2
+
+  - id: baseline_reciprocal
+    net_annual_b: 120.0
+    claimed_t:
+      cum_10y: 1.2
+      npv_10y_r3: 1.0
+      npv_10y_r5: 0.9
+      npv_50y_r3: 3.1
+      npv_50y_r5: 2.2
+
+  - id: optimistic_human_capital
+    net_annual_b: 250.0
+    claimed_t:
+      cum_10y: 2.5
+      npv_10y_r3: 2.1
+      npv_10y_r5: 1.9
+      npv_50y_r3: 6.4
+      npv_50y_r5: 4.6
+
+  - id: inaction_status_quo
+    net_annual_b: -600.0
+    claimed_t:
+      cum_10y: -6.0
+      npv_10y_r3: -5.1
+      npv_10y_r5: -4.6
+      npv_50y_r3: -15.4
+      npv_50y_r5: -11.0
